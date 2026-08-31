@@ -1,0 +1,93 @@
+/*
+Theme Name: WP Project Theme
+Author: primerafila
+Description: Custom theme for the exam project (webshop + blog)
+Version: 1.0
+*/
+
+:root {
+  --color-dark-green: #1e3a2f;
+  --color-light-green: #a8d5a2;
+  --color-cream: #f5f0e1;
+  --color-accent: #e8825c;
+  --font-heading: 'Bagel Fat One', cursive;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+  background-color: var(--color-cream);
+  color: #222;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
+/* ===== Header ===== */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-light-green);
+  padding: 1rem 3rem;
+}
+
+.site-header .logo a {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--color-dark-green);
+  text-decoration: none;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--color-dark-green);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.main-nav a:hover {
+  opacity: 0.7;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-actions .cart-icon {
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+
+.header-actions .login-btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  background-color: var(--color-dark-green);
+  color: var(--color-cream);
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.header-actions .login-btn:hover {
+  opacity: 0.85;
+}
+.site-header .logo img {
+  height: 60px;
+  width: auto;
+}
