@@ -162,6 +162,56 @@
       </div>
     </div>
   </section>
+
+  <section id="blog" class="sec sec-dark">
+    <div class="sec-inner">
+      <p class="sec-eye">The Blog</p>
+      <h2 class="sec-h">Stories from the <em>kitchen.</em></h2>
+      <div class="blog-grid">
+
+        <div class="pc">
+          <div class="pc-thumb">🌿</div>
+          <div class="pc-body">
+            <div class="pc-tag">PLANT SCIENCE</div>
+            <div class="pc-title">Why Fermented Foods Are the Secret to a Thriving Gut</div>
+            <div class="pc-excerpt">From kimchi to kombucha, we explore the science behind fermentation and why it should be part of every plant-based kitchen.</div>
+            <div class="pc-meta">June 2025 · 6 min read</div>
+          </div>
+        </div>
+
+        <div class="pc">
+          <div class="pc-thumb">🍋</div>
+          <div class="pc-body">
+            <div class="pc-tag">TECHNIQUE</div>
+            <div class="pc-title">Acid, Fat, Salt, Heat — The Plant-Based Way</div>
+            <div class="pc-excerpt">How to balance flavour without meat or dairy. The four elements that make every dish sing.</div>
+            <div class="pc-meta">May 2025 · 4 min read</div>
+          </div>
+        </div>
+
+        <div class="pc">
+          <div class="pc-thumb">🫙</div>
+          <div class="pc-body">
+            <div class="pc-tag">PANTRY</div>
+            <div class="pc-title">The 12 Ingredients Every Plant-Based Pantry Needs</div>
+            <div class="pc-excerpt">Stock these once and you can cook almost anything. Our essential pantry guide for beginners and seasoned cooks alike.</div>
+            <div class="pc-meta">April 2025 · 5 min read</div>
+          </div>
+        </div>
+
+        <div class="pc">
+          <div class="pc-thumb">🌱</div>
+          <div class="pc-body">
+            <div class="pc-tag">LIFESTYLE</div>
+            <div class="pc-title">How to Build a Weekly Meal Plan Around Seasonal Produce</div>
+            <div class="pc-excerpt">Eating with the seasons is cheaper, tastier, and better for the planet. Here's how we do it.</div>
+            <div class="pc-meta">March 2025 · 4 min read</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
   
 </main>
 
