@@ -1,0 +1,56 @@
+:root {
+  --green:  #185f30;
+  --cream:  #f4eedc;
+  --lime:   #a6ce81;
+  --coral:  #e2775a;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Nunito', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--green);
+}
+
+.site-header {
+  background: var(--green);
+  padding: 16px 40px;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo { text-decoration: none; font-size: 24px; font-weight: 700; }
+.logo-veg { color: var(--cream); }
+.logo-ama { color: var(--lime); }
+
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a { color: var(--cream); text-decoration: none; }
+
+.btn-nav {
+  background: var(--coral);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.site-footer {
+  background: var(--green);
+  color: var(--cream);
+  padding: 40px;
+}
+
+.ft-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.ft-copy { margin-top: 24px; opacity: 0.6; font-size: 13px; }
