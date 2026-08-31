@@ -212,6 +212,51 @@
       </div>
     </div>
   </section>
+
+    <section id="merch" class="sec sec-dark">
+    <div class="sec-inner">
+      <p class="sec-eye">The Shop</p>
+      <h2 class="sec-h">Bring the kitchen <em>home.</em></h2>
+      <div class="merch-grid">
+
+        <div class="mc">
+          <span class="mc-emo">👕</span>
+          <div class="mc-name">Vegama Tee</div>
+          <div class="mc-price">€35</div>
+          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
+        </div>
+
+        <div class="mc">
+          <span class="mc-emo">🧴</span>
+          <div class="mc-name">Kitchen Apron</div>
+          <div class="mc-price">€45</div>
+          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
+        </div>
+
+        <div class="mc">
+          <span class="mc-emo">🫙</span>
+          <div class="mc-name">Spice Set (6)</div>
+          <div class="mc-price">€28</div>
+          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
+        </div>
+
+        <div class="mc">
+          <span class="mc-emo">🍴</span>
+          <div class="mc-name">Bamboo Utensils</div>
+          <div class="mc-price">€40</div>
+          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
+        </div>
+
+        <div class="mc">
+          <span class="mc-emo">🎒</span>
+          <div class="mc-name">Market Tote</div>
+          <div class="mc-price">€22</div>
+          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
   
 </main>
 

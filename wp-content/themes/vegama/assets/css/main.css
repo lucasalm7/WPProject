@@ -590,3 +590,63 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-weight: 600;
 }
 
+/* ── Merch ─────────────────────────────────────────── */
+.merch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 18px;
+  margin-top: 50px;
+}
+
+.mc {
+  background: rgba(255,255,255,.065);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: transform .35s var(--ease-out), box-shadow .3s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mc:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  }
+}
+
+.mc-emo {
+  font-size: 44px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.mc-name {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--parch);
+  margin-bottom: 6px;
+}
+
+.mc-price {
+  color: var(--lime);
+  font-weight: 800;
+  font-size: 13.5px;
+}
+
+.mc-add {
+  display: block;
+  margin-top: 14px;
+  width: 100%;
+  background: var(--lime);
+  color: var(--sage);
+  border: none;
+  padding: 9px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s;
+}
+
+.mc-add:hover { background: var(--lime-d); }
