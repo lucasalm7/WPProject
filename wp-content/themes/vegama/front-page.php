@@ -77,6 +77,92 @@
     </div>
   </section>
   
+    <section id="recipes" class="sec">
+    <div class="sec-inner">
+      <div class="rec-header">
+        <div>
+          <p class="sec-eye">Recipe Library</p>
+          <h2 class="sec-h">This week's <em>picks.</em></h2>
+        </div>
+      </div>
+      <div class="rec-rail">
+
+        <div class="rc">
+          <div class="rc-thumb">🥑</div>
+          <div class="rc-body">
+            <div class="rc-tag">BREAKFAST</div>
+            <div class="rc-name">Smashed Avocado Toast with Micro Herbs</div>
+            <div class="rc-meta"><span>15 min</span><span>★★★★★</span><span>Easy</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🍜</div>
+          <div class="rc-body">
+            <div class="rc-tag">MAIN</div>
+            <div class="rc-name">Miso Ramen with Crispy Tofu &amp; Pak Choi</div>
+            <div class="rc-meta"><span>35 min</span><span>★★★★☆</span><span>Medium</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🍋</div>
+          <div class="rc-body">
+            <div class="rc-tag">MAIN</div>
+            <div class="rc-name">Lemon Tahini Buddha Bowl</div>
+            <div class="rc-meta"><span>25 min</span><span>★★★★★</span><span>Easy</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🫐</div>
+          <div class="rc-body">
+            <div class="rc-tag">BREAKFAST</div>
+            <div class="rc-name">Wild Blueberry Chia Pudding</div>
+            <div class="rc-meta"><span>Overnight</span><span>★★★★☆</span><span>Easy</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🍫</div>
+          <div class="rc-body">
+            <div class="rc-tag">DESSERT</div>
+            <div class="rc-name">Dark Chocolate Avocado Mousse</div>
+            <div class="rc-meta"><span>20 min</span><span>★★★★★</span><span>Easy</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🥜</div>
+          <div class="rc-body">
+            <div class="rc-tag">MAIN</div>
+            <div class="rc-name">Peanut &amp; Sweet Potato Curry</div>
+            <div class="rc-meta"><span>40 min</span><span>★★★★☆</span><span>Medium</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🫙</div>
+          <div class="rc-body">
+            <div class="rc-tag">SNACK</div>
+            <div class="rc-name">Pickled Cucumber Kimchi Rolls</div>
+            <div class="rc-meta"><span>30 min</span><span>★★★★☆</span><span>Medium</span></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <div class="rc-thumb">🍓</div>
+          <div class="rc-body">
+            <div class="rc-tag">BREAKFAST</div>
+            <div class="rc-name">Strawberry &amp; Basil Overnight Oats</div>
+            <div class="rc-meta"><span>Overnight</span><span>★★★★★</span><span>Easy</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  
 </main>
 
 <?php get_footer(); ?>

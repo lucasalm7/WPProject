@@ -441,3 +441,81 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 }
 
 .btn-sm:hover { background: var(--lime-d); }
+
+/* ── Recipes ───────────────────────────────────────── */
+.rec-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 44px;
+}
+
+.rec-rail {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.rec-rail::-webkit-scrollbar { display: none; }
+
+.rc {
+  flex: 0 0 272px;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid rgba(24,95,48,.1);
+  transition: transform .35s var(--ease-out), box-shadow .3s;
+}
+
+.rc:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(24,95,48,.1);
+}
+
+.rc-thumb {
+  height: 178px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 62px;
+  background: #ede4c8;
+}
+
+.rc-body { padding: 18px 20px; }
+
+.rc-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.rc-name {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--txt);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.rc-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 11.5px;
+  color: rgba(26,46,31,.4);
+  font-weight: 600;
+}
+
+.rc-meta span:nth-child(2) { color: var(--amber); }
