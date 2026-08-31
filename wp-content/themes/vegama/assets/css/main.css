@@ -275,3 +275,47 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 .site-header.solid .btn-nav:hover { background: var(--sage-d); }
 
 @media (max-width: 860px) { .nav-links { display: none; } }
+
+/* ── Footer ────────────────────────────────────────── */
+.site-footer {
+  background: var(--sage);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 44px clamp(20px, 5vw, 72px);
+}
+
+.ft-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.ft-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.ft-logo .nav-wrd { font-size: 22px; }
+
+.ft-social {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.ft-social a {
+  color: rgba(244,238,220,.35);
+  text-decoration: none;
+  display: flex;
+  transition: color .2s;
+}
+
+.ft-social a:hover { color: var(--lime); }
+
+.ft-copy {
+  font-size: 12.5px;
+  color: rgba(244,238,220,.22);
+  justify-self: end;
+}
