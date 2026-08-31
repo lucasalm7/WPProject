@@ -15,7 +15,7 @@
       <div><div class="stat-n">140+</div><div class="stat-l">Free recipes</div></div>
       <div><div class="stat-n">96%</div><div class="stat-l">Class rating</div></div>
     </div>
-  </section>
+    </section>
 
   <div class="marquee-band" aria-hidden="true">
     <div class="marquee-track">
