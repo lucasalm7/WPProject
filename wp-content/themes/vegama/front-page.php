@@ -258,6 +258,54 @@
     </div>
   </section>
   
+<!-- Testimonials -->
+<section id="testimonials" class="sec sec-dark">
+  <div class="sec-inner">
+    <p class="sec-eye">Community</p>
+    <h2 class="sec-h">Real voices from <em>the table.</em></h2>
+    <div class="testi-grid">
+
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-q">"The Spring Ramen class changed how I think about broths. I've made it six times since."</p>
+        <p class="tc-a">Mia K., Copenhagen</p>
+      </div>
+
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-q">"Bought the cookbook as a gift and ended up ordering one for myself."</p>
+        <p class="tc-a">Thomas R., Aarhus</p>
+      </div>
+
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-q">"I was never a plant-based cook. After two classes, I prefer cooking this way."</p>
+        <p class="tc-a">Søren L., Odense</p>
+      </div>
+
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-q">"The fermentation workshop was the highlight of my year. We talk about it constantly."</p>
+        <p class="tc-a">Anna P., Esbjerg</p>
+      </div>
+
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-q">"The free recipe library alone is worth bookmarking. Best plant-based resource I've found."</p>
+        <p class="tc-a">Clara B., Malmö</p>
+      </div>
+
+      <div class="tc">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-q">"We booked a private session for our team. The chef was extraordinary."</p>
+        <p class="tc-a">Louise M., TechCorp DK</p>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
 </main>
 
 <?php get_footer(); ?>
