@@ -1,56 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,900;1,9..144,400;1,9..144,900&family=Nunito:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --green:  #185f30;
-  --cream:  #f4eedc;
-  --lime:   #a6ce81;
-  --coral:  #e2775a;
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body:    'Nunito', system-ui, sans-serif;
+  --bg: #f4eedc;
+  --lime: #a6ce81;
+  --lime-d: #87b562;
+  --amber: #e2775a;
+  --sage: #185f30;
+  --parch: #f4eedc;
+  --txt: #1a2e1f;
+  --fd: 'Fraunces', Georgia, serif;
+  --fb: 'Nunito', system-ui, sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
 
-body {
-  font-family: var(--font-body);
-  background: var(--cream);
-  color: var(--green);
-}
-
-.site-header {
-  background: var(--green);
-  padding: 16px 40px;
-}
-
-.site-nav {
+#hero {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
+  padding: 120px clamp(20px, 6vw, 80px) 100px;
+  background: var(--sage);
 }
 
-.nav-logo { text-decoration: none; font-size: 24px; font-weight: 700; }
-.logo-veg { color: var(--cream); }
-.logo-ama { color: var(--lime); }
-
-.nav-links { display: flex; gap: 24px; list-style: none; }
-.nav-links a { color: var(--cream); text-decoration: none; }
-
-.btn-nav {
-  background: var(--coral);
-  color: white;
-  padding: 8px 20px;
-  border-radius: 4px;
-  text-decoration: none;
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4.5px;
+  color: var(--lime);
+  text-transform: uppercase;
+  margin-bottom: 26px;
 }
 
-.site-footer {
-  background: var(--green);
-  color: var(--cream);
-  padding: 40px;
+.hero-h1 {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(4rem, 12vw, 10.5rem);
+  line-height: .88;
+  letter-spacing: -.04em;
+  color: var(--parch);
+  max-width: 1000px;
 }
 
-.ft-inner {
+.hero-h1 em { color: var(--lime); font-style: inherit; }
+
+.hero-sub {
+  margin-top: 30px;
+  font-size: clamp(14px, 2vw, 18px);
+  color: rgba(244,238,220,.65);
+  max-width: 440px;
+  line-height: 1.7;
+}
+
+.hero-ctas {
   display: flex;
-  justify-content: space-between;
-  gap: 40px;
+  gap: 14px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.ft-copy { margin-top: 24px; opacity: 0.6; font-size: 13px; }
+.btn-primary {
+  background: var(--lime);
+  color: var(--sage);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 15px 34px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background .2s;
+}
+
+.btn-primary:hover { background: var(--lime-d); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--parch);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 15px 34px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(244,238,220,.3);
+  text-decoration: none;
+  transition: border-color .2s, color .2s;
+}
+
+.btn-ghost:hover { border-color: var(--lime); color: var(--lime); }
+
+.hero-stats {
+  display: flex;
+  gap: clamp(24px, 5vw, 60px);
+  margin-top: 70px;
+}
+
+.stat-n {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(26px, 4vw, 44px);
+  color: var(--lime);
+  line-height: 1;
+}
+
+.stat-l {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(244,238,220,.45);
+  margin-top: 5px;
+}
+
+.marquee-band {
+  overflow: hidden;
+  background: var(--amber);
+  padding: 14px 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 44px;
+  width: max-content;
+  animation: marq 22s linear infinite;
+}
+
+.marquee-track span {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 20px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.marquee-dot { color: #fff; opacity: .55; }
+
+@keyframes marq { to { transform: translateX(-50%); } }
