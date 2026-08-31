@@ -5,11 +5,15 @@
   --lime: #a6ce81;
   --lime-d: #87b562;
   --amber: #e2775a;
+  --amber-d: #c0513a;
+  --sage-d: #0e4423;
+  --mist: rgba(26,46,31,.52);
   --sage: #185f30;
   --parch: #f4eedc;
   --txt: #1a2e1f;
   --fd: 'Fraunces', Georgia, serif;
   --fb: 'Nunito', system-ui, sans-serif;
+  --ease-out: cubic-bezier(.23,1,.32,1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -651,6 +655,28 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 
 .mc-add:hover { background: var(--lime-d); }
 
+#merch .mc {
+  background: #fff;
+  border: 1px solid rgba(24, 95, 48, .1);
+}
+
+#merch .mc-name {
+  color: var(--txt);
+}
+
+#merch .mc-price {
+  color: var(--sage);
+}
+
+#merch .mc-add {
+  background: var(--sage);
+  color: #fff;
+}
+
+#merch .mc-add:hover {
+  background: var(--sage-d);
+}
+
 /* TESTIMONIALS */
 .testi-grid {
   display: grid;
@@ -701,3 +727,86 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   }
 }
 
+/* NEWSLETTER */
+#newsletter {
+  display: block;
+  width: 100%;
+  grid-column: 1 / -1;
+  flex-basis: 100%;
+  background: var(--parch);
+  text-align: center;
+  padding: clamp(80px, 11vw, 150px) clamp(20px, 5vw, 72px);
+  box-sizing: border-box;
+}
+
+.nl-inner {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.nl-h {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.04;
+  color: var(--sage);
+  margin-bottom: 14px;
+}
+
+.nl-h em {
+  color: var(--lime-d);
+  font-style: inherit;
+}
+
+.nl-sub {
+  color: rgba(26, 46, 31, .6);
+  font-size: 14.5px;
+  margin-bottom: 30px;
+  line-height: 1.7;
+}
+
+.nl-form {
+  display: flex;
+  gap: 10px;
+}
+
+.nl-form input {
+  flex: 1;
+  background: rgba(255, 255, 255, .7);
+  border: 1px solid rgba(24, 95, 48, .2);
+  color: var(--sage);
+  font-family: var(--fb);
+  font-size: 14px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  transition: border-color .2s;
+}
+
+.nl-form input::placeholder {
+  color: rgba(24, 95, 48, .4);
+}
+
+.nl-form input:focus {
+  outline: none;
+  border-color: var(--sage);
+  background: #fff;
+}
+
+.nl-form button {
+  background: var(--amber);
+  color: #fff;
+  font-family: var(--fb);
+  font-weight: 800;
+  font-size: 13.5px;
+  padding: 13px 28px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s;
+}
+
+.nl-form button:hover {
+  background: var(--amber-d);
+}

@@ -213,7 +213,7 @@
     </div>
   </section>
 
-    <section id="merch" class="sec sec-dark">
+    <section id="merch" class="sec">
     <div class="sec-inner">
       <p class="sec-eye">The Shop</p>
       <h2 class="sec-h">Bring the kitchen <em>home.</em></h2>
@@ -300,7 +300,21 @@
         <p class="tc-q">"We booked a private session for our team. The chef was extraordinary."</p>
         <p class="tc-a">Louise M., TechCorp DK</p>
       </div>
+    </div>
+    </div>
+  </section>
 
+      <!-- Newsletter -->
+    <section id="newsletter">
+     <div class="nl-inner">
+      <h2 class="nl-h">Recipes in your<br><em>inbox.</em> Weekly.</h2>
+         <p class="nl-sub">Join 2,400+ plant-based cooks. One recipe, one story, early access to new class dates — every Wednesday.</p>
+      <form class="nl-form" action="#" method="post">
+          <input type="email" name="nl_email" placeholder="your@email.com" required>
+           <button type="submit">Subscribe</button>
+         </form>
+     </div>
+    </section>
 
     </div>
   </div>
