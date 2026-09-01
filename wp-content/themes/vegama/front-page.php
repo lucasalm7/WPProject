@@ -222,15 +222,35 @@
 
       <!-- Newsletter -->
     <section id="newsletter">
-     <div class="nl-inner">
-      <h2 class="nl-h">Recipes in your<br><em>inbox.</em> Weekly.</h2>
-         <p class="nl-sub">Join 2,400+ plant-based cooks. One recipe, one story, early access to new class dates — every Wednesday.</p>
-      <form class="nl-form" action="#" method="post">
-          <input type="email" name="nl_email" placeholder="your@email.com" required>
-           <button type="submit">Subscribe</button>
-         </form>
-     </div>
-    </section>
+  <div class="nl-inner">
+    <h2 class="nl-h">Plant-based recipes<br>in your <em>inbox.</em></h2>
+    <p class="nl-sub">Join 2,400+ plant-based cooks across Scandinavia. One seasonal recipe, one story, and early access to new class dates, every Wednesday.</p>
+    <form class="nl-form" id="nlForm">
+      <input type="email" name="email" placeholder="your@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p id="nlMsg" style="display:none;margin-top:16px;color:var(--sage);font-weight:700;font-size:14px;">
+      You're in! Check your inbox every Wednesday.
+    </p>
+  </div>
+  <script>
+  document.getElementById('nlForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(this);
+    fetch('https://api.simplyforms.app/v1/forms/0DsXtVUU08iTF4IFtyv6KQ', {
+      method: 'POST',
+      body: data
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.success) {
+        document.getElementById('nlForm').style.display = 'none';
+        document.getElementById('nlMsg').style.display = 'block';
+      }
+    });
+  });
+  </script>
+</section>
 
 </main>
 
