@@ -18,7 +18,7 @@
       <span>Vegan Masterclasses</span><span class="marquee-dot">✿</span>
       <span>Artisan Cookbooks</span><span class="marquee-dot">✿</span>
       <span>Community Recipes</span><span class="marquee-dot">✿</span>
-      <span>Copenhagen Kitchen</span><span class="marquee-dot">✿</span>
+      <span>Esbjerg Kitchen</span><span class="marquee-dot">✿</span>
       <span>Plant-Based Cooking</span><span class="marquee-dot">✿</span>
       <span>Vegan Masterclasses</span><span class="marquee-dot">✿</span>
       <span>Artisan Cookbooks</span><span class="marquee-dot">✿</span>
@@ -27,7 +27,7 @@
     </div>
   </div>
   <section id="products" class="sec sec-dark">
-    
+
   <div class="sec-inner">
     <p class="sec-eye">The Kitchen</p>
     <h2 class="sec-h">Everything you need to cook <em>tastefully.</em></h2>
@@ -138,49 +138,47 @@
 </section>
 
     <section id="merch" class="sec">
-    <div class="sec-inner">
-      <p class="sec-eye">The Shop</p>
-      <h2 class="sec-h">Bring the kitchen <em>home.</em></h2>
-      <div class="merch-grid">
+  <div class="sec-inner">
+    <p class="sec-eye">The Shop</p>
+    <h2 class="sec-h">Bring the kitchen <em>home.</em></h2>
+    <div class="merch-grid">
+
+      <?php
+      $merch = new WP_Query( array(
+          'post_type'      => 'vegama_merch',
+          'posts_per_page' => 5,
+          'post_status'    => 'publish',
+          'orderby'        => 'menu_order',
+          'order'          => 'ASC',
+      ) );
+
+      if ( $merch->have_posts() ) :
+          while ( $merch->have_posts() ) : $merch->the_post();
+              $price = get_post_meta( get_the_ID(), '_merch_price', true );
+              $link  = get_post_meta( get_the_ID(), '_merch_link',  true );
+      ?>
 
         <div class="mc">
-          <span class="mc-emo">👕</span>
-          <div class="mc-name">Vegama Tee</div>
-          <div class="mc-price">€35</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
+          <?php if ( has_post_thumbnail() ) : ?>
+            <?php the_post_thumbnail( 'medium', array(
+                'style' => 'width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block;'
+            ) ); ?>
+          <?php endif; ?>
+          <div class="mc-name"><?php the_title(); ?></div>
+          <div class="mc-price"><?php echo esc_html( $price ); ?></div>
+          <a href="<?php echo esc_url( home_url( $link ) ); ?>" class="mc-add">Add to cart</a>
         </div>
 
-        <div class="mc">
-          <span class="mc-emo">🧴</span>
-          <div class="mc-name">Kitchen Apron</div>
-          <div class="mc-price">€45</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
-        </div>
+      <?php
+          endwhile;
+          wp_reset_postdata();
+      else : ?>
+        <p style="color:var(--mist)">No merch yet — check back soon.</p>
+      <?php endif; ?>
 
-        <div class="mc">
-          <span class="mc-emo">🫙</span>
-          <div class="mc-name">Spice Set (6)</div>
-          <div class="mc-price">€28</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
-        </div>
-
-        <div class="mc">
-          <span class="mc-emo">🍴</span>
-          <div class="mc-name">Bamboo Utensils</div>
-          <div class="mc-price">€40</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
-        </div>
-
-        <div class="mc">
-          <span class="mc-emo">🎒</span>
-          <div class="mc-name">Market Tote</div>
-          <div class="mc-price">€22</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="mc-add">Add to cart</a>
-        </div>
-
-      </div>
     </div>
-  </section>
+  </div>
+</section>
   
 <!-- Testimonials -->
 <section id="testimonials" class="sec sec-dark">
@@ -239,10 +237,6 @@
          </form>
      </div>
     </section>
-
-    </div>
-  </div>
-</section>
 
 </main>
 

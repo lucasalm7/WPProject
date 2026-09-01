@@ -118,3 +118,65 @@ function vegama_product_save_meta( $post_id ) {
         update_post_meta( $post_id, '_product_link',  sanitize_text_field( $_POST['product_link'] ) );
 }
 add_action( 'save_post', 'vegama_product_save_meta' );
+
+function vegama_register_merch_cpt() {
+    register_post_type( 'vegama_merch', array(
+        'labels' => array(
+            'name'               => 'Merch',
+            'singular_name'      => 'Merch Item',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Merch Item',
+            'edit_item'          => 'Edit Merch Item',
+            'not_found'          => 'No merch items found',
+            'not_found_in_trash' => 'No merch items found in Trash',
+        ),
+        'public'        => false,
+        'show_ui'       => true,
+        'show_in_menu'  => true,
+        'menu_icon'     => 'dashicons-tag',
+        'supports'      => array( 'title', 'thumbnail' ),
+        'menu_position' => 6,
+    ) );
+}
+add_action( 'init', 'vegama_register_merch_cpt' );
+
+function vegama_merch_meta_box() {
+    add_meta_box(
+        'vegama_merch_details',
+        'Merch Details',
+        'vegama_merch_meta_box_html',
+        'vegama_merch',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'vegama_merch_meta_box' );
+
+function vegama_merch_meta_box_html( $post ) {
+    wp_nonce_field( 'vegama_merch_save', 'vegama_merch_nonce' );
+    $price = get_post_meta( $post->ID, '_merch_price', true );
+    $link  = get_post_meta( $post->ID, '_merch_link',  true );
+    ?>
+    <p>
+        <label for="merch_price"><strong>Price</strong> (e.g. €35)</label><br>
+        <input type="text" id="merch_price" name="merch_price" value="<?php echo esc_attr( $price ); ?>" style="width:100%">
+    </p>
+    <p>
+        <label for="merch_link"><strong>Link</strong> (e.g. /shop)</label><br>
+        <input type="text" id="merch_link" name="merch_link" value="<?php echo esc_attr( $link ); ?>" style="width:100%">
+    </p>
+    <?php
+}
+
+function vegama_merch_save_meta( $post_id ) {
+    if ( ! isset( $_POST['vegama_merch_nonce'] ) ) return;
+    if ( ! wp_verify_nonce( $_POST['vegama_merch_nonce'], 'vegama_merch_save' ) ) return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+    if ( isset( $_POST['merch_price'] ) )
+        update_post_meta( $post_id, '_merch_price', sanitize_text_field( $_POST['merch_price'] ) );
+    if ( isset( $_POST['merch_link'] ) )
+        update_post_meta( $post_id, '_merch_link',  sanitize_text_field( $_POST['merch_link'] ) );
+}
+add_action( 'save_post', 'vegama_merch_save_meta' );
