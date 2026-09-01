@@ -180,3 +180,72 @@ function vegama_merch_save_meta( $post_id ) {
         update_post_meta( $post_id, '_merch_link',  sanitize_text_field( $_POST['merch_link'] ) );
 }
 add_action( 'save_post', 'vegama_merch_save_meta' );
+
+function vegama_register_testimonial_cpt() {
+    register_post_type( 'vegama_testimonial', array(
+        'labels' => array(
+            'name'               => 'Testimonials',
+            'singular_name'      => 'Testimonial',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Testimonial',
+            'edit_item'          => 'Edit Testimonial',
+            'not_found'          => 'No testimonials found',
+            'not_found_in_trash' => 'No testimonials found in Trash',
+        ),
+        'public'        => false,
+        'show_ui'       => true,
+        'show_in_menu'  => true,
+        'menu_icon'     => 'dashicons-format-quote',
+        'supports'      => array( 'title' ),
+        'menu_position' => 7,
+    ) );
+}
+add_action( 'init', 'vegama_register_testimonial_cpt' );
+
+function vegama_testimonial_meta_box() {
+    add_meta_box(
+        'vegama_testimonial_details',
+        'Testimonial Details',
+        'vegama_testimonial_meta_box_html',
+        'vegama_testimonial',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'vegama_testimonial_meta_box' );
+
+function vegama_testimonial_meta_box_html( $post ) {
+    wp_nonce_field( 'vegama_testimonial_save', 'vegama_testimonial_nonce' );
+    $quote  = get_post_meta( $post->ID, '_testimonial_quote',  true );
+    $author = get_post_meta( $post->ID, '_testimonial_author', true );
+    $stars  = get_post_meta( $post->ID, '_testimonial_stars',  true );
+    ?>
+    <p>
+        <label for="testimonial_quote"><strong>Quote</strong></label><br>
+        <textarea id="testimonial_quote" name="testimonial_quote" rows="4" style="width:100%"><?php echo esc_textarea( $quote ); ?></textarea>
+    </p>
+    <p>
+        <label for="testimonial_author"><strong>Author</strong> (e.g. Mia K., Copenhagen)</label><br>
+        <input type="text" id="testimonial_author" name="testimonial_author" value="<?php echo esc_attr( $author ); ?>" style="width:100%">
+    </p>
+    <p>
+        <label for="testimonial_stars"><strong>Stars</strong> (1–5)</label><br>
+        <input type="number" id="testimonial_stars" name="testimonial_stars" value="<?php echo esc_attr( $stars ?: 5 ); ?>" min="1" max="5" style="width:80px">
+    </p>
+    <?php
+}
+
+function vegama_testimonial_save_meta( $post_id ) {
+    if ( ! isset( $_POST['vegama_testimonial_nonce'] ) ) return;
+    if ( ! wp_verify_nonce( $_POST['vegama_testimonial_nonce'], 'vegama_testimonial_save' ) ) return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+    if ( isset( $_POST['testimonial_quote'] ) )
+        update_post_meta( $post_id, '_testimonial_quote',  sanitize_textarea_field( $_POST['testimonial_quote'] ) );
+    if ( isset( $_POST['testimonial_author'] ) )
+        update_post_meta( $post_id, '_testimonial_author', sanitize_text_field( $_POST['testimonial_author'] ) );
+    if ( isset( $_POST['testimonial_stars'] ) )
+        update_post_meta( $post_id, '_testimonial_stars',  absint( $_POST['testimonial_stars'] ) );
+}
+add_action( 'save_post', 'vegama_testimonial_save_meta' );
