@@ -30,14 +30,14 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   justify-content: center;
   text-align: center;
   padding: 120px clamp(20px, 6vw, 80px) 100px;
-  background: var(--sage);
+  background: linear-gradient(rgba(14,68,35,.65), rgba(14,68,35,.75)), url('../images/hero.jpg') center/cover no-repeat;
 }
 
 .hero-eyebrow {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 4.5px;
-  color: var(--lime);
+  color: var(--bg);
   text-transform: uppercase;
   margin-bottom: 26px;
 }
@@ -46,7 +46,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-family: var(--fd);
   font-style: italic;
   font-weight: 900;
-  font-size: clamp(4rem, 12vw, 10.5rem);
+ font-size: clamp(3rem, 10vw, 8rem);
   line-height: .88;
   letter-spacing: -.04em;
   color: var(--parch);
