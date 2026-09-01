@@ -72,141 +72,59 @@
     </div>
   </section>
   
-    <section id="recipes" class="sec">
-    <div class="sec-inner">
-      <div class="rec-header">
-        <div>
-          <p class="sec-eye">Recipe Library</p>
-          <h2 class="sec-h">This week's <em>picks.</em></h2>
-        </div>
+<section id="recipes" class="sec">
+  <div class="sec-inner">
+    <div class="rec-header">
+      <div>
+        <p class="sec-eye">Recipes & Stories</p>
+        <h2 class="sec-h">From the <em>kitchen.</em></h2>
       </div>
-      <div class="rec-rail">
-
-        <div class="rc">
-          <div class="rc-thumb">🥑</div>
-          <div class="rc-body">
-            <div class="rc-tag">BREAKFAST</div>
-            <div class="rc-name">Smashed Avocado Toast with Micro Herbs</div>
-            <div class="rc-meta"><span>15 min</span><span>★★★★★</span><span>Easy</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🍜</div>
-          <div class="rc-body">
-            <div class="rc-tag">MAIN</div>
-            <div class="rc-name">Miso Ramen with Crispy Tofu &amp; Pak Choi</div>
-            <div class="rc-meta"><span>35 min</span><span>★★★★☆</span><span>Medium</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🍋</div>
-          <div class="rc-body">
-            <div class="rc-tag">MAIN</div>
-            <div class="rc-name">Lemon Tahini Buddha Bowl</div>
-            <div class="rc-meta"><span>25 min</span><span>★★★★★</span><span>Easy</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🫐</div>
-          <div class="rc-body">
-            <div class="rc-tag">BREAKFAST</div>
-            <div class="rc-name">Wild Blueberry Chia Pudding</div>
-            <div class="rc-meta"><span>Overnight</span><span>★★★★☆</span><span>Easy</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🍫</div>
-          <div class="rc-body">
-            <div class="rc-tag">DESSERT</div>
-            <div class="rc-name">Dark Chocolate Avocado Mousse</div>
-            <div class="rc-meta"><span>20 min</span><span>★★★★★</span><span>Easy</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🥜</div>
-          <div class="rc-body">
-            <div class="rc-tag">MAIN</div>
-            <div class="rc-name">Peanut &amp; Sweet Potato Curry</div>
-            <div class="rc-meta"><span>40 min</span><span>★★★★☆</span><span>Medium</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🫙</div>
-          <div class="rc-body">
-            <div class="rc-tag">SNACK</div>
-            <div class="rc-name">Pickled Cucumber Kimchi Rolls</div>
-            <div class="rc-meta"><span>30 min</span><span>★★★★☆</span><span>Medium</span></div>
-          </div>
-        </div>
-
-        <div class="rc">
-          <div class="rc-thumb">🍓</div>
-          <div class="rc-body">
-            <div class="rc-tag">BREAKFAST</div>
-            <div class="rc-name">Strawberry &amp; Basil Overnight Oats</div>
-            <div class="rc-meta"><span>Overnight</span><span>★★★★★</span><span>Easy</span></div>
-          </div>
-        </div>
-
-      </div>
+      <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-sm">View all →</a>
     </div>
-  </section>
-
-  <section id="blog" class="sec sec-dark">
-    <div class="sec-inner">
-      <p class="sec-eye">The Blog</p>
-      <h2 class="sec-h">Stories from the <em>kitchen.</em></h2>
-      <div class="blog-grid">
-
-        <div class="pc">
-          <div class="pc-thumb">🌿</div>
-          <div class="pc-body">
-            <div class="pc-tag">PLANT SCIENCE</div>
-            <div class="pc-title">Why Fermented Foods Are the Secret to a Thriving Gut</div>
-            <div class="pc-excerpt">From kimchi to kombucha, we explore the science behind fermentation and why it should be part of every plant-based kitchen.</div>
-            <div class="pc-meta">June 2025 · 6 min read</div>
+    <div class="rec-rail">
+      <?php
+      $args = array(
+        'post_type'      => 'post',
+        'posts_per_page' => 8,
+        'category_name'  => 'recipes',
+        'post_status'    => 'publish',
+      );
+      $query = new WP_Query( $args );
+      if ( $query->have_posts() ) :
+        while ( $query->have_posts() ) : $query->the_post();
+          $cats = get_the_category();
+          $cat_name = ! empty( $cats ) ? strtoupper( $cats[0]->name ) : 'RECIPE';
+      ?>
+        <div class="rc">
+          <div class="rc-thumb">
+            <?php if ( has_post_thumbnail() ) : ?>
+              <?php the_post_thumbnail( 'medium', array( 'style' => 'width:100%;height:178px;object-fit:cover;' ) ); ?>
+            <?php else : ?>
+              🌿
+            <?php endif; ?>
+          </div>
+          <div class="rc-body">
+            <div class="rc-tag"><?php echo esc_html( $cat_name ); ?></div>
+            <div class="rc-name">
+              <a href="<?php the_permalink(); ?>" style="text-decoration:none;color:inherit">
+                <?php the_title(); ?>
+              </a>
+            </div>
+            <div class="rc-meta">
+              <span><?php echo get_the_date( 'M Y' ); ?></span>
+              <span><?php echo esc_html( get_the_author() ); ?></span>
+            </div>
           </div>
         </div>
-
-        <div class="pc">
-          <div class="pc-thumb">🍋</div>
-          <div class="pc-body">
-            <div class="pc-tag">TECHNIQUE</div>
-            <div class="pc-title">Acid, Fat, Salt, Heat — The Plant-Based Way</div>
-            <div class="pc-excerpt">How to balance flavour without meat or dairy. The four elements that make every dish sing.</div>
-            <div class="pc-meta">May 2025 · 4 min read</div>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pc-thumb">🫙</div>
-          <div class="pc-body">
-            <div class="pc-tag">PANTRY</div>
-            <div class="pc-title">The 12 Ingredients Every Plant-Based Pantry Needs</div>
-            <div class="pc-excerpt">Stock these once and you can cook almost anything. Our essential pantry guide for beginners and seasoned cooks alike.</div>
-            <div class="pc-meta">April 2025 · 5 min read</div>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pc-thumb">🌱</div>
-          <div class="pc-body">
-            <div class="pc-tag">LIFESTYLE</div>
-            <div class="pc-title">How to Build a Weekly Meal Plan Around Seasonal Produce</div>
-            <div class="pc-excerpt">Eating with the seasons is cheaper, tastier, and better for the planet. Here's how we do it.</div>
-            <div class="pc-meta">March 2025 · 4 min read</div>
-          </div>
-        </div>
-
-      </div>
+      <?php
+        endwhile;
+        wp_reset_postdata();
+      else : ?>
+        <p style="color:var(--mist)">No recipes yet — check back soon.</p>
+      <?php endif; ?>
     </div>
-  </section>
+  </div>
+</section>
 
     <section id="merch" class="sec">
     <div class="sec-inner">
