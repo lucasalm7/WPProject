@@ -45,3 +45,76 @@ function vegama_handle_register() {
     wp_set_auth_cookie( $id );
     wp_send_json_success();
 }
+
+function vegama_register_product_cpt() {
+    register_post_type( 'vegama_product', array(
+        'labels' => array(
+            'name'               => 'Products',
+            'singular_name'      => 'Product',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Product',
+            'edit_item'          => 'Edit Product',
+            'new_item'           => 'New Product',
+            'view_item'          => 'View Product',
+            'search_items'       => 'Search Products',
+            'not_found'          => 'No products found',
+            'not_found_in_trash' => 'No products found in Trash',
+        ),
+        'public'       => false,
+        'show_ui'      => true,
+        'show_in_menu' => true,
+        'menu_icon'    => 'dashicons-cart',
+        'supports'     => array( 'title', 'editor', 'custom-fields', 'thumbnail' ),
+        'menu_position' => 5,
+    ) );
+}
+add_action( 'init', 'vegama_register_product_cpt' );
+
+
+function vegama_product_meta_box() {
+    add_meta_box(
+        'vegama_product_details',
+        'Product Details',
+        'vegama_product_meta_box_html',
+        'vegama_product',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'vegama_product_meta_box' );
+
+function vegama_product_meta_box_html( $post ) {
+    wp_nonce_field( 'vegama_product_save', 'vegama_product_nonce' );
+    $badge = get_post_meta( $post->ID, '_product_badge', true );
+    $price = get_post_meta( $post->ID, '_product_price', true );
+    $link  = get_post_meta( $post->ID, '_product_link',  true );
+    ?>
+    <p>
+        <label for="product_badge"><strong>Badge</strong> (e.g. Bestseller, New)</label><br>
+        <input type="text" id="product_badge" name="product_badge" value="<?php echo esc_attr( $badge ); ?>" style="width:100%">
+    </p>
+    <p>
+        <label for="product_price"><strong>Price</strong> (e.g. DKK 299)</label><br>
+        <input type="text" id="product_price" name="product_price" value="<?php echo esc_attr( $price ); ?>" style="width:100%">
+    </p>
+    <p>
+        <label for="product_link"><strong>Link</strong> (e.g. /shop/cookbook)</label><br>
+        <input type="text" id="product_link" name="product_link" value="<?php echo esc_attr( $link ); ?>" style="width:100%">
+    </p>
+    <?php
+}
+
+function vegama_product_save_meta( $post_id ) {
+    if ( ! isset( $_POST['vegama_product_nonce'] ) ) return;
+    if ( ! wp_verify_nonce( $_POST['vegama_product_nonce'], 'vegama_product_save' ) ) return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+    if ( isset( $_POST['product_badge'] ) )
+        update_post_meta( $post_id, '_product_badge', sanitize_text_field( $_POST['product_badge'] ) );
+    if ( isset( $_POST['product_price'] ) )
+        update_post_meta( $post_id, '_product_price', sanitize_text_field( $_POST['product_price'] ) );
+    if ( isset( $_POST['product_link'] ) )
+        update_post_meta( $post_id, '_product_link',  sanitize_text_field( $_POST['product_link'] ) );
+}
+add_action( 'save_post', 'vegama_product_save_meta' );

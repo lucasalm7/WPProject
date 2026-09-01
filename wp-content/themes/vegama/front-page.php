@@ -27,50 +27,61 @@
     </div>
   </div>
   <section id="products" class="sec sec-dark">
-    <div class="sec-inner">
-      <p class="sec-eye">The Kitchen</p>
-      <h2 class="sec-h">Everything you need to cook <em>beautifully.</em></h2>
-      <div class="prod-grid">
+    
+  <div class="sec-inner">
+    <p class="sec-eye">The Kitchen</p>
+    <h2 class="sec-h">Everything you need to cook <em>tastefully.</em></h2>
+    <div class="prod-grid">
+
+      <?php
+      $products = new WP_Query( array(
+          'post_type'      => 'vegama_product',
+          'posts_per_page' => -1,
+          'post_status'    => 'publish',
+          'orderby'        => 'menu_order',
+          'order'          => 'ASC',
+      ) );
+
+      if ( $products->have_posts() ) :
+          while ( $products->have_posts() ) : $products->the_post();
+              $badge = get_post_meta( get_the_ID(), '_product_badge', true );
+              $price = get_post_meta( get_the_ID(), '_product_price', true );
+              $link  = get_post_meta( get_the_ID(), '_product_link',  true );
+      ?>
 
         <div class="prod-card">
-          <span class="prod-emo">📖</span>
-          <span class="prod-badge">FREE</span>
-          <div class="prod-name">Recipe Library</div>
-          <div class="prod-desc">140+ plant-based recipes. No paywall, ever. Filter by category, save favourites, discover new dishes weekly.</div>
-          <div class="prod-price">Free</div>
-          <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-sm">View details →</a>
+
+          <div class="prod-img">
+            <?php if ( has_post_thumbnail() ) : ?>
+              <?php the_post_thumbnail( 'medium', array(
+                  'style' => 'width:100%;height:100%;object-fit:cover;'
+              ) ); ?>
+            <?php else : ?>
+              <div class="prod-img-placeholder">🌿</div>
+            <?php endif; ?>
+          </div>
+
+          <?php if ( $badge ) : ?>
+            <span class="prod-badge"><?php echo esc_html( $badge ); ?></span>
+          <?php endif; ?>
+
+          <div class="prod-name"><?php the_title(); ?></div>
+          <div class="prod-desc"><?php echo wp_kses_post( get_the_content() ); ?></div>
+          <div class="prod-price"><?php echo esc_html( $price ); ?></div>
+          <a href="<?php echo esc_url( home_url( $link ) ); ?>" class="btn-sm">View details →</a>
+
         </div>
 
-        <div class="prod-card">
-          <span class="prod-emo">📱</span>
-          <span class="prod-badge">E-BOOK</span>
-          <div class="prod-name">The Plant Kitchen E-Book</div>
-          <div class="prod-desc">60 exclusive recipes not on the blog, with technique guides and meal planning templates.</div>
-          <div class="prod-price">€25</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-sm">View details →</a>
-        </div>
+      <?php
+          endwhile;
+          wp_reset_postdata();
+      else : ?>
+        <p style="color:var(--mist)">No products yet — check back soon.</p>
+      <?php endif; ?>
 
-        <div class="prod-card">
-          <span class="prod-emo">👨‍🍳</span>
-          <span class="prod-badge">MASTERCLASS</span>
-          <div class="prod-name">Vegan Cooking Masterclass</div>
-          <div class="prod-desc">Hands on 3 hour experience in our Esbjerg's kitchen. Max 8 participants. All ingredients provided.</div>
-          <div class="prod-price">€60–€120</div>
-          <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-sm">View details →</a>
-        </div>
-
-        <div class="prod-card">
-          <span class="prod-emo">🎁</span>
-          <span class="prod-badge">BEST VALUE</span>
-          <div class="prod-name">Book + Class Bundle</div>
-          <div class="prod-desc">The full Vegama experience. Our E-Book plus one masterclass seat. The perfect gift.</div>
-          <div class="prod-price">€90</div>
-          <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-sm">View details →</a>
-        </div>
-
-      </div>
     </div>
-  </section>
+  </div>
+</section>
   
 <section id="recipes" class="sec">
   <div class="sec-inner">
