@@ -1098,6 +1098,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   align-items: center;
   justify-content: center;
 }
+
 @media (max-width: 900px) {
   .about-layout {
     grid-template-columns: 1fr;

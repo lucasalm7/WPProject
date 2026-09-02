@@ -40,50 +40,214 @@ get_header();
                 <p class="sec-eye sec-eye--dark">Get in touch</p>
                 <h2>Work with us</h2>
 
-                <form class="vegama-contact-form" method="post" action="<?php echo esc_url( get_permalink() ); ?>">
-                    <?php wp_nonce_field( 'vegama_about_form', 'vegama_about_nonce' ); ?>
-
-                    <div class="form-grid">
-                        <label>
-                            <span>Full Name</span>
-                            <input type="text" name="full_name" required>
-                        </label>
-
-                        <label>
-                            <span>Email Address</span>
-                            <input type="email" name="email" required>
-                        </label>
-
-                        <label>
-                            <span>Company / Brand Name</span>
-                            <input type="text" name="company">
-                        </label>
-
-                        <label>
-                            <span>Contact Person</span>
-                            <input type="text" name="contact_person">
-                        </label>
-
-                        <label class="full-width">
-                            <span>Website / URL</span>
-                            <input type="url" name="website" placeholder="https://example.com">
-                        </label>
-
-                        <label class="full-width">
-                            <span>Short Description</span>
-                            <textarea name="message" rows="5" required></textarea>
-                        </label>
+                <?php if ( isset($_GET['status']) && $_GET['status'] === 'success' ) : ?>
+                    <div class="vegama-success-box">
+                        Thanks! We’ve received your message and will get back to you within 24–48 hours.
                     </div>
+                <?php else : ?>
 
-                    <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">
-                        Send inquiry
-                    </button>
-                </form>
+                    <form id="vegama-conversational-form" class="vegama-contact-form" method="post" action="<?php echo esc_url( get_permalink() ); ?>">
+                        <?php wp_nonce_field( 'vegama_about_form', 'vegama_about_nonce' ); ?>
+                        
+                        <input type="hidden" name="vegama_main_intent" id="vegama_main_intent" value="">
+                        <input type="hidden" name="vegama_sub_category" id="vegama_sub_category" value="">
+
+                        <div class="form-step active" data-step="1">
+                            <h3>Hi there! Welcome to The Plant Kitchen. How can we help you today?</h3>
+                            <div class="conv-options">
+                                <button type="button" class="conv-btn" data-next="support-step2" data-intent="General Question">I have a general question about an existing Masterclass or e-book.</button>
+                                <button type="button" class="conv-btn" data-next="b2b-step2" data-intent="B2B Inquiry">I'm interested in corporate partnerships or B2B inquiries.</button>
+                                <button type="button" class="conv-btn" data-next="press-step2" data-intent="Press Request">I have a press, media, or collaboration request.</button>
+                                <button type="button" class="conv-btn" data-next="feedback-step2" data-intent="Community Feedback">I want to share feedback or ask a general cooking question.</button>
+                            </div>
+                        </div>
+
+                        <div class="form-step" data-step="support-step2" data-branch="support">
+                            <h3>Happy to help! What is your question related to?</h3>
+                            <div class="conv-options">
+                                <button type="button" class="conv-sub-btn" data-next="support-step3" data-sub="Physical Masterclasses">Physical Masterclasses (venues, dietary requirements, or tickets)</button>
+                                <button type="button" class="conv-sub-btn" data-next="support-step3" data-sub="E-books / Digital Downloads">E-books / Digital Downloads (download links or technical issues)</button>
+                                <button type="button" class="conv-sub-btn" data-next="support-step3" data-sub="General Blog Recipes">General blog recipes or ingredients</button>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                        </div>
+
+                        <div class="form-step" data-step="support-step3" data-branch="support">
+                            <h3>Tell us a bit more so we can assist you better.</h3>
+                            <div class="form-grid">
+                                <label class="full-width">
+                                    <span>Your Question</span>
+                                    <textarea name="vegama_message" rows="4" minlength="10" maxlength="1000" required placeholder="How can we help? (Min 10 chars)"></textarea>
+                                </label>
+                                <label>
+                                    <span>Full Name</span>
+                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Your Name">
+                                </label>
+                                <label>
+                                    <span>Email Address</span>
+                                    <input type="email" name="vegama_email" required placeholder="name@domain.com">
+                                </label>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="support-step2">← Back</button>
+                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                        </div>
+
+                        <div class="form-step" data-step="b2b-step2" data-branch="b2b">
+                            <h3>We love collaborating! What type of inquiry is this?</h3>
+                            <div class="conv-options">
+                                <button type="button" class="conv-sub-btn" data-next="b2b-step3" data-sub="Corporate Wellness">Corporate wellness event or private workshop inquiry</button>
+                                <button type="button" class="conv-sub-btn" data-next="b2b-step3" data-sub="Brand Sponsorship">Brand sponsorship / Scandinavian micro-influencer collaboration</button>
+                                <button type="button" class="conv-sub-btn" data-next="b2b-step3" data-sub="Other Corporate Partnership">Other corporate partnership</button>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                        </div>
+
+                        <div class="form-step" data-step="b2b-step3" data-branch="b2b">
+                            <h3>Who should we reach out to regarding this opportunity?</h3>
+                            <div class="form-grid">
+                                <label>
+                                    <span>Company / Brand Name</span>
+                                    <input type="text" name="vegama_company" pattern="^[a-zA-Z0-9À-ÿ\s&.,'-]+$" required placeholder="Company Name, ApS">
+                                </label>
+                                <label>
+                                    <span>Contact Person</span>
+                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Full Name">
+                                </label>
+                                <label class="full-width">
+                                    <span>Work Email</span>
+                                    <input type="email" name="vegama_email" required placeholder="name@company.com">
+                                </label>
+                                <label class="full-width">
+                                    <span>Short Description</span>
+                                    <textarea name="vegama_message" rows="4" minlength="10" maxlength="1000" required placeholder="Tell us a bit about your idea or event..."></textarea>
+                                </label>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="b2b-step2">← Back</button>
+                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                        </div>
+
+                        <div class="form-step" data-step="press-step2" data-branch="press">
+                            <h3>Thanks for reaching out! What publication or channel are you representing?</h3>
+                            <div class="conv-options">
+                                <button type="button" class="conv-sub-btn" data-next="press-step3" data-sub="Food/Lifestyle Magazine">Food / Lifestyle Magazine or Blog</button>
+                                <button type="button" class="conv-sub-btn" data-next="press-step3" data-sub="Podcast/Social Channel">Podcast or Social Media Channel</button>
+                                <button type="button" class="conv-sub-btn" data-next="press-step3" data-sub="Local News">Local News / Event Feature</button>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                        </div>
+
+                        <div class="form-step" data-step="press-step3" data-branch="press">
+                            <h3>Where should our PR team send press assets and responses?</h3>
+                            <div class="form-grid">
+                                <label>
+                                    <span>Name</span>
+                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Your Name">
+                                </label>
+                                <label>
+                                    <span>Email Address</span>
+                                    <input type="email" name="vegama_email" required placeholder="name@media.com">
+                                </label>
+                                <label class="full-width">
+                                    <span>Inquiry Details</span>
+                                    <textarea name="vegama_message" rows="4" minlength="10" maxlength="1000" required placeholder="Deadlines, interview requests, or asset needs..."></textarea>
+                                </label>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="press-step2">← Back</button>
+                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                        </div>
+
+                        <div class="form-step" data-step="feedback-step2" data-branch="feedback">
+                            <h3>We always love hearing from our community! What's on your mind?</h3>
+                            <div class="form-grid">
+                                <label class="full-width">
+                                    <span>Message</span>
+                                    <textarea name="vegama_message" rows="4" minlength="10" maxlength="1000" required placeholder="Type your message here..."></textarea>
+                                </label>
+                                <label>
+                                    <span>Your Name</span>
+                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Your Name">
+                                </label>
+                                <label>
+                                    <span>Email Address</span>
+                                    <input type="email" name="vegama_email" required placeholder="name@domain.com">
+                                </label>
+                            </div>
+                            <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                        </div>
+
+                        <div class="conv-gdpr">
+                            <label class="gdpr-gdpr">
+                                <input type="checkbox" name="vegama_gdpr" required class="conv-gdpr"x>
+                                I consent to having Vegama store my submitted information to respond to this inquiry.
+                            </label>
+                        </div>
+                    </form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const steps = document.querySelectorAll(".form-step");
+
+    function syncStepFields() {
+        steps.forEach(step => {
+            const isActive = step.classList.contains("active");
+
+            step.querySelectorAll("input, textarea, select").forEach(field => {
+                if (isActive) {
+                    field.disabled = false;
+                    if (field.hasAttribute("required")) {
+                        field.required = true;
+                    }
+                } else {
+                    field.disabled = true;
+                    field.required = false;
+                }
+            });
+        });
+    }
+
+    document.querySelectorAll(".conv-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.getElementById("vegama_main_intent").value = this.getAttribute("data-intent");
+            switchStep(this.getAttribute("data-next"));
+        });
+    });
+
+    document.querySelectorAll(".conv-sub-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.getElementById("vegama_sub_category").value = this.getAttribute("data-sub");
+            switchStep(this.getAttribute("data-next"));
+        });
+    });
+
+    document.querySelectorAll(".conv-back-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            switchStep(this.getAttribute("data-prev"));
+        });
+    });
+
+    function switchStep(targetStep) {
+        steps.forEach(step => {
+            step.classList.remove("active");
+            if (step.getAttribute("data-step") === targetStep) {
+                step.classList.add("active");
+            }
+        });
+        syncStepFields();
+    }
+
+    syncStepFields();
+});
+</script>
+                    
+
+                <?php endif; ?>
             </div>
         </div>
     </section>
 </main>
-
+<style>
+</style>
 <?php
 get_footer();
 ?>
