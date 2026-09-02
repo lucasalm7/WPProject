@@ -41,7 +41,6 @@ function vegama_handle_about_form() {
     $company     = sanitize_text_field( wp_unslash( $_POST['vegama_company'] ?? '' ) );
     $message     = sanitize_textarea_field( wp_unslash( $_POST['vegama_message'] ?? '' ) );
 
-    // Security guard validation checks
     if ( empty( $email ) || ! is_email( $email ) ) {
         wp_die( 'Please provide a valid email address containing an @ symbol.' );
     }
@@ -72,9 +71,12 @@ function vegama_handle_about_form() {
         'Reply-To: ' . $full_name . ' <' . $email . '>',
     );
 
-    wp_mail( $to, $subject, $body, $headers );
-    
-    // Redirect back with a success flag to prevent duplicate submissions
+    $mail_sent = wp_mail( $to, $subject, $body, $headers );
+
+    if ( ! $mail_sent ) {
+        wp_die( 'Your message could not be sent. Please try again later.' );
+    }
+
     wp_safe_redirect( add_query_arg( 'status', 'success', get_permalink() ) );
     exit;
 }
