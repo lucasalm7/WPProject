@@ -23,66 +23,137 @@ function vegama_about_page_template( $template ) {
 add_filter( 'template_include', 'vegama_about_page_template' );
 
 function vegama_handle_about_form() {
-    if ( ! isset( $_POST['vegama_about_submit'] ) ) {
+    if ( ! isset( $_POST['action'] ) || 'vegama_about_form' !== $_POST['action'] ) {
         return;
     }
 
-    if ( ! isset( $_POST['vegama_about_nonce'] ) || ! wp_verify_nonce( $_POST['vegama_about_nonce'], 'vegama_about_form' ) ) {
-        wp_die( 'Security check failed.' );
+    if (
+        ! isset( $_POST['vegama_about_nonce'] ) ||
+        ! wp_verify_nonce(
+            sanitize_text_field( wp_unslash( $_POST['vegama_about_nonce'] ) ),
+            'vegama_about_form'
+        )
+    ) {
+        wp_send_json_error(
+            array(
+                'message' => 'Security check failed. Please refresh the page and try again.',
+            ),
+            403
+        );
     }
 
-    // Capture main intent and sub-category
-    $main_intent = sanitize_text_field( wp_unslash( $_POST['vegama_main_intent'] ?? 'General' ) );
-    $sub_category = sanitize_text_field( wp_unslash( $_POST['vegama_sub_category'] ?? 'N/A' ) );
+    $main_intent = sanitize_text_field(
+        wp_unslash( $_POST['vegama_main_intent'] ?? 'General' )
+    );
 
-    // Universal fields mapping across branches
-    $full_name   = sanitize_text_field( wp_unslash( $_POST['vegama_name'] ?? '' ) );
-    $email       = sanitize_email( wp_unslash( $_POST['vegama_email'] ?? '' ) );
-    $company     = sanitize_text_field( wp_unslash( $_POST['vegama_company'] ?? '' ) );
-    $message     = sanitize_textarea_field( wp_unslash( $_POST['vegama_message'] ?? '' ) );
+    $sub_category = sanitize_text_field(
+        wp_unslash( $_POST['vegama_sub_category'] ?? 'N/A' )
+    );
+
+    $full_name = sanitize_text_field(
+        wp_unslash( $_POST['vegama_name'] ?? '' )
+    );
+
+    $email = sanitize_email(
+        wp_unslash( $_POST['vegama_email'] ?? '' )
+    );
+
+    $company = sanitize_text_field(
+        wp_unslash( $_POST['vegama_company'] ?? '' )
+    );
+
+    $message = sanitize_textarea_field(
+        wp_unslash( $_POST['vegama_message'] ?? '' )
+    );
+
+    if (
+        empty( $full_name ) ||
+        ! preg_match( "/^[\p{L}\s'-]{2,}$/u", $full_name )
+    ) {
+        wp_send_json_error(
+            array(
+                'field'   => 'vegama_name',
+                'message' => 'Please enter a valid name using at least two letters.',
+            ),
+            422
+        );
+    }
 
     if ( empty( $email ) || ! is_email( $email ) ) {
-        wp_die( 'Please provide a valid email address containing an @ symbol.' );
+        wp_send_json_error(
+            array(
+                'field'   => 'vegama_email',
+                'message' => 'Please provide a valid email address.',
+            ),
+            422
+        );
     }
 
-    if ( empty( $full_name ) || strlen( $full_name ) < 2 ) {
-        wp_die( 'Name must be at least 2 characters long and contain alphabetic characters only.' );
+    if (
+        empty( $message ) ||
+        strlen( $message ) < 10 ||
+        strlen( $message ) > 1000
+    ) {
+        wp_send_json_error(
+            array(
+                'field'   => 'vegama_message',
+                'message' => 'Message must be between 10 and 1,000 characters.',
+            ),
+            422
+        );
     }
 
-    if ( ! empty( $message ) && ( strlen( $message ) < 10 || strlen( $message ) > 1000 ) ) {
-        wp_die( 'Message must be between 10 and 1,000 characters.' );
+    if ( empty( $_POST['vegama_gdpr'] ) ) {
+        wp_send_json_error(
+            array(
+                'field'   => 'vegama_gdpr',
+                'message' => 'Please confirm your consent before sending the form.',
+            ),
+            422
+        );
     }
 
     $to      = get_option( 'admin_email' );
     $subject = 'New Vegama Conversational Inquiry: ' . $main_intent;
 
-    $body = '
-        <h3>New Conversational Contact Form Submission</h3>
-        <p><strong>Main Intent:</strong> ' . esc_html( $main_intent ) . '</p>
-        <p><strong>Sub-Category / Detail:</strong> ' . esc_html( $sub_category ) . '</p>
-        ' . ( !empty($company) ? '<p><strong>Company / Brand / Outlet:</strong> ' . esc_html( $company ) . '</p>' : '' ) . '
-        <p><strong>Full Name:</strong> ' . esc_html( $full_name ) . '</p>
-        <p><strong>Email:</strong> ' . esc_html( $email ) . '</p>
-        <p><strong>Message / Details:</strong><br>' . nl2br( esc_html( $message ) ) . '</p>
-    ';
+    $body  = '<h3>New Conversational Contact Form Submission</h3>';
+    $body .= '<p><strong>Main Intent:</strong> ' . esc_html( $main_intent ) . '</p>';
+    $body .= '<p><strong>Sub-Category / Detail:</strong> ' . esc_html( $sub_category ) . '</p>';
+
+    if ( ! empty( $company ) ) {
+        $body .= '<p><strong>Company / Brand:</strong> ' . esc_html( $company ) . '</p>';
+    }
+
+    $body .= '<p><strong>Full Name:</strong> ' . esc_html( $full_name ) . '</p>';
+    $body .= '<p><strong>Email:</strong> ' . esc_html( $email ) . '</p>';
+    $body .= '<p><strong>Message / Details:</strong><br>';
+    $body .= nl2br( esc_html( $message ) );
+    $body .= '</p>';
 
     $headers = array(
         'Content-Type: text/html; charset=UTF-8',
         'Reply-To: ' . $full_name . ' <' . $email . '>',
     );
 
-    $mail_sent = wp_mail( $to, $subject, $body, $headers );
-
-    if ( ! $mail_sent ) {
-        wp_die( 'Your message could not be sent. Please try again later.' );
+    if ( ! wp_mail( $to, $subject, $body, $headers ) ) {
+        wp_send_json_error(
+            array(
+                'message' => 'Your message could not be sent. Please try again later.',
+            ),
+            500
+        );
     }
 
-    wp_safe_redirect( add_query_arg( 'status', 'success', get_permalink() ) );
-    exit;
+    wp_send_json_success(
+        array(
+            'message' => 'Thanks! We have received your message and will get back to you within 24-48 hours.',
+        )
+    );
 }
-add_action( 'init', 'vegama_handle_about_form' );
 
-// ── Auth: AJAX Login ─────────────────────────────────────────
+add_action( 'wp_ajax_vegama_about_form', 'vegama_handle_about_form' );
+add_action( 'wp_ajax_nopriv_vegama_about_form', 'vegama_handle_about_form' );
+
 add_action( 'wp_ajax_nopriv_vegama_login', 'vegama_handle_login' );
 function vegama_handle_login() {
     check_ajax_referer( 'vegama_login', 'login_nonce' );
@@ -98,7 +169,6 @@ function vegama_handle_login() {
     wp_send_json_success();
 }
 
-// ── Auth: AJAX Register ──────────────────────────────────────
 add_action( 'wp_ajax_nopriv_vegama_register', 'vegama_handle_register' );
 function vegama_handle_register() {
     check_ajax_referer( 'vegama_register', 'register_nonce' );
@@ -116,7 +186,6 @@ function vegama_handle_register() {
     wp_send_json_success();
 }
 
-// ── Products CPT ─────────────────────────────────────────────
 function vegama_register_product_cpt() {
     register_post_type( 'vegama_product', array(
         'labels' => array(
@@ -190,7 +259,6 @@ function vegama_product_save_meta( $post_id ) {
 }
 add_action( 'save_post', 'vegama_product_save_meta' );
 
-// ── Merch CPT ────────────────────────────────────────────────
 function vegama_register_merch_cpt() {
     register_post_type( 'vegama_merch', array(
         'labels' => array(
