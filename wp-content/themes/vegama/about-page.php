@@ -40,17 +40,26 @@ get_header();
                 <p class="sec-eye sec-eye--dark">Get in touch</p>
                 <h2>Work with us</h2>
 
+                <?php if ( isset( $_GET['status'] ) && $_GET['status'] === 'name_error' ) : ?>
+                    <div class="vegama-error-box" role="alert">
+                        Please enter a valid name using at least two letters.
+                    </div>
+                <?php endif; ?>
+
                 <?php if ( isset($_GET['status']) && $_GET['status'] === 'success' ) : ?>
                     <div class="vegama-success-box">
                         Thanks! We’ve received your message and will get back to you within 24–48 hours.
                     </div>
                 <?php else : ?>
 
-                    <form id="vegama-conversational-form" class="vegama-contact-form" method="post" action="<?php echo esc_url( get_permalink() ); ?>">
-                        <?php wp_nonce_field( 'vegama_about_form', 'vegama_about_nonce' ); ?>
-                        
-                        <input type="hidden" name="vegama_main_intent" id="vegama_main_intent" value="">
-                        <input type="hidden" name="vegama_sub_category" id="vegama_sub_category" value="">
+                        <form id="vegama-conversational-form" class="vegama-contact-form" method="post">
+                            <?php wp_nonce_field( 'vegama_about_form', 'vegama_about_nonce' ); ?>
+
+                            <input type="hidden" name="action" value="vegama_about_form">
+                            <input type="hidden" name="vegama_main_intent" id="vegama_main_intent" value="">
+                            <input type="hidden" name="vegama_sub_category" id="vegama_sub_category" value="">
+
+                            <div id="vegama-form-message" class="vegama-form-message" role="alert" hidden></div>
 
                         <div class="form-step active" data-step="1">
                             <h3>Hi there! Welcome to The Plant Kitchen. How can we help you today?</h3>
@@ -81,7 +90,7 @@ get_header();
                                 </label>
                                 <label>
                                     <span>Full Name</span>
-                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Your Name">
+                                    <input type="text" name="vegama_name" pattern="^[\p{L}\s'\-]{2,}$" required placeholder="Your Name">
                                 </label>
                                 <label>
                                     <span>Email Address</span>
@@ -107,11 +116,11 @@ get_header();
                             <div class="form-grid">
                                 <label>
                                     <span>Company / Brand Name</span>
-                                    <input type="text" name="vegama_company" pattern="^[a-zA-Z0-9À-ÿ\s&.,'-]+$" required placeholder="Company Name, ApS">
+                                    <input type="text" name="vegama_company" pattern="^[\p{L}\p{N}\s&.,'\-]+$" required placeholder="Company Name, ApS">
                                 </label>
                                 <label>
                                     <span>Contact Person</span>
-                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Full Name">
+                                    <input type="text" name="vegama_name" pattern="^[\p{L}\s'\-]{2,}$" required placeholder="Full Name">
                                 </label>
                                 <label class="full-width">
                                     <span>Work Email</span>
@@ -141,7 +150,7 @@ get_header();
                             <div class="form-grid">
                                 <label>
                                     <span>Name</span>
-                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Your Name">
+                                    <input type="text" name="vegama_name" pattern="^[\p{L}\s'\-]{2,}$" required placeholder="Your Name">
                                 </label>
                                 <label>
                                     <span>Email Address</span>
@@ -165,7 +174,7 @@ get_header();
                                 </label>
                                 <label>
                                     <span>Your Name</span>
-                                    <input type="text" name="vegama_name" pattern="^[a-zA-ZÀ-ÿ\s'-]{2,}$" required placeholder="Your Name">
+                                    <input type="text" name="vegama_name" pattern="^[\p{L}\s'\-]{2,}$" required placeholder="Your Name">
                                 </label>
                                 <label>
                                     <span>Email Address</span>
@@ -178,76 +187,130 @@ get_header();
 
                         <div class="conv-gdpr">
                             <label class="gdpr-gdpr">
-                                <input type="checkbox" name="vegama_gdpr" required class="conv-gdpr"x>
+                                <input type="checkbox" name="vegama_gdpr" required class="conv-gdpr">
                                 I consent to having Vegama store my submitted information to respond to this inquiry.
                             </label>
                         </div>
                     </form>
-
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+</main>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("vegama-conversational-form");
     const steps = document.querySelectorAll(".form-step");
+    const formMessage = document.getElementById("vegama-form-message");
+    const submitButton = form.querySelector('button[type="submit"]');
 
     function syncStepFields() {
         steps.forEach(step => {
             const isActive = step.classList.contains("active");
 
             step.querySelectorAll("input, textarea, select").forEach(field => {
-                if (isActive) {
-                    field.disabled = false;
-                    if (field.hasAttribute("required")) {
-                        field.required = true;
-                    }
-                } else {
-                    field.disabled = true;
+                field.disabled = !isActive;
+
+                if (!isActive) {
                     field.required = false;
                 }
             });
         });
+
+        document.querySelector('input[name="vegama_gdpr"]').disabled = false;
     }
 
-    document.querySelectorAll(".conv-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-            document.getElementById("vegama_main_intent").value = this.getAttribute("data-intent");
+    function switchStep(targetStep) {
+        steps.forEach(step => {
+            step.classList.toggle(
+                "active",
+                step.getAttribute("data-step") === targetStep
+            );
+        });
+
+        syncStepFields();
+    }
+
+    function showMessage(message, type) {
+        formMessage.hidden = false;
+        formMessage.textContent = message;
+        formMessage.className = "vegama-form-message is-" + type;
+    }
+
+    document.querySelectorAll(".conv-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            document.getElementById("vegama_main_intent").value =
+                this.getAttribute("data-intent");
+
             switchStep(this.getAttribute("data-next"));
         });
     });
 
-    document.querySelectorAll(".conv-sub-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-            document.getElementById("vegama_sub_category").value = this.getAttribute("data-sub");
+    document.querySelectorAll(".conv-sub-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            document.getElementById("vegama_sub_category").value =
+                this.getAttribute("data-sub");
+
             switchStep(this.getAttribute("data-next"));
         });
     });
 
-    document.querySelectorAll(".conv-back-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
+    document.querySelectorAll(".conv-back-btn").forEach(button => {
+        button.addEventListener("click", function() {
             switchStep(this.getAttribute("data-prev"));
         });
     });
 
-    function switchStep(targetStep) {
-        steps.forEach(step => {
-            step.classList.remove("active");
-            if (step.getAttribute("data-step") === targetStep) {
-                step.classList.add("active");
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        formMessage.hidden = true;
+        formMessage.textContent = "";
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+
+        try {
+            const response = await fetch(
+                "<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>",
+                {
+                    method: "POST",
+                    body: new FormData(form),
+                    credentials: "same-origin"
+                }
+            );
+
+            const result = await response.json();
+
+            if (result.success) {
+                showMessage(result.data.message, "success");
+                form.reset();
+                switchStep("1");
+            } else {
+                showMessage(
+                    result.data.message || "Please check the form and try again.",
+                    "error"
+                );
             }
-        });
-        syncStepFields();
-    }
+        } catch (error) {
+            showMessage(
+                "Something went wrong. Please try again later.",
+                "error"
+            );
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = "Send message";
+        }
+    });
 
     syncStepFields();
 });
 </script>
-                    
-
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
-</main>
-<style>
-</style>
 <?php
 get_footer();
 ?>
