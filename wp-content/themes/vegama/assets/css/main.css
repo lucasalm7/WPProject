@@ -162,6 +162,37 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   border-bottom: 1px solid rgba(24,95,48,.1);
 }
 
+.about-header {
+  background: rgba(244, 238, 220, .96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(24, 95, 48, .1);
+}
+
+.about-header .nav-links a {
+  color: rgba(26, 46, 31, .75);
+}
+
+.about-header .nav-links a:hover {
+  color: var(--amber);
+}
+
+.about-header .cart-btn {
+  color: rgba(26, 46, 31, .7);
+}
+
+.about-header .cart-btn:hover {
+  color: var(--amber);
+}
+
+.about-header .btn-nav {
+  background: var(--sage);
+  color: #fff;
+}
+
+.about-header .btn-nav:hover {
+  background: var(--sage-d);
+}
+
 .site-nav {
   display: flex;
   align-items: center;
