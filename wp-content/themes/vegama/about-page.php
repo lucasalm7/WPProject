@@ -97,8 +97,10 @@ get_header();
                                     <input type="email" name="vegama_email" required placeholder="name@domain.com">
                                 </label>
                             </div>
-                            <button type="button" class="conv-back-btn" data-prev="support-step2">← Back</button>
-                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            <div class="form-actions">
+                                <button type="button" class="conv-back-btn" data-prev="support-step2">← Back</button>
+                                <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            </div>
                         </div>
 
                         <div class="form-step" data-step="b2b-step2" data-branch="b2b">
@@ -131,8 +133,10 @@ get_header();
                                     <textarea name="vegama_message" rows="4" minlength="10" maxlength="1000" required placeholder="Tell us a bit about your idea or event..."></textarea>
                                 </label>
                             </div>
-                            <button type="button" class="conv-back-btn" data-prev="b2b-step2">← Back</button>
-                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            <div class="form-actions">
+                                <button type="button" class="conv-back-btn" data-prev="b2b-step2">← Back</button>
+                                <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            </div>
                         </div>
 
                         <div class="form-step" data-step="press-step2" data-branch="press">
@@ -142,7 +146,9 @@ get_header();
                                 <button type="button" class="conv-sub-btn" data-next="press-step3" data-sub="Podcast/Social Channel">Podcast or Social Media Channel</button>
                                 <button type="button" class="conv-sub-btn" data-next="press-step3" data-sub="Local News">Local News / Event Feature</button>
                             </div>
-                            <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                            <div class="form-actions">
+                                <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                            </div>
                         </div>
 
                         <div class="form-step" data-step="press-step3" data-branch="press">
@@ -161,8 +167,10 @@ get_header();
                                     <textarea name="vegama_message" rows="4" minlength="10" maxlength="1000" required placeholder="Deadlines, interview requests, or asset needs..."></textarea>
                                 </label>
                             </div>
-                            <button type="button" class="conv-back-btn" data-prev="press-step2">← Back</button>
-                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            <div class="form-actions">
+                                <button type="button" class="conv-back-btn" data-prev="press-step2">← Back</button>
+                                <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            </div>
                         </div>
 
                         <div class="form-step" data-step="feedback-step2" data-branch="feedback">
@@ -181,8 +189,10 @@ get_header();
                                     <input type="email" name="vegama_email" required placeholder="name@domain.com">
                                 </label>
                             </div>
-                            <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
-                            <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            <div class="form-actions">
+                                <button type="button" class="conv-back-btn" data-prev="1">← Back</button>
+                                <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
+                            </div>
                         </div>
 
                         <div class="conv-gdpr">
