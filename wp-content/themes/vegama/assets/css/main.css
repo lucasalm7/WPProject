@@ -1234,6 +1234,19 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
     display: none;
 }
 
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.form-actions .btn-primary--dark {
+    margin-top: 0;
+    margin-left: auto;
+}
+
 @media (max-width: 900px) {
   .about-layout {
     grid-template-columns: 1fr;
