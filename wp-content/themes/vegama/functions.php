@@ -277,3 +277,10 @@ function vegama_editor_cpt_access() {
     }
 }
 add_action( 'init', 'vegama_editor_cpt_access' );
+
+// Remove the "Website" field from the comment form
+function vegama_remove_comment_url_field($fields) {
+    unset($fields['url']); // Remove the URL/Website field
+    return $fields;
+}
+add_filter('comment_form_default_fields', 'vegama_remove_comment_url_field');
