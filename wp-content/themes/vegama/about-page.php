@@ -41,7 +41,7 @@ get_header();
                 <h2>Work with us</h2>
 
                 <?php if ( isset($_GET['status']) && $_GET['status'] === 'success' ) : ?>
-                    <div class="vegama-success-box" style="background:#eef4f1; color:#2e5a44; padding:20px; border-radius:8px; margin-top:20px; font-weight:bold; text-align:center;">
+                    <div class="vegama-success-box">
                         Thanks! We’ve received your message and will get back to you within 24–48 hours.
                     </div>
                 <?php else : ?>
@@ -176,49 +176,69 @@ get_header();
                             <button type="submit" name="vegama_about_submit" value="1" class="btn-primary btn-primary--dark">Send message</button>
                         </div>
 
-                        <div class="conv-gdpr" style="margin-top: 15px; font-size: 12px; color: #666;">
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                <input type="checkbox" name="vegama_gdpr" required style="width: auto;">
+                        <div class="conv-gdpr">
+                            <label class="gdpr-gdpr">
+                                <input type="checkbox" name="vegama_gdpr" required class="conv-gdpr"x>
                                 I consent to having Vegama store my submitted information to respond to this inquiry.
                             </label>
                         </div>
                     </form>
 
-                    <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const steps = document.querySelectorAll(".form-step");
-                        
-                        document.querySelectorAll(".conv-btn").forEach(btn => {
-                            btn.addEventListener("click", function() {
-                                document.getElementById("vegama_main_intent").value = this.getAttribute("data-intent");
-                                switchStep(this.getAttribute("data-next"));
-                            });
-                        });
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const steps = document.querySelectorAll(".form-step");
 
-                        document.querySelectorAll(".conv-sub-btn").forEach(btn => {
-                            btn.addEventListener("click", function() {
-                                document.getElementById("vegama_sub_category").value = this.getAttribute("data-sub");
-                                switchStep(this.getAttribute("data-next"));
-                            });
-                        });
+    function syncStepFields() {
+        steps.forEach(step => {
+            const isActive = step.classList.contains("active");
 
-                        document.querySelectorAll(".conv-back-btn").forEach(btn => {
-                            btn.addEventListener("click", function() {
-                                switchStep(this.getAttribute("data-prev"));
-                            });
-                        });
+            step.querySelectorAll("input, textarea, select").forEach(field => {
+                if (isActive) {
+                    field.disabled = false;
+                    if (field.hasAttribute("required")) {
+                        field.required = true;
+                    }
+                } else {
+                    field.disabled = true;
+                    field.required = false;
+                }
+            });
+        });
+    }
 
-                        function switchStep(targetStep) {
-                            steps.forEach(step => {
-                                step.classList.remove("active");
-                                if(step.getAttribute("data-step") === targetStep) {
-                                    step.classList.add("active");
-                                }
-                            });
-                        }
-                    });
-                    </script>
+    document.querySelectorAll(".conv-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.getElementById("vegama_main_intent").value = this.getAttribute("data-intent");
+            switchStep(this.getAttribute("data-next"));
+        });
+    });
 
+    document.querySelectorAll(".conv-sub-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.getElementById("vegama_sub_category").value = this.getAttribute("data-sub");
+            switchStep(this.getAttribute("data-next"));
+        });
+    });
+
+    document.querySelectorAll(".conv-back-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            switchStep(this.getAttribute("data-prev"));
+        });
+    });
+
+    function switchStep(targetStep) {
+        steps.forEach(step => {
+            step.classList.remove("active");
+            if (step.getAttribute("data-step") === targetStep) {
+                step.classList.add("active");
+            }
+        });
+        syncStepFields();
+    }
+
+    syncStepFields();
+});
+</script>
                     
 
                 <?php endif; ?>
@@ -227,60 +247,6 @@ get_header();
     </section>
 </main>
 <style>
-    .form-step { 
-        display: none; 
-    }
-    .form-step.active { 
-        display: block; 
-    }
-    .conv-options { 
-        display: flex; flex-direction: column; gap: 10px; margin: 20px 0; 
-    }
-    .conv-btn,
-
-    .conv-sub-btn {
-        padding: 16px 18px;
-        text-align: left;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 1.5;
-        color: var(--txt);
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(24, 95, 48, 0.16);
-        border-radius: 14px;
-        transition: all 0.2s ease;
-        box-shadow: 0 6px 16px rgba(24, 95, 48, 0.04);
-    }
-
-    .conv-btn:hover,
-    .conv-sub-btn:hover {
-        background: var(--sage);
-        color: #fff;
-        border-color: var(--sage);
-        transform: translateY(-1px);
-    }
-    
-    button.btn-primary,
-    button.btn-primary--dark,
-    .btn-primary,
-    .btn-primary--dark {
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-    box-shadow: none;
-    }
-
-    .conv-back-btn { 
-        background: none; 
-        border: none; 
-        color: #666; 
-        cursor: pointer; 
-        padding: 5px 0; 
-        margin-top: 15px; 
-        font-size: 13px;
-        }
 </style>
 <?php
 get_footer();
