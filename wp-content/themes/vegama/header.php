@@ -59,7 +59,7 @@
 </div>
 <!-- ── /AUTH MODAL ─────────────────────────────────────────── -->
 
-<header class="site-header" id="site-header">
+<header class="site-header<?php echo is_page( 'about' ) ? ' about-header' : ''; ?>" id="site-header">
   <nav class="site-nav">
 
     <!-- Logo -->
