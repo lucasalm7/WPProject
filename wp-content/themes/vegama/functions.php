@@ -13,7 +13,7 @@ function vegama_scripts() {
 add_action( 'wp_enqueue_scripts', 'vegama_scripts' );
 function vegama_about_page_template( $template ) {
     if ( is_page( 'about' ) ) {
-        $custom_template = locate_template( array( 'page-about.php' ) );
+        $custom_template = locate_template( array( 'about-page.php' ) );
         if ( $custom_template ) {
             return $custom_template;
         }
@@ -31,28 +31,40 @@ function vegama_handle_about_form() {
         wp_die( 'Security check failed.' );
     }
 
-    $full_name = sanitize_text_field( wp_unslash( $_POST['full_name'] ?? '' ) );
-    $email     = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
-    $company   = sanitize_text_field( wp_unslash( $_POST['company'] ?? '' ) );
-    $person    = sanitize_text_field( wp_unslash( $_POST['contact_person'] ?? '' ) );
-    $website   = esc_url_raw( wp_unslash( $_POST['website'] ?? '' ) );
-    $message   = sanitize_textarea_field( wp_unslash( $_POST['message'] ?? '' ) );
+    // Capture main intent and sub-category
+    $main_intent = sanitize_text_field( wp_unslash( $_POST['vegama_main_intent'] ?? 'General' ) );
+    $sub_category = sanitize_text_field( wp_unslash( $_POST['vegama_sub_category'] ?? 'N/A' ) );
 
-    if ( empty( $full_name ) || empty( $email ) || empty( $message ) ) {
-        return;
+    // Universal fields mapping across branches
+    $full_name   = sanitize_text_field( wp_unslash( $_POST['vegama_name'] ?? '' ) );
+    $email       = sanitize_email( wp_unslash( $_POST['vegama_email'] ?? '' ) );
+    $company     = sanitize_text_field( wp_unslash( $_POST['vegama_company'] ?? '' ) );
+    $message     = sanitize_textarea_field( wp_unslash( $_POST['vegama_message'] ?? '' ) );
+
+    // Security guard validation checks
+    if ( empty( $email ) || ! is_email( $email ) ) {
+        wp_die( 'Please provide a valid email address containing an @ symbol.' );
+    }
+
+    if ( empty( $full_name ) || strlen( $full_name ) < 2 ) {
+        wp_die( 'Name must be at least 2 characters long and contain alphabetic characters only.' );
+    }
+
+    if ( ! empty( $message ) && ( strlen( $message ) < 10 || strlen( $message ) > 1000 ) ) {
+        wp_die( 'Message must be between 10 and 1,000 characters.' );
     }
 
     $to      = get_option( 'admin_email' );
-    $subject = 'New Vegama inquiry from ' . $full_name;
+    $subject = 'New Vegama Conversational Inquiry: ' . $main_intent;
 
     $body = '
-        <h3>New contact form submission</h3>
-        <p><strong>Full name:</strong> ' . esc_html( $full_name ) . '</p>
+        <h3>New Conversational Contact Form Submission</h3>
+        <p><strong>Main Intent:</strong> ' . esc_html( $main_intent ) . '</p>
+        <p><strong>Sub-Category / Detail:</strong> ' . esc_html( $sub_category ) . '</p>
+        ' . ( !empty($company) ? '<p><strong>Company / Brand / Outlet:</strong> ' . esc_html( $company ) . '</p>' : '' ) . '
+        <p><strong>Full Name:</strong> ' . esc_html( $full_name ) . '</p>
         <p><strong>Email:</strong> ' . esc_html( $email ) . '</p>
-        <p><strong>Company / Brand:</strong> ' . esc_html( $company ) . '</p>
-        <p><strong>Contact person:</strong> ' . esc_html( $person ) . '</p>
-        <p><strong>Website:</strong> ' . esc_url( $website ) . '</p>
-        <p><strong>Message:</strong><br>' . nl2br( esc_html( $message ) ) . '</p>
+        <p><strong>Message / Details:</strong><br>' . nl2br( esc_html( $message ) ) . '</p>
     ';
 
     $headers = array(
@@ -61,6 +73,10 @@ function vegama_handle_about_form() {
     );
 
     wp_mail( $to, $subject, $body, $headers );
+    
+    // Redirect back with a success flag to prevent duplicate submissions
+    wp_safe_redirect( add_query_arg( 'status', 'success', get_permalink() ) );
+    exit;
 }
 add_action( 'init', 'vegama_handle_about_form' );
 
