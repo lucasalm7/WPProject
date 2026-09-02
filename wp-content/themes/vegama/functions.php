@@ -66,6 +66,8 @@ function vegama_register_product_cpt() {
         'menu_icon'    => 'dashicons-cart',
         'supports'     => array( 'title', 'editor', 'custom-fields', 'thumbnail' ),
         'menu_position' => 5,
+        'capability_type' => array( 'vegama_product', 'vegama_products' ),
+        'map_meta_cap'    => true,
     ) );
 }
 add_action( 'init', 'vegama_register_product_cpt' );
@@ -136,6 +138,8 @@ function vegama_register_merch_cpt() {
         'menu_icon'     => 'dashicons-tag',
         'supports'      => array( 'title', 'thumbnail' ),
         'menu_position' => 6,
+        'capability_type' => array( 'vegama_merch', 'vegama_merchs' ),
+        'map_meta_cap'    => true,
     ) );
 }
 add_action( 'init', 'vegama_register_merch_cpt' );
@@ -198,6 +202,9 @@ function vegama_register_testimonial_cpt() {
         'menu_icon'     => 'dashicons-format-quote',
         'supports'      => array( 'title' ),
         'menu_position' => 7,
+        'capability_type' => array( 'vegama_testimonial', 'vegama_testimonials' ),
+        'map_meta_cap'    => true,
+
     ) );
 }
 add_action( 'init', 'vegama_register_testimonial_cpt' );
@@ -249,3 +256,24 @@ function vegama_testimonial_save_meta( $post_id ) {
         update_post_meta( $post_id, '_testimonial_stars',  absint( $_POST['testimonial_stars'] ) );
 }
 add_action( 'save_post', 'vegama_testimonial_save_meta' );
+
+// ── Editor CPT Access ────────────────────────────────────────
+function vegama_editor_cpt_access() {
+    $editor = get_role( 'editor' );
+    if ( ! $editor ) return;
+    $caps = array(
+        'edit_vegama_products',       'edit_others_vegama_products',
+        'publish_vegama_products',    'read_private_vegama_products',
+        'delete_vegama_products',
+        'edit_vegama_merchs',         'edit_others_vegama_merchs',
+        'publish_vegama_merchs',      'read_private_vegama_merchs',
+        'delete_vegama_merchs',
+        'edit_vegama_testimonials',   'edit_others_vegama_testimonials',
+        'publish_vegama_testimonials','read_private_vegama_testimonials',
+        'delete_vegama_testimonials',
+    );
+    foreach ( $caps as $cap ) {
+        $editor->add_cap( $cap );
+    }
+}
+add_action( 'init', 'vegama_editor_cpt_access' );
