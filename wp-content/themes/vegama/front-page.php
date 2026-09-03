@@ -97,7 +97,7 @@
       $args = array(
         'post_type'      => 'post',
         'posts_per_page' => 8,
-        'category_name'  => 'recipe',
+        'category_name'  => 'Recipe',
         'post_status'    => 'publish',
       );
       $query = new WP_Query( $args );
