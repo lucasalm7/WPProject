@@ -77,6 +77,7 @@
       <li><a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>">Recipes</a></li>
       <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>">Classes</a></li>
       <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/sustainability' ) ); ?>">Sustainability</a></li>
     </ul>
 
     <!-- Right controls -->
