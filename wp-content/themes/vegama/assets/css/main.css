@@ -1009,9 +1009,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 .comment-form input[type="submit"]:hover {
   background: var(--sage-d);
 }
-.page-shell {
-  padding-top: 72px;
-}
+
 .about-hero {
   background: linear-gradient(135deg, rgba(14, 68, 35, 0.96), rgba(24, 95, 48, 0.86));
   color: #f4eedc;
