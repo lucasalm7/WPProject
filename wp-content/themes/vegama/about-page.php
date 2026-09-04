@@ -2,7 +2,7 @@
 get_header();
 ?>
 
-<main class="page-shell about-page">
+<main class="about-page">
     <section class="about-hero">
         <div class="about-hero__inner">
             <p class="sec-eye">About Vegama</p>

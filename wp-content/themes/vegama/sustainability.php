@@ -15,7 +15,7 @@ function vegama_sustainability_page_template( $template ) {
 add_filter( 'template_include', 'vegama_sustainability_page_template' );
 </script>
 
-<main class="page-shell sustainability-page">
+<main class="sustainability-page">
     <!-- Hero Section -->
     <section class="about-hero">
         <div class="about-hero__inner">

@@ -9,6 +9,7 @@ function vegama_scripts() {
     wp_enqueue_style( 'vegama-style', get_template_directory_uri() . '/assets/css/main.css', [], '1.0.0' );
     wp_enqueue_script( 'vegama-js', get_template_directory_uri() . '/assets/js/main.js', [], '1.0.0', true );
 }
+
 add_action( 'wp_enqueue_scripts', 'vegama_scripts' );
 function vegama_about_page_template( $template ) {
     if ( is_page( 'about' ) ) {
@@ -19,6 +20,20 @@ function vegama_about_page_template( $template ) {
     }
     return $template;
 }
+
+function vegama_sustainability_page_template( $template ) {
+    if ( is_page( 'sustainability' ) ) {
+        $custom_template = locate_template( array( 'sustainability.php' ) );
+
+        if ( $custom_template ) {
+            return $custom_template;
+        }
+    }
+
+    return $template;
+}
+
+add_filter( 'template_include', 'vegama_sustainability_page_template' );
 add_filter( 'template_include', 'vegama_about_page_template' );
 function vegama_handle_about_form() {
     if ( ! isset( $_POST['action'] ) || 'vegama_about_form' !== $_POST['action'] ) {
