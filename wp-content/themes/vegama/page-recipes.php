@@ -13,7 +13,6 @@
 
         <!-- Tag filter -->
         <div class="recipe-filters">
-            <span class="filter-label">Tag:</span>
             <a href="<?php echo esc_url(remove_query_arg('tag')); // Link that clears the tag filter ?>"
                class="cat-pill <?php echo $selected_tag === '' ? 'active' : ''; // Highlight if no tag is selected ?>">
                 All
