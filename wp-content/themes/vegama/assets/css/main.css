@@ -27,7 +27,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   justify-content: center;
   text-align: center;
   padding: 120px clamp(20px, 6vw, 80px) 100px;
-  background: linear-gradient(rgba(14,68,35,.65), rgba(14,68,35,.75)), url('../images/hero.jpg') center/cover no-repeat;
+  background: linear-gradient(rgba(14,68,35,.65), rgba(14,68,35,.75)), url('../images/hero.webp') center/cover no-repeat;
 }
 .hero-eyebrow {
   font-size: 10px;
@@ -139,37 +139,6 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   background: rgba(244,238,220,.96);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(24,95,48,.1);
-}
-
-.about-header {
-  background: rgba(244, 238, 220, .96);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(24, 95, 48, .1);
-}
-
-.about-header .nav-links a {
-  color: rgba(26, 46, 31, .75);
-}
-
-.about-header .nav-links a:hover {
-  color: var(--amber);
-}
-
-.about-header .cart-btn {
-  color: rgba(26, 46, 31, .7);
-}
-
-.about-header .cart-btn:hover {
-  color: var(--amber);
-}
-
-.about-header .btn-nav {
-  background: var(--sage);
-  color: #fff;
-}
-
-.about-header .btn-nav:hover {
-  background: var(--sage-d);
 }
 
 .site-nav {
@@ -1033,9 +1002,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 .comment-form input[type="submit"]:hover {
   background: var(--sage-d);
 }
-.page-shell {
-  padding-top: 72px;
-}
+
 .about-hero {
   background: linear-gradient(135deg, rgba(14, 68, 35, 0.96), rgba(24, 95, 48, 0.86));
   color: #f4eedc;
