@@ -5,40 +5,11 @@
         <span class="sec-eye">The Journal</span>
         <h1 class="sec-h">Vegama <em>Recipes</em></h1>
 
-        <!-- Featured video -->
-        <div class="recipes-video-wrap">
-            <iframe
-                src="https://www.youtube.com/embed/d0zepeZVTn4"
-                title="Vegama recipe video"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
-        </div>
-
         <?php
-        // Read the selected category and tag from the URL, if any
-        $selected_category = isset($_GET['category']) ? sanitize_text_field($_GET['category']) : ''; // Get the category slug from the URL
+        // Read the selected tag from the URL, if any
         $selected_tag = isset($_GET['tag']) ? sanitize_text_field($_GET['tag']) : ''; // Get the tag slug from the URL
-
-        $all_categories = get_categories(['hide_empty' => true]); // Get all categories that have at least one post
         $all_tags = get_tags(['hide_empty' => true]); // Get all tags that have at least one post
         ?>
-
-        <!-- Category filter -->
-        <div class="recipe-filters">
-            <span class="filter-label">Category:</span>
-            <a href="<?php echo esc_url(remove_query_arg('category')); // Link that clears the category filter ?>"
-               class="cat-pill <?php echo $selected_category === '' ? 'active' : ''; // Highlight if no category is selected ?>">
-                All
-            </a>
-            <?php foreach ($all_categories as $cat): // Loop through each category ?>
-                <a href="<?php echo esc_url(add_query_arg('category', $cat->slug)); // Build a link that adds this category to the URL ?>"
-                   class="cat-pill <?php echo $selected_category === $cat->slug ? 'active' : ''; // Highlight if this category is selected ?>">
-                    <?php echo esc_html($cat->name); // Output the category name ?>
-                </a>
-            <?php endforeach; ?>
-        </div>
 
         <!-- Tag filter -->
         <div class="recipe-filters">
@@ -56,15 +27,12 @@
         </div>
 
         <?php
-        $query_args = [ // Build the query arguments based on the selected filters
+        $query_args = [ // Build the query arguments based on the selected filter
             'post_type'      => 'post',
             'post_status'    => 'publish',
             'posts_per_page' => 12,
             'paged'          => get_query_var('paged') ? get_query_var('paged') : 1,
         ];
-        if ($selected_category !== '') { // If a category filter is active, add it to the query
-            $query_args['category_name'] = $selected_category;
-        }
         if ($selected_tag !== '') { // If a tag filter is active, add it to the query
             $query_args['tag'] = $selected_tag;
         }
@@ -107,7 +75,7 @@
 
         <div class="blog-pagination">
             <?php
-            echo paginate_links([ // Output pagination links, keeping the active filters in the URL
+            echo paginate_links([ // Output pagination links, keeping the active filter in the URL
                 'total'   => $recipes_query->max_num_pages,
                 'current' => max(1, get_query_var('paged')),
             ]);
