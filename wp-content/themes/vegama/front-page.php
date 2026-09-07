@@ -204,10 +204,17 @@
       ?>
 
         <div class="tc">
-          <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
-          <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
-          <p class="tc-a"><?php echo esc_html( $author ); ?></p>
-        </div>
+        <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
+        <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
+        <div class="tc-author-row">
+          <?php if ( has_post_thumbnail() ) : ?>
+       <div class="tc-avatar">
+         <?php the_post_thumbnail( 'thumbnail', ['alt' => esc_attr( $author )] ); ?>
+      </div>
+         <?php endif; ?>
+       <p class="tc-a"><?php echo esc_html( $author ); ?></p>
+     </div>
+    </div>
 
       <?php
           endwhile;
