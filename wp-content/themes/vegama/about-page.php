@@ -62,7 +62,7 @@ get_header();
                             <div id="vegama-form-message" class="vegama-form-message" role="alert" hidden></div>
 
                         <div class="form-step active" data-step="1">
-                            <h3>Hi there! Welcome to The Plant Kitchen. How can we help you today?</h3>
+                            <h3>Hi there! Welcome to Vegama. How can we help you today?</h3>
                             <div class="conv-options">
                                 <button type="button" class="conv-btn" data-next="support-step2" data-intent="General Question">I have a general question about an existing Masterclass or e-book.</button>
                                 <button type="button" class="conv-btn" data-next="b2b-step2" data-intent="B2B Inquiry">I'm interested in corporate partnerships or B2B inquiries.</button>
