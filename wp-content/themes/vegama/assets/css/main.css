@@ -1227,9 +1227,9 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 
 /* ===== Recipes video ===== */
 .recipes-video-wrap {
-  max-width: 400px;
-  margin: 0 auto 40px;
-  aspect-ratio: 9 / 16;
+  max-width: 700px;
+  margin: 50px 0 50px;
+  aspect-ratio: 16 / 9;
   border-radius: 20px;
   overflow: hidden;
 }
