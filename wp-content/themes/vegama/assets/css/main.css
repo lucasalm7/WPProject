@@ -1275,3 +1275,10 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-weight: 700;
   border-color: var(--lime);
 }
+.sec-h {
+  margin-bottom: 1.5rem;
+}
+
+#blog-listing a {
+  text-decoration: none;
+}
