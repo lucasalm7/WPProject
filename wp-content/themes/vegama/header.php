@@ -8,7 +8,6 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<!-- ── AUTH MODAL ──────────────────────────────────────────── -->
 <div class="mo ml" id="moLogin" onclick="moOut(event,'moLogin')">
   <div class="mo-box">
     <button class="mo-x" onclick="closeMo('moLogin')">✕</button>
@@ -35,7 +34,6 @@
         <button class="tab-b"    onclick="switchTab('up',this)">Create account</button>
       </div>
 
-      <!-- Sign-in form -->
       <form class="auth-form" id="formIn">
         <?php wp_nonce_field( 'vegama_login', 'login_nonce' ); ?>
         <input type="text"     name="log" placeholder="Username or email" required>
@@ -44,7 +42,6 @@
         <button type="submit">Sign in →</button>
       </form>
 
-      <!-- Register form -->
       <form class="auth-form" id="formUp" style="display:none;flex-direction:column">
         <?php wp_nonce_field( 'vegama_register', 'register_nonce' ); ?>
         <input type="text"     name="user_login" placeholder="Username" required>
@@ -57,12 +54,10 @@
     <?php endif; ?>
   </div>
 </div>
-<!-- ── /AUTH MODAL ─────────────────────────────────────────── -->
 
 <header class="site-header<?php echo is_page( 'about' ) ? ' about-header' : ''; ?>" id="site-header">
   <nav class="site-nav">
 
-    <!-- Logo -->
       <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-logo" rel="home">
   <svg class="nav-mark" viewBox="0 0 155.35 155.35" width="38" height="38" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
     <circle fill="#f4eedc" cx="77.68" cy="77.68" r="77.68"/>
@@ -71,7 +66,6 @@
   <span class="nav-wrd"><span class="veg">veg</span><span class="ama">ama</span></span>
 </a>
 
-    <!-- Nav links -->
     <ul class="nav-links">
       <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>">Shop</a></li>
       <li><a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>">Recipes</a></li>
@@ -80,7 +74,6 @@
       <li><a href="<?php echo esc_url( home_url( '/sustainability' ) ); ?>">Sustainability</a></li>
     </ul>
 
-    <!-- Right controls -->
     <div class="nav-right">
       <a href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart' ) ); ?>"
          class="cart-btn" aria-label="Cart">
