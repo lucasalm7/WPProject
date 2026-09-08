@@ -16,7 +16,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-size: 16px; line-height: 1.6; }
 #hero {
   min-height: 100vh;
   position: relative;
@@ -374,7 +374,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-size: 1.9rem;
   color: var(--txt);
 }
-@media (max-width: 860px) { .nav-links { display: none; } }
+
 /* ── Footer ────────────────────────────────────────── */
 .site-footer {
   background: var(--sage);
@@ -575,6 +575,12 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-size: 62px;
   background: #ede4c8;
 }
+.rc-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .rc-body { padding: 18px 20px; }
 .rc-tag {
   font-size: 9px;
@@ -687,6 +693,19 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   margin-bottom: 12px;
   display: block;
 }
+.mc-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.mc-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .mc-name {
   font-weight: 700;
   font-size: 14.5px;
@@ -774,12 +793,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   flex-shrink: 0;
 }
 
-.tc-a {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--parch);
-  margin: 0;
-}
+
 .tc-a {
   font-size: 12.5px;
   color: rgba(244, 238, 220, .5);

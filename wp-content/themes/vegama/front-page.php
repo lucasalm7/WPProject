@@ -160,9 +160,9 @@
 
         <div class="mc">
           <?php if ( has_post_thumbnail() ) : ?>
-            <?php the_post_thumbnail( 'medium', array(
-                'style' => 'width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block;'
-            ) ); ?>
+            <div class="mc-img">
+            <?php the_post_thumbnail( 'medium' ); ?>
+          </div>
           <?php endif; ?>
           <div class="mc-name"><?php the_title(); ?></div>
           <div class="mc-price"><?php echo esc_html( $price ); ?></div>
