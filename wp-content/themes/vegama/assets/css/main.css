@@ -674,6 +674,13 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   gap: 18px;
   margin-top: 50px;
 }
+
+@media (max-width: 500px) {
+  .merch-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
 .mc {
   background: rgba(255,255,255,.065);
   border: 1px solid rgba(255,255,255,.1);
@@ -786,8 +793,9 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 }
 
 .tc-author img {
-  width: 44px;
-  height: 44px;
+  width: 44px !important;
+  height: 44px !important;
+  max-width: 44px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -1193,14 +1201,14 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   justify-content: center;
 }
 
-.form-step { 
-        display: none; 
+.form-step {
+        display: none;
     }
-    .form-step.active { 
-        display: block; 
+    .form-step.active {
+        display: block;
     }
-    .conv-options { 
-        display: flex; flex-direction: column; gap: 10px; margin: 20px 0; 
+    .conv-options {
+        display: flex; flex-direction: column; gap: 10px; margin: 20px 0;
     }
     .conv-btn,
 
@@ -1226,7 +1234,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
         border-color: var(--sage);
         transform: translateY(-1px);
     }
-    
+
     .btn-primary,
     .btn-primary--dark {
     border: none;
@@ -1236,13 +1244,13 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
     box-shadow: none;
 }
 
-    .conv-back-btn { 
-        background: none; 
-        border: none; 
-        color: #666; 
-        cursor: pointer; 
-        padding: 5px 0; 
-        margin-top: 15px; 
+    .conv-back-btn {
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 5px 0;
+        margin-top: 15px;
         font-size: 13px;
         }
 
