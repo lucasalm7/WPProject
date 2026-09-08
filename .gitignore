@@ -10,7 +10,6 @@
 # Do not ignore wp-content and everything inside it
 !wp-content/
 !wp-content/themes/**/*
-wp-content/uploads/
 
 wp-content/themes/twenty*/**
 wp-content/themes/index.php

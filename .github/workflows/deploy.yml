@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP
+      - name: Deploy theme via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ftp.simply.com
@@ -28,3 +28,19 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .DS_Store
+
+      - name: Deploy .htaccess via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ftp.simply.com
+          username: vegama.dk
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /public_html/
+          protocol: ftps
+          port: 21
+          include: |
+            .htaccess
+          exclude: |
+            **
+            !.htaccess
