@@ -370,3 +370,6 @@ function vegama_remove_comment_url_field($fields) {
 }
 add_filter('comment_form_default_fields', 'vegama_remove_comment_url_field');
 add_filter('wp_editor_set_quality', function($arg){ return 75; });
+
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
