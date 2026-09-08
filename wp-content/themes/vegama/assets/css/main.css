@@ -239,19 +239,25 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
+  order: 3;
 }
 .nav-burger span {
   display: block;
   width: 24px;
   height: 2px;
   background: var(--parch);
-  transition: all 0.3s;
+  border-radius: 2px;
+  transition: all 0.25s;
 }
 .site-header.solid .nav-burger span { background: var(--txt); }
+.nav-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.active span:nth-child(2) { opacity: 0; }
+.nav-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 860px) {
   .nav-burger { display: flex; }
+
   .nav-links {
     display: none;
     flex-direction: column;
@@ -262,12 +268,15 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
     background: var(--parch);
     padding: 20px clamp(20px, 5vw, 64px);
     gap: 16px;
-    border-bottom: 1px solid rgba(24,95,48,.1);
+    border-bottom: 1px solid rgba(24,95,48,.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    list-style: none;
+    margin: 0;
+    z-index: 999;
   }
   .nav-links.open { display: flex; }
-  .nav-links a { color: var(--txt) !important; font-size: 15px; }
+  .nav-links a { color: var(--txt) !important; font-size: 15px; font-weight: 600; }
 }
-
 /* ── Auth Modal ──────────────────────────────────────────────── */
 .mo {
   position: fixed;
@@ -750,13 +759,26 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   line-height: 1.45;
   margin-bottom: 14px;
 }
-.tc img {
-  width: 56px;
-  height: 56px;
+.tc-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.tc-author img {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 12px;
-  display: block;
+  flex-shrink: 0;
+}
+
+.tc-a {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--parch);
+  margin: 0;
 }
 .tc-a {
   font-size: 12.5px;
