@@ -57,6 +57,7 @@
     <?php endif; ?>
   </div>
 </div>
+
 <!-- ── /AUTH MODAL ─────────────────────────────────────────── -->
 
 <header class="site-header<?php echo is_page( 'about' ) ? ' about-header' : ''; ?>" id="site-header">

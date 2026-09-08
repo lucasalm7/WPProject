@@ -94,12 +94,16 @@
     </div>
     <div class="rec-rail">
       <?php
+      // Find the recipe category regardless of whether slug is 'recipe' or 'recipes'
+      $recipe_cat = get_category_by_slug( 'recipes' ) ?: get_category_by_slug( 'recipe' );
       $args = array(
         'post_type'      => 'post',
         'posts_per_page' => 8,
-        'category_name'  => 'Recipe',
         'post_status'    => 'publish',
       );
+      if ( $recipe_cat ) {
+        $args['cat'] = $recipe_cat->term_id;
+      }
       $query = new WP_Query( $args );
       if ( $query->have_posts() ) :
         while ( $query->have_posts() ) : $query->the_post();
@@ -160,9 +164,9 @@
 
         <div class="mc">
           <?php if ( has_post_thumbnail() ) : ?>
-            <?php the_post_thumbnail( 'medium', array(
-                'style' => 'width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block;'
-            ) ); ?>
+            <div class="mc-img">
+            <?php the_post_thumbnail( 'medium' ); ?>
+          </div>
           <?php endif; ?>
           <div class="mc-name"><?php the_title(); ?></div>
           <div class="mc-price"><?php echo esc_html( $price ); ?></div>
@@ -204,17 +208,20 @@
       ?>
 
         <div class="tc">
-        <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
-        <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
-        <div class="tc-author-row">
-          <?php if ( has_post_thumbnail() ) : ?>
-       <div class="tc-avatar">
-         <?php the_post_thumbnail( 'thumbnail', ['alt' => esc_attr( $author )] ); ?>
-      </div>
-         <?php endif; ?>
-       <p class="tc-a"><?php echo esc_html( $author ); ?></p>
-     </div>
-    </div>
+          <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
+          <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
+          <div class="tc-author-row">
+            <?php if ( has_post_thumbnail() ) : ?>
+              <div class="tc-avatar">
+                <?php the_post_thumbnail( 'thumbnail', array( 'alt' => esc_attr( $author ) ) ); ?>
+              </div>
+            <?php else : ?>
+              <?php $initial = strtoupper( substr( $author, 0, 1 ) ); ?>
+              <span class="tc-avatar" aria-hidden="true"><?php echo esc_html( $initial ); ?></span>
+            <?php endif; ?>
+            <p class="tc-a"><?php echo esc_html( $author ); ?></p>
+          </div>
+        </div>
 
       <?php
           endwhile;
