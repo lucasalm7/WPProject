@@ -94,12 +94,16 @@
     </div>
     <div class="rec-rail">
       <?php
+      // Find the recipe category regardless of whether slug is 'recipe' or 'recipes'
+      $recipe_cat = get_category_by_slug( 'recipes' ) ?: get_category_by_slug( 'recipe' );
       $args = array(
         'post_type'      => 'post',
         'posts_per_page' => 8,
-        'category_name'  => 'Recipe',
         'post_status'    => 'publish',
       );
+      if ( $recipe_cat ) {
+        $args['cat'] = $recipe_cat->term_id;
+      }
       $query = new WP_Query( $args );
       if ( $query->have_posts() ) :
         while ( $query->have_posts() ) : $query->the_post();
@@ -207,9 +211,7 @@
         <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
            <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
            <div class="tc-author">
-           <?php if ( has_post_thumbnail() ) : ?>
-             <?php the_post_thumbnail( 'thumbnail' ); ?>
-           <?php endif; ?>
+           <?php if ( has_post_thumbnail() ) : the_post_thumbnail( 'thumbnail' ); else : $initial = strtoupper( substr( $author, 0, 1 ) ); echo '<span class="tc-avatar">' . esc_html( $initial ) . '</span>'; endif; ?>
            <p class="tc-a"><?php echo esc_html( $author ); ?></p>
           </div>
         </div>

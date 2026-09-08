@@ -792,6 +792,20 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   object-fit: cover;
   flex-shrink: 0;
 }
+.tc-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fd);
+  font-weight: 900;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
 
 
 .tc-a {
