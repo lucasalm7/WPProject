@@ -369,3 +369,4 @@ function vegama_remove_comment_url_field($fields) {
     return $fields;
 }
 add_filter('comment_form_default_fields', 'vegama_remove_comment_url_field');
+add_filter('wp_editor_set_quality', function($arg){ return 75; });
