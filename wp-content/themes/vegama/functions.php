@@ -313,7 +313,7 @@ function vegama_register_testimonial_cpt() {
         'show_in_menu'       => true,
         'menu_icon'          => 'dashicons-format-quote',
         'menu_position'      => 7,
-        'supports'           => array( 'title' ),
+        'supports' => array( 'title', 'thumbnail' ),
     ) );
 }
 add_action( 'init', 'vegama_register_testimonial_cpt' );
