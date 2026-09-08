@@ -211,9 +211,15 @@
         <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
            <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
            <div class="tc-author">
-           <?php if ( has_post_thumbnail() ) : the_post_thumbnail( 'thumbnail' ); else : $initial = strtoupper( substr( $author, 0, 1 ) ); echo '<span class="tc-avatar">' . esc_html( $initial ) . '</span>'; endif; ?>
-           <p class="tc-a"><?php echo esc_html( $author ); ?></p>
+            <?php if ( has_post_thumbnail() ) : ?>
+              <div class="tc-avatar-wrap">
+            <?php the_post_thumbnail( 'thumbnail' ); ?>
           </div>
+          <?php else : ?>
+          <?php $initial = strtoupper( substr( $author, 0, 1 ) ); ?>
+          <span class="tc-avatar"><?php echo esc_html( $initial ); ?></span>
+            <?php endif; ?>
+            <p class="tc-a"><?php echo esc_html( $author ); ?></p>
         </div>
 
       <?php
