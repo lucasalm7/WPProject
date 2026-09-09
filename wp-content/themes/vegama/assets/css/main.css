@@ -794,14 +794,29 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   gap: 12px;
   margin-top: 16px;
 }
-
-.tc-author img {
-  width: 44px !important;
-  height: 44px !important;
-  max-width: 44px;
+.tc-avatar-wrap {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden;
   flex-shrink: 0;
+  position: relative;
+}
+
+.tc-avatar-wrap figure {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.tc-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  position: absolute;
 }
 .tc-avatar {
   width: 44px;

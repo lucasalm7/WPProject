@@ -221,6 +221,7 @@
             <?php endif; ?>
             <p class="tc-a"><?php echo esc_html( $author ); ?></p>
         </div>
+        </div>
 
       <?php
           endwhile;
