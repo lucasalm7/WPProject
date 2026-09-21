@@ -1081,3 +1081,28 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
     grid-template-columns: 1fr;
   }
 }
+
+/* Skip link — WCAG 2.4.1 */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  padding: 12px 24px;
+  background: #185f30;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  z-index: 99999;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+}

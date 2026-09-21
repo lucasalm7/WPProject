@@ -7,8 +7,10 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<header class="site-header" id="site-header">
-  <nav class="site-nav">
+<a class="skip-link screen-reader-text" href="#main">Skip to content</a>
+
+<header class="site-header" id="site-header" role="banner">
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-logo" rel="home">
       <svg class="nav-mark" viewBox="39 37 200 200" width="38" height="38" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <circle cx="138.8" cy="137.4" r="99.5" fill="#f4eedc"/>
@@ -19,12 +21,12 @@
         <span class="nav-sub">PLANT KITCHEN</span>
       </div>
     </a>
-     <ul class="nav-links">
-      <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>">Shop</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>">Recipes</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">Blog</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>">Classes</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/corporate' ) ); ?>">Corporate</a></li>
+    <<ul class="nav-links">
+    <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" <?php echo is_page('shop') ? 'aria-current="page"' : ''; ?>>Shop</a></li>
+    <li><a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" <?php echo is_page('recipes') ? 'aria-current="page"' : ''; ?>>Recipes</a></li>
+    <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" <?php echo is_page('blog') ? 'aria-current="page"' : ''; ?>>Blog</a></li>
+    <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" <?php echo is_page('classes') ? 'aria-current="page"' : ''; ?>>Classes</a></li>
+    <li><a href="<?php echo esc_url( home_url( '/corporate' ) ); ?>" <?php echo is_page('corporate') ? 'aria-current="page"' : ''; ?>>Corporate</a></li>
     </ul>
         <div class="nav-right">
       <a href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart' ) ); ?>" class="cart-btn" aria-label="Cart">

@@ -1,4 +1,4 @@
-<footer class="site-footer">
+<footer class="site-footer" role="contentinfo">
   <div class="ft-inner">
 
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" 

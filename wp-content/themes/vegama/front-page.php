@@ -7,8 +7,8 @@
     <h1 class="hero-h1">Master the art<br>of <em>plants.</em></h1>
     <p class="hero-sub">Recipes, cookbooks, and immersive cooking experiences for people who believe food can be both ethical and extraordinary.</p>
     <div class="hero-ctas">
-      <a href="/shop" class="btn-primary">Explore the kitchen</a>
-      <a href="/blog" class="btn-ghost">Book a masterclass</a>
+      <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-primary">Explore the kitchen</a>
+      <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="btn-ghost">Book a masterclass</a>
     </div>
     <div class="hero-stats">
       <div><div class="stat-n">2.4k+</div><div class="stat-l">Community</div></div>
@@ -310,7 +310,8 @@
       <h2 class="nl-h">Recipes in your<br><em>inbox.</em> Weekly.</h2>
          <p class="nl-sub">Join 2,400+ plant-based cooks. One recipe, one story, early access to new class dates — every Wednesday.</p>
       <form class="nl-form" action="#" method="post">
-          <input type="email" name="nl_email" placeholder="your@email.com" required>
+          <label for="nl-email" class="screen-reader-text">Email address</label>
+          <input type="email" id="nl-email" name="nl_email" placeholder="your@email.com" required>
            <button type="submit">Subscribe</button>
          </form>
      </div>
