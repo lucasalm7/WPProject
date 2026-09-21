@@ -24,7 +24,7 @@
 
             <?php if (has_post_thumbnail()): // Check if the post has a featured image ?>
                 <div class="single-post-image">
-                    <?php the_post_thumbnail('large'); // Output the featured image ?>
+                    <?php the_post_thumbnail('large', array('alt' => esc_attr( get_the_title() ))); ?>
                 </div>
             <?php endif; ?>
 
