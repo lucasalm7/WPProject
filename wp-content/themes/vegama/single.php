@@ -22,7 +22,7 @@
 
             <?php if (has_post_thumbnail()):  ?>
                 <div class="single-post-image">
-                    <?php the_post_thumbnail('large'); ?>
+                    <?php the_post_thumbnail('large', array('alt' => esc_attr( get_the_title() ))); ?>
                 </div>
             <?php endif; ?>
 

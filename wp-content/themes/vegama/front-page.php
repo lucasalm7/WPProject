@@ -2,15 +2,20 @@
 
 <main id="main" class="site-main">
 
- <section id="hero">
-  <p class="hero-eyebrow">Vegan Cooking · Esbjerg · Denmark</p>
-  <h1 class="hero-h1">Plant-based<br><em>culture.</em></h1>
-  <p class="hero-sub">Recipes, cookbooks, and immersive cooking experiences for people who believe food can be both ethical and extraordinary.</p>
-  <div class="hero-ctas">
-    <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-primary">Explore the kitchen</a>
-    <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-ghost">Book a masterclass</a>
-  </div>
-</section>
+  <section id="hero">
+    <p class="hero-eyebrow">Plant-Based · Artisan · Esbjerg</p>
+    <h1 class="hero-h1">Master the art<br>of <em>plants.</em></h1>
+    <p class="hero-sub">Recipes, cookbooks, and immersive cooking experiences for people who believe food can be both ethical and extraordinary.</p>
+    <div class="hero-ctas">
+      <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-primary">Explore the kitchen</a>
+      <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="btn-ghost">Book a masterclass</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">2.4k+</div><div class="stat-l">Community</div></div>
+      <div><div class="stat-n">140+</div><div class="stat-l">Free recipes</div></div>
+      <div><div class="stat-n">96%</div><div class="stat-l">Class rating</div></div>
+    </div>
+    </section>
 
   <div class="marquee-band" aria-hidden="true">
     <div class="marquee-track">
@@ -240,7 +245,8 @@
     <h2 class="nl-h">Plant-based recipes<br>in your <em>inbox.</em></h2>
     <p class="nl-sub">Join 2,400+ plant-based cooks across Scandinavia. One seasonal recipe, one story, and early access to new class dates, every Wednesday.</p>
     <form class="nl-form" id="nlForm">
-      <input type="email" name="email" placeholder="your@email.com" required>
+          <label for="nl-email" class="screen-reader-text">Email address</label>
+      <input type="email" id="nl-email" name="email" placeholder="your@email.com" required>
       <button type="submit">Subscribe</button>
     </form>
     <p id="nlMsg" style="display:none;margin-top:16px;color:var(--sage);font-weight:700;font-size:14px;">

@@ -166,6 +166,89 @@ function vegama_handle_about_form() {
 add_action( 'wp_ajax_vegama_about_form', 'vegama_handle_about_form' );
 add_action( 'wp_ajax_nopriv_vegama_about_form', 'vegama_handle_about_form' );
 
+function vegama_seo_meta() {
+    global $post;
+
+    if ( is_singular() && $post ) {
+        $desc = get_post_meta( $post->ID, '_meta_description', true );
+        if ( ! $desc ) {
+            $desc = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 25, '…' );
+        }
+    } elseif ( is_home() || is_front_page() ) {
+        $desc = 'Plant-based recipes, artisan cookbooks, and vegan cooking masterclasses in Esbjerg, Denmark.';
+    } else {
+        $desc = get_bloginfo( 'description' );
+    }
+    $desc = esc_attr( wp_strip_all_tags( $desc ) );
+
+    $og_image = '';
+    if ( is_singular() && has_post_thumbnail() ) {
+        $img      = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
+        $og_image = $img ? esc_url( $img[0] ) : '';
+    }
+    if ( ! $og_image ) {
+        $og_image = esc_url( get_template_directory_uri() . '/assets/img/og-default.jpg' );
+    }
+
+    $url   = esc_url( get_permalink() ?: home_url( '/' ) );
+    $title = esc_attr( get_the_title() ?: get_bloginfo( 'name' ) );
+    $site  = esc_attr( get_bloginfo( 'name' ) );
+
+    echo '<meta name="description" content="' . $desc . '">' . "\n";
+    echo '<link rel="canonical" href="' . $url . '">' . "\n";
+    echo '<meta property="og:type"        content="' . ( is_singular() ? 'article' : 'website' ) . '">' . "\n";
+    echo '<meta property="og:url"         content="' . $url . '">' . "\n";
+    echo '<meta property="og:title"       content="' . $title . '">' . "\n";
+    echo '<meta property="og:description" content="' . $desc . '">' . "\n";
+    echo '<meta property="og:image"       content="' . $og_image . '">' . "\n";
+    echo '<meta property="og:site_name"   content="' . $site . '">' . "\n";
+    echo '<meta property="og:locale"      content="en_DK">' . "\n";
+    echo '<meta name="twitter:card"        content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title"       content="' . $title . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . $desc . '">' . "\n";
+    echo '<meta name="twitter:image"       content="' . $og_image . '">' . "\n";
+}
+add_action( 'wp_head', 'vegama_seo_meta', 5 );
+
+function vegama_recipe_schema() {
+    if ( ! is_singular( 'post' ) ) return;
+
+    global $post;
+
+    $recipe_cat = get_category_by_slug( 'recipes' ) ?: get_category_by_slug( 'recipe' );
+    if ( $recipe_cat ) {
+        $in = false;
+        foreach ( get_the_category( $post->ID ) as $cat ) {
+            if ( $cat->term_id === $recipe_cat->term_id ) { $in = true; break; }
+        }
+        if ( ! $in ) return;
+    }
+
+    $image_url = '';
+    if ( has_post_thumbnail( $post->ID ) ) {
+        $img       = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+        $image_url = $img ? $img[0] : '';
+    }
+
+    $schema = array(
+        '@context'       => 'https://schema.org',
+        '@type'          => 'Recipe',
+        'name'           => get_the_title( $post->ID ),
+        'description'    => wp_strip_all_tags( wp_trim_words( get_the_content(), 30, '…' ) ),
+        'datePublished'  => get_the_date( 'c', $post->ID ),
+        'author'         => array( '@type' => 'Person', 'name' => get_the_author_meta( 'display_name', $post->post_author ) ),
+        'url'            => get_permalink( $post->ID ),
+        'publisher'      => array( '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ),
+        'recipeCategory' => 'Vegan',
+        'recipeCuisine'  => 'Plant-based',
+        'keywords'       => 'vegan, plant-based, recipe, Denmark',
+    );
+    if ( $image_url ) $schema['image'] = array( $image_url );
+
+    echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'vegama_recipe_schema', 10 );
+
 add_action( 'wp_ajax_nopriv_vegama_login', 'vegama_handle_login' );
 function vegama_handle_login() {
     check_ajax_referer( 'vegama_login', 'login_nonce' );
