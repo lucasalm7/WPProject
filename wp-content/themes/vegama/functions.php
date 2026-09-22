@@ -6,8 +6,33 @@ function vegama_setup() {
 }
 add_action( 'after_setup_theme', 'vegama_setup' );
 function vegama_scripts() {
-    wp_enqueue_style( 'vegama-style', get_template_directory_uri() . '/assets/css/main.css', [], '1.0.0' );
-    wp_enqueue_script( 'vegama-js', get_template_directory_uri() . '/assets/js/main.js', [], '1.0.0', true );
+    $dir = get_template_directory();
+    $uri = get_template_directory_uri();
+
+    $css = function ( $handle, $file, $deps = [ 'vegama-style' ] ) use ( $dir, $uri ) {
+        $path = '/assets/css/' . $file;
+        wp_enqueue_style( $handle, $uri . $path, $deps, filemtime( $dir . $path ) );
+    };
+
+    $css( 'vegama-style', 'main.css', [] );
+
+    if ( is_front_page() ) {
+        $css( 'vegama-home', 'home.css' );
+    }
+    if ( is_page( [ 'about', 'sustainability' ] ) ) {
+        $css( 'vegama-about', 'about.css' );
+    }
+    if ( is_home() || is_archive() || is_search() || is_page( 'recipes' ) ) {
+        $css( 'vegama-blog', 'blog.css' );
+    }
+    if ( is_page( 'recipes' ) ) {
+        $css( 'vegama-recipes', 'recipes.css' );
+    }
+    if ( is_singular( 'post' ) ) {
+        $css( 'vegama-single', 'single.css' );
+    }
+
+    wp_enqueue_script( 'vegama-js', $uri . '/assets/js/main.js', [], filemtime( $dir . '/assets/js/main.js' ), true );
 }
 
 add_action( 'wp_enqueue_scripts', 'vegama_scripts' );

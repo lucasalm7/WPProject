@@ -16,7 +16,6 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
 </script>
 
 <main class="sustainability-page">
-    <!-- Hero Section -->
     <section class="about-hero">
         <div class="about-hero__inner">
             <p class="sec-eye">Our Footprint & Impact</p>
@@ -25,7 +24,6 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
         </div>
     </section>
 
-    <!-- Initiative 1 -->
     <section class="about-layout" style="align-items: center">
         <div class="about-copy">
             <div class="about-card" style="height: 100%;">
@@ -45,7 +43,6 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
         </div>
     </section>
 
-    <!-- Initiative 2 -->
     <section class="about-layout" style="align-items: center; direction: rtl;">
         <div class="about-copy" style="direction: ltr;">
             <div class="about-card" style="height: 100%;">
@@ -71,7 +68,6 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
     </div>
     </section>
 
-    <!-- Initiative 3 -->
     <section class="about-layout" style="align-items: center;">
         <div class="about-copy">
             <div class="about-card" style="height: 100%;">
