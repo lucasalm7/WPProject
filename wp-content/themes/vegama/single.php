@@ -27,21 +27,21 @@
             <?php endif; ?>
 
             <div class="single-post-body">
-                <?php echo $content; ?>
+              <?php echo wp_kses_post( $content ); ?>
             </div>
 
             <?php if ($categories || $tags):  ?>
                 <div class="single-post-taxonomy">
                     <?php if ($categories):  ?>
                         <?php foreach ($categories as $category): ?>
-                            <a href="<?php echo get_category_link($category->term_id);  ?>">
+                            <a href="<?php echo esc_url( get_category_link($category->term_id) );  ?>">
                                 <?php echo esc_html($category->name); ?>
                             </a>
                         <?php endforeach; ?>
                     <?php endif; ?>
                     <?php if ($tags):?>
                         <?php foreach ($tags as $tag): ?>
-                            <a href="<?php echo get_tag_link($tag->term_id); ?>">
+                            <a href="<?php echo esc_url( get_tag_link($tag->term_id) ); ?>">
                                 #<?php echo esc_html($tag->name);  ?>
                             </a>
                         <?php endforeach; ?>
