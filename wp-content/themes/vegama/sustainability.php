@@ -35,8 +35,7 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
         </div>
         <div class="about-form-wrap">
             <div class="about-form-card" style="background: #fff; padding: 20px; border-radius: 16px; border: 1px solid rgba(24, 95, 48, 0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden;">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/initiative1.webp" alt="Regenerative Danish farmland and micro-seasonal root vegetables" style="width: 100%; height: auto; border-radius: 12px; margin-bottom: 20px; display: block;" />
-                <h3 style="color: var(--txt); margin-bottom: 10px;">Rooted in the Soil</h3>
+            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/initiative1.webp' ); ?>" alt="Regenerative Danish farmland and micro-seasonal root vegetables" style="width: 100%; height: auto; border-radius: 12px; margin-bottom: 20px; display: block;" />                <h3 style="color: var(--txt); margin-bottom: 10px;">Rooted in the Soil</h3>
                 <p style="color: #555; line-height: 1.6; font-style: italic;">"When you cook with root vegetables harvested just 20 kilometers away after the first autumn frost, the flavor speaks for itself. Sustainability doesn't require complexity; it requires listening to the land and honoring its natural capacity."</p>
                 <p style="margin-top: 15px; font-weight: bold; font-size: 14px; color: var(--sage);">— The Vegama Kitchen Manifesto</p>
             </div>
