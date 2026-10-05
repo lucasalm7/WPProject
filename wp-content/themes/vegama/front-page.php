@@ -239,6 +239,12 @@
   <div class="nl-inner">
     <h2 class="nl-h">Plant-based recipes<br>in your <em>inbox.</em></h2>
     <p class="nl-sub">Join 2,400+ plant-based cooks across Scandinavia. One seasonal recipe, one story, and early access to new class dates, every Wednesday.</p>
+      <!--
+      Newsletter form: submits directly to the external SimplyForms API,
+      not to WordPress. A WordPress CSRF nonce does not apply here because
+      no state-changing action runs on this site — the third-party service
+      is responsible for its own request validation.
+    -->
     <form class="nl-form" id="nlForm">
           <label for="nl-email" class="screen-reader-text">Email address</label>
       <input type="email" id="nl-email" name="email" placeholder="your@email.com" required>
