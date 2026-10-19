@@ -4,6 +4,14 @@ function vegama_setup() {
     add_theme_support( 'post-thumbnails' );
     register_nav_menus( [ 'primary' => __( 'Primary Menu', 'vegama' ) ] );
 }
+// WooCommerce: declare theme support (Classic theme handbook)
+function vegama_add_woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+    add_theme_support( 'wc-product-gallery-zoom' );
+    add_theme_support( 'wc-product-gallery-lightbox' );
+    add_theme_support( 'wc-product-gallery-slider' );
+}
+add_action( 'after_setup_theme', 'vegama_add_woocommerce_support' );
 add_action( 'after_setup_theme', 'vegama_setup' );
 function vegama_scripts() {
     $dir = get_template_directory();
