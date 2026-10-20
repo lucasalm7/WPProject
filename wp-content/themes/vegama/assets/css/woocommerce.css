@@ -101,6 +101,7 @@ body.admin-bar.woocommerce-page .site-header {
   color: var(--parch) !important;
   line-height: 1.02 !important;
   letter-spacing: -0.03em !important;
+  padding-left: 5%;
 }
 
 /* 3. Control bar (count + sorting) */
