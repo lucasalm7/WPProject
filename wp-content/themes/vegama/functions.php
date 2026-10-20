@@ -485,3 +485,24 @@ function vegama_remove_comment_url_field($fields) {
     return $fields;
 }
 add_filter('comment_form_default_fields', 'vegama_remove_comment_url_field');
+
+function vegama_enqueue_woocommerce_styles() {
+    if ( class_exists( 'WooCommerce' ) ) {
+        wp_enqueue_style(
+            'vegama-woocommerce',
+            get_template_directory_uri() . '/assets/css/woocommerce.css',
+            array(),
+            '1.0.0'
+        );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'vegama_enqueue_woocommerce_styles' );
+
+// Declare WooCommerce Support
+function vegama_add_woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+    add_theme_support( 'wc-product-gallery-zoom' );
+    add_theme_support( 'wc-product-gallery-lightbox' );
+    add_theme_support( 'wc-product-gallery-slider' );
+}
+add_action( 'after_setup_theme', 'vegama_add_woocommerce_support' );
