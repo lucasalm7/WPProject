@@ -1,3 +1,27 @@
+/* Override .site-header on shop/product pages only */
+body.woocommerce-shop .site-header,
+body.woocommerce-page .site-header,
+body.post-type-archive-product .site-header {
+  /* change only what's causing the issue, e.g.: */
+  position: sticky !important;   /* or relative / fixed, depending on what you want */
+  top: 0 !important;
+  background: var(--sage) !important;
+  z-index: 100 !important;
+}
+
+/* Keep the admin bar from covering it while logged in */
+body.admin-bar.woocommerce-shop .site-header,
+body.admin-bar.woocommerce-page .site-header {
+  top: 32px !important;
+}
+
+@media (max-width: 782px) {
+  body.admin-bar.woocommerce-shop .site-header,
+  body.admin-bar.woocommerce-page .site-header {
+    top: 46px !important;
+  }
+}
+
 
 .woocommerce-shop,
 .woocommerce-page,
