@@ -491,8 +491,8 @@ function vegama_enqueue_woocommerce_styles() {
         wp_enqueue_style(
             'vegama-woocommerce',
             get_template_directory_uri() . '/assets/css/woocommerce.css',
-            array(),
-            '1.0.0'
+            array( 'main-style' ), // Replace 'main-style' with your main CSS handle if different
+            filemtime( get_template_directory() . '/assets/css/woocommerce.css' ) // Auto-busts cache on file save
         );
     }
 }
