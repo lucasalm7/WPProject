@@ -2,13 +2,10 @@
 .woocommerce-shop,
 .woocommerce-page,
 .post-type-archive-product {
-  --card-bg: rgba(255, 255, 255, 0.08);
-  --card-border: rgba(255, 255, 255, 0.12);
-  --coral: #d9735a;
-  --muted: rgba(245, 240, 225, 0.55);
-  background: var(--sage) !important;
+  --gutter: clamp(20px, 5vw, 72px);
+  --shop-w: min(1240px, calc(100% - 2 * var(--gutter)));
+  --shop-edge: calc((100% - var(--shop-w)) / 2); 
 }
-
 /* 1. Buttons: lime pill, like the active filter */
 .woocommerce .button,
 .woocommerce a.button,
@@ -42,34 +39,25 @@
 }
 
 /* 2. Header: same green as the page, left-aligned, no separate banner */
-.woocommerce-shop .woocommerce-products-header,
-.woocommerce .woocommerce-products-header {
+.woocommerce-products-header {
   background: transparent !important;
-  color: var(--parch) !important;
-  text-align: left !important;
-  padding: 140px clamp(20px, 5vw, 72px) 30px !important;
-  margin: 0 auto 10px !important;
-  max-width: 1240px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.woocommerce .woocommerce-products-header::before {
-  content: "THE STORE";
-  display: block;
-  margin: 0 0 12px 0;
-  font-family: var(--fb);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  color: var(--parch);
-  opacity: 0.7;
-  text-transform: uppercase;
-}
-
-.woocommerce .woocommerce-products-header .page-title,
-.woocommerce h1.page-title {
+  padding: 0 !important;
   margin: 0 !important;
+  width: 100% !important;
+}
+
+.woocommerce-products-header::before {
+  display: none !important;
+}
+
+.woocommerce h1.page-title,
+.woocommerce-page h1.page-title,
+.woocommerce-products-header__title {
+  width: var(--shop-w) !important;
+  max-width: none !important;
+  margin: 0 auto 28px !important;
+  padding: 140px 0 0 !important;
+  text-align: left !important;
   font-family: var(--fd) !important;
   font-style: italic !important;
   font-weight: 900 !important;
@@ -79,31 +67,41 @@
   letter-spacing: -0.03em !important;
 }
 
-/* 3. Control bar (count + sorting) */
-.woocommerce-shop .site-main,
-.woocommerce-page .site-main {
-  max-width: 1240px;
-  margin: 0 auto;
+/* Eyebrow label above the title */
+.woocommerce h1.page-title::before,
+.woocommerce-page h1.page-title::before,
+.woocommerce-products-header__title::before {
+  content: "THE STORE";
+  display: block;
+  margin-bottom: 12px;
+  font-family: var(--fb);
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--parch);
+  opacity: 0.7;
 }
 
+
+/* 3. Control bar (count + sorting) */
 .woocommerce .woocommerce-result-count {
+  float: left !important;
+  margin: 0 0 24px var(--shop-edge) !important;
+  padding: 0 !important;
   font-family: var(--fb) !important;
   font-size: 13.5px !important;
   font-weight: 600 !important;
-  color: var(--muted) !important;
-  margin: 0 0 24px 0 !important;
-  padding-left: clamp(20px, 5vw, 72px) !important;
-  float: left !important;
+  color: var(--muted, rgba(245, 240, 225, 0.55)) !important;
   line-height: 42px !important;
 }
 
 .woocommerce .woocommerce-ordering {
-  margin: 0 0 24px 0 !important;
-  padding-right: clamp(20px, 5vw, 72px) !important;
   float: right !important;
+  margin: 0 var(--shop-edge) 24px 0 !important;
+  padding: 0 !important;
 }
 
-/* Sorting select styled like the .cat-pill filters */
 .woocommerce .woocommerce-ordering select {
   font-family: var(--fb) !important;
   font-size: 13.5px !important;
@@ -116,6 +114,7 @@
   outline: none !important;
   cursor: pointer !important;
   box-shadow: none !important;
+  margin: 0 !important;
 }
 
 .woocommerce .woocommerce-ordering select option {
@@ -123,7 +122,6 @@
   background: #fff;
 }
 
-/* Clearfix */
 .woocommerce-page::after,
 .woocommerce-shop .site-main::after {
   content: "";
@@ -133,19 +131,15 @@
 
 /* 4. Product grid */
 .woocommerce ul.products {
-  max-width: 1240px !important;
-  margin: 0 auto 80px auto !important;
-  padding: 0 clamp(20px, 5vw, 72px) !important;
+  width: var(--shop-w) !important;
+  max-width: none !important;
+  margin: 0 auto 80px !important;
+  padding: 0 !important;
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 32px !important;
   clear: both !important;
   box-sizing: border-box !important;
-}
-
-.woocommerce ul.products::before,
-.woocommerce ul.products::after {
-  display: none !important;
 }
 
 /* Product cards: translucent, rounded, image flush to the top */
