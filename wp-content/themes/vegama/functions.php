@@ -30,8 +30,8 @@ function vegama_scripts() {
     $css( 'vegama-style', 'main.css', [] );
 
     // WooCommerce Styles (Loads on all WC pages or single product pages)
-    if ( class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) ) {
-        $css( 'vegama-woocommerce', 'woocommerce.css', [ 'vegama-style' ] );
+    if ( class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_shop() || is_product_taxonomy() || is_cart() || is_checkout() || is_account_page() ) ) {
+            $css( 'vegama-woocommerce', 'woocommerce.css', [ 'vegama-style' ] );
     }
 
     if ( is_front_page() ) {

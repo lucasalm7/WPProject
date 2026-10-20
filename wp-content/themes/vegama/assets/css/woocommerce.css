@@ -2,7 +2,7 @@
    VEGAMA WOOCOMMERCE SHOP & PRODUCT STYLES
    ========================================== */
 
-/* 1. Global WooCommerce Overrides & Buttons */
+/* 1. Botões Globais do WooCommerce */
 .woocommerce .button,
 .woocommerce a.button,
 .woocommerce button.button,
@@ -33,28 +33,16 @@
   transform: translateY(-2px);
 }
 
-/* 2. Shop Hero Header (Matches Recipes Hero Layout Exactly) */
+/* 2. Banner Principal da Loja (Verde Escuro) */
+.woocommerce-shop .woocommerce-products-header,
 .woocommerce .woocommerce-products-header {
-  background: var(--sage);
-  color: var(--parch);
-  text-align: left;
-  padding: clamp(100px, 12vw, 150px) clamp(20px, 5vw, 72px) 60px;
-  margin: 0 0 40px 0 !important;
-  width: 100%;
-}
-
-/* Constrain inner content to 1240px and align to left card edge */
-.woocommerce .woocommerce-products-header .page-title,
-.woocommerce h1.page-title {
-  max-width: 1240px !important;
-  margin: 0 auto !important;
-  font-family: var(--fd) !important;
-  font-style: italic !important;
-  font-weight: 900 !important;
-  font-size: clamp(2.8rem, 7vw, 5rem) !important;
+  background: var(--sage) !important;
   color: var(--parch) !important;
-  line-height: 1.02 !important;
-  letter-spacing: -0.03em !important;
+  text-align: left !important;
+  padding: 140px clamp(20px, 5vw, 72px) 60px !important;
+  margin: 0 0 40px 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .woocommerce .woocommerce-products-header::before {
@@ -69,36 +57,40 @@
   text-transform: uppercase;
 }
 
-/* 3. Shop Utilities Toolbar (Result Count & Sorting Dropdown) */
-/* Wrapper alignment container matching the product grid boundaries */
-.woocommerce-page .woocommerce-result-count,
-.woocommerce-page .woocommerce-ordering {
-  float: none !important;
+.woocommerce .woocommerce-products-header .page-title,
+.woocommerce h1.page-title {
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+  font-family: var(--fd) !important;
+  font-style: italic !important;
+  font-weight: 900 !important;
+  font-size: clamp(2.8rem, 7vw, 5rem) !important;
+  color: var(--parch) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.03em !important;
 }
 
-/* Outer layout wrapper for the shop controls */
-.woocommerce-shop .site-main {
+/* 3. Barra de Controlo (Contador e Ordenação) */
+.woocommerce-shop .site-main,
+.woocommerce-page .site-main {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 72px);
 }
 
-/* Precise Left Alignment to 1st Card */
 .woocommerce .woocommerce-result-count {
   font-family: var(--fb) !important;
   font-size: 13.5px !important;
   font-weight: 600 !important;
   color: rgba(26, 46, 31, 0.6) !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0 0 20px 0 !important;
+  padding-left: clamp(20px, 5vw, 72px) !important;
   float: left !important;
   line-height: 42px !important;
 }
 
-/* Precise Right Alignment to Last Card */
 .woocommerce .woocommerce-ordering {
-  margin: 0 0 30px 0 !important;
-  padding: 0 !important;
+  margin: 0 0 20px 0 !important;
+  padding-right: clamp(20px, 5vw, 72px) !important;
   float: right !important;
 }
 
@@ -114,15 +106,17 @@
   outline: none !important;
   cursor: pointer !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-  transition: border-color 0.2s !important;
 }
 
-.woocommerce .woocommerce-ordering select:focus,
-.woocommerce .woocommerce-ordering select:hover {
-  border-color: var(--sage) !important;
+/* Clearfix para manter a grelha abaixo dos controlos */
+.woocommerce-page::after,
+.woocommerce-shop .site-main::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-/* 4. Product Grid (Shop Catalog) */
+/* 4. Grelha de Produtos (Catálogo) */
 .woocommerce ul.products {
   max-width: 1240px !important;
   margin: 0 auto 80px auto !important;
@@ -131,6 +125,7 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
   gap: 24px !important;
   clear: both !important;
+  box-sizing: border-box !important;
 }
 
 .woocommerce ul.products::before,
@@ -138,7 +133,7 @@
   display: none !important;
 }
 
-/* Product Cards */
+/* Cartões de Produto */
 .woocommerce ul.products li.product {
   width: 100% !important;
   margin: 0 !important;
@@ -152,19 +147,12 @@
   justify-content: space-between !important;
   box-shadow: 0 6px 20px rgba(24, 95, 48, 0.04) !important;
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s !important;
+  box-sizing: border-box !important;
 }
 
 .woocommerce ul.products li.product:hover {
   transform: translateY(-4px) !important;
   box-shadow: 0 12px 30px rgba(24, 95, 48, 0.12) !important;
-}
-
-/* Thumbnail Image */
-.woocommerce ul.products li.product a.woocommerce-LoopProduct-link {
-  display: flex !important;
-  flex-direction: column !important;
-  text-decoration: none !important;
-  color: inherit !important;
 }
 
 .woocommerce ul.products li.product img {
@@ -175,7 +163,6 @@
   margin-bottom: 16px !important;
 }
 
-/* Titles & Prices */
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
   font-family: var(--fd) !important;
   font-style: italic !important;
@@ -196,7 +183,7 @@
   margin-bottom: 16px !important;
 }
 
-/* View Cart Button */
+/* Botão Ver Carrinho (View Cart) */
 .woocommerce ul.products li.product a.added_to_cart.wc-forward,
 .woocommerce a.added_to_cart {
   display: inline-block !important;
@@ -221,13 +208,13 @@
   border-color: var(--sage) !important;
 }
 
-/* 5. Mobile Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .woocommerce .woocommerce-result-count,
   .woocommerce .woocommerce-ordering {
     float: none !important;
     text-align: center !important;
-    margin-bottom: 12px !important;
+    padding: 0 20px !important;
   }
 }
 
@@ -236,9 +223,5 @@
     grid-template-columns: 1fr 1fr !important;
     gap: 12px !important;
     padding: 0 20px !important;
-  }
-  
-  .woocommerce ul.products li.product {
-    padding: 14px !important;
   }
 }
