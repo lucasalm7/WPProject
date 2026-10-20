@@ -2,7 +2,7 @@
    VEGAMA WOOCOMMERCE SHOP & PRODUCT STYLES
    ========================================== */
 
-/* 1. Global WooCommerce Overrides */
+/* 1. Global WooCommerce Overrides & Buttons */
 .woocommerce .button,
 .woocommerce a.button,
 .woocommerce button.button,
@@ -33,22 +33,41 @@
   transform: translateY(-2px);
 }
 
-/* 2. Shop Header & Sorting */
+/* 2. Shop Hero Header (Dark Sage Banner) */
 .woocommerce .woocommerce-products-header {
-  max-width: 1240px;
-  margin: 100px auto 20px;
-  padding: 0 clamp(20px, 5vw, 64px);
+  background: var(--sage);
+  color: var(--parch);
+  text-align: center;
+  padding: clamp(100px, 12vw, 150px) clamp(20px, 5vw, 72px) 60px;
+  margin: 0 0 40px 0 !important;
+  max-width: 100% !important;
+  width: 100%;
 }
 
-.woocommerce .woocommerce-products-header .page-title {
-  font-family: var(--fd);
-  font-style: italic;
-  font-weight: 900;
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  color: var(--txt);
-  line-height: 1;
+.woocommerce .woocommerce-products-header::before {
+  content: "OUR STORE";
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--lime);
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
+.woocommerce .woocommerce-products-header .page-title,
+.woocommerce h1.page-title {
+  font-family: var(--fd) !important;
+  font-style: italic !important;
+  font-weight: 900 !important;
+  font-size: clamp(2.8rem, 7vw, 5rem) !important;
+  color: var(--parch) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.03em !important;
+  margin: 0 auto !important;
+}
+
+/* 3. Shop Utilities (Result Count & Ordering Dropdown) */
 .woocommerce-page .woocommerce-result-count,
 .woocommerce-page .woocommerce-ordering {
   float: none !important;
@@ -94,7 +113,27 @@
   clear: both;
 }
 
-/* 3. Product Grid (Shop Catalog) */
+@media (min-width: 561px) {
+  .woocommerce .woocommerce-result-count {
+    float: left !important;
+    line-height: 42px !important;
+  }
+  .woocommerce .woocommerce-ordering {
+    float: right !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .woocommerce .woocommerce-result-count,
+  .woocommerce .woocommerce-ordering {
+    float: none !important;
+    text-align: center !important;
+    padding: 0 20px !important;
+    margin-bottom: 12px !important;
+  }
+}
+
+/* 4. Product Grid (Shop Catalog) */
 .woocommerce ul.products {
   max-width: 1240px !important;
   margin: 30px auto 80px !important;
@@ -146,25 +185,25 @@
   margin-bottom: 16px !important;
 }
 
-/* Product Title (High-contrast Dark Text) */
+/* Product Title */
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
   font-family: var(--fd) !important;
   font-style: italic !important;
   font-weight: 900 !important;
   font-size: 1.25rem !important;
-  color: var(--txt) !important; /* Dark Green Text */
+  color: var(--txt) !important;
   line-height: 1.2 !important;
   padding: 0 !important;
   margin-bottom: 10px !important;
 }
 
-/* Product Price (Sage Green for High Contrast on Light Background) */
+/* Product Price */
 .woocommerce ul.products li.product .price {
   font-family: var(--fd) !important;
   font-style: italic !important;
   font-weight: 900 !important;
   font-size: 1.35rem !important;
-  color: var(--sage) !important; /* High contrast dark sage green */
+  color: var(--sage) !important;
   margin-bottom: 16px !important;
 }
 
@@ -184,7 +223,32 @@
   width: 100% !important;
 }
 
-/* 4. Single Product Page Layout */
+/* View Cart Link */
+.woocommerce ul.products li.product a.added_to_cart.wc-forward,
+.woocommerce a.added_to_cart {
+  display: inline-block !important;
+  margin-top: 10px !important;
+  font-family: var(--fb) !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  color: var(--sage) !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  padding: 8px 16px !important;
+  border-radius: 999px !important;
+  background: rgba(24, 95, 48, 0.08) !important;
+  border: 1px solid rgba(24, 95, 48, 0.15) !important;
+  transition: all 0.2s var(--ease-out) !important;
+}
+
+.woocommerce ul.products li.product a.added_to_cart.wc-forward:hover,
+.woocommerce a.added_to_cart:hover {
+  background: var(--sage) !important;
+  color: #ffffff !important;
+  border-color: var(--sage) !important;
+}
+
+/* 5. Single Product Page Layout */
 .woocommerce div.product {
   max-width: 1160px;
   margin: 100px auto 80px;
@@ -245,7 +309,7 @@
   text-align: center;
 }
 
-/* Mobile Responsiveness */
+/* 6. Mobile Responsiveness */
 @media (max-width: 860px) {
   .woocommerce div.product {
     grid-template-columns: 1fr;
@@ -261,82 +325,5 @@
   
   .woocommerce ul.products li.product {
     padding: 14px !important;
-  }
-}
-
-.woocommerce .woocommerce-products-header {
-  background: var(--sage);
-  color: var(--parch);
-  text-align: center;
-  padding: clamp(100px, 12vw, 150px) clamp(20px, 5vw, 72px) 60px;
-  margin: 0 0 40px 0 !important;
-  max-width: 100% !important;
-  width: 100%;
-}
-
-.woocommerce .woocommerce-products-header::before {
-  content: "OUR STORE";
-  display: block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: var(--lime);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.woocommerce .woocommerce-products-header .page-title,
-.woocommerce h1.page-title {
-  font-family: var(--fd) !important;
-  font-style: italic !important;
-  font-weight: 900 !important;
-  font-size: clamp(2.8rem, 7vw, 5rem) !important;
-  color: var(--parch) !important; /* Parchment cream text */
-  line-height: 1.02 !important;
-  letter-spacing: -0.03em !important;
-  margin: 0 auto !important;
-}
-
-.woocommerce ul.products li.product a.added_to_cart.wc-forward,
-.woocommerce a.added_to_cart {
-  display: inline-block !important;
-  margin-top: 10px !important;
-  font-family: var(--fb) !important;
-  font-size: 12.5px !important;
-  font-weight: 800 !important;
-  color: var(--sage) !important;
-  text-decoration: none !important;
-  text-align: center !important;
-  padding: 8px 16px !important;
-  border-radius: 999px !important;
-  background: rgba(24, 95, 48, 0.08) !important;
-  border: 1px solid rgba(24, 95, 48, 0.15) !important;
-  transition: all 0.2s var(--ease-out) !important;
-}
-
-.woocommerce ul.products li.product a.added_to_cart.wc-forward:hover,
-.woocommerce a.added_to_cart:hover {
-  background: var(--sage) !important;
-  color: #ffffff !important;
-  border-color: var(--sage) !important;
-}
-
-@media (min-width: 561px) {
-  .woocommerce .woocommerce-result-count {
-    float: left !important;
-    line-height: 42px !important;
-  }
-  .woocommerce .woocommerce-ordering {
-    float: right !important;
-  }
-}
-
-@media (max-width: 560px) {
-  .woocommerce .woocommerce-result-count,
-  .woocommerce .woocommerce-ordering {
-    float: none !important;
-    text-align: center !important;
-    padding: 0 20px !important;
-    margin-bottom: 12px !important;
   }
 }
