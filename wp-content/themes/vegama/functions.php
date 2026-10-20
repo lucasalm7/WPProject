@@ -4,7 +4,8 @@ function vegama_setup() {
     add_theme_support( 'post-thumbnails' );
     register_nav_menus( [ 'primary' => __( 'Primary Menu', 'vegama' ) ] );
 }
-// WooCommerce: declare theme support (Classic theme handbook)
+
+// WooCommerce: declare theme support
 function vegama_add_woocommerce_support() {
     add_theme_support( 'woocommerce' );
     add_theme_support( 'wc-product-gallery-zoom' );
@@ -13,16 +14,25 @@ function vegama_add_woocommerce_support() {
 }
 add_action( 'after_setup_theme', 'vegama_add_woocommerce_support' );
 add_action( 'after_setup_theme', 'vegama_setup' );
+
 function vegama_scripts() {
     $dir = get_template_directory();
     $uri = get_template_directory_uri();
 
     $css = function ( $handle, $file, $deps = [ 'vegama-style' ] ) use ( $dir, $uri ) {
         $path = '/assets/css/' . $file;
-        wp_enqueue_style( $handle, $uri . $path, $deps, filemtime( $dir . $path ) );
+        if ( file_exists( $dir . $path ) ) {
+            wp_enqueue_style( $handle, $uri . $path, $deps, filemtime( $dir . $path ) );
+        }
     };
 
+    // Main base stylesheet
     $css( 'vegama-style', 'main.css', [] );
+
+    // WooCommerce Styles (Loads on all WC pages or single product pages)
+    if ( class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) ) {
+        $css( 'vegama-woocommerce', 'woocommerce.css', [ 'vegama-style' ] );
+    }
 
     if ( is_front_page() ) {
         $css( 'vegama-home', 'home.css' );
@@ -42,8 +52,8 @@ function vegama_scripts() {
 
     wp_enqueue_script( 'vegama-js', $uri . '/assets/js/main.js', [], filemtime( $dir . '/assets/js/main.js' ), true );
 }
-
 add_action( 'wp_enqueue_scripts', 'vegama_scripts' );
+
 function vegama_about_page_template( $template ) {
     if ( is_page( 'about' ) ) {
         $custom_template = locate_template( array( 'about-page.php' ) );
@@ -68,6 +78,7 @@ function vegama_sustainability_page_template( $template ) {
 
 add_filter( 'template_include', 'vegama_sustainability_page_template' );
 add_filter( 'template_include', 'vegama_about_page_template' );
+
 function vegama_handle_about_form() {
     if ( ! isset( $_POST['action'] ) || 'vegama_about_form' !== $_POST['action'] ) {
         return;
@@ -338,10 +349,12 @@ function vegama_register_product_cpt() {
     ) );
 }
 add_action( 'init', 'vegama_register_product_cpt' );
+
 function vegama_product_meta_box() {
     add_meta_box( 'vegama_product_details', 'Product Details', 'vegama_product_meta_box_html', 'vegama_product', 'normal', 'high' );
 }
 add_action( 'add_meta_boxes', 'vegama_product_meta_box' );
+
 function vegama_product_meta_box_html( $post ) {
     wp_nonce_field( 'vegama_product_save', 'vegama_product_nonce' );
     $badge = get_post_meta( $post->ID, '_product_badge', true );
@@ -356,6 +369,7 @@ function vegama_product_meta_box_html( $post ) {
     <input type="text" id="product_link" name="product_link" value="<?php echo esc_attr( $link ); ?>" style="width:100%"></p>
     <?php
 }
+
 function vegama_product_save_meta( $post_id ) {
     if ( ! isset( $_POST['vegama_product_nonce'] ) ) return;
     if ( ! wp_verify_nonce( $_POST['vegama_product_nonce'], 'vegama_product_save' ) ) return;
@@ -388,10 +402,12 @@ function vegama_register_merch_cpt() {
     ) );
 }
 add_action( 'init', 'vegama_register_merch_cpt' );
+
 function vegama_merch_meta_box() {
     add_meta_box( 'vegama_merch_details', 'Merch Details', 'vegama_merch_meta_box_html', 'vegama_merch', 'normal', 'high' );
 }
 add_action( 'add_meta_boxes', 'vegama_merch_meta_box' );
+
 function vegama_merch_meta_box_html( $post ) {
     wp_nonce_field( 'vegama_merch_save', 'vegama_merch_nonce' );
     $price = get_post_meta( $post->ID, '_merch_price', true );
@@ -403,6 +419,7 @@ function vegama_merch_meta_box_html( $post ) {
     <input type="text" id="merch_link" name="merch_link" value="<?php echo esc_attr( $link ); ?>" style="width:100%"></p>
     <?php
 }
+
 function vegama_merch_save_meta( $post_id ) {
     if ( ! isset( $_POST['vegama_merch_nonce'] ) ) return;
     if ( ! wp_verify_nonce( $_POST['vegama_merch_nonce'], 'vegama_merch_save' ) ) return;
@@ -412,6 +429,7 @@ function vegama_merch_save_meta( $post_id ) {
     if ( isset( $_POST['merch_link'] ) ) update_post_meta( $post_id, '_merch_link',  sanitize_text_field( $_POST['merch_link'] ) );
 }
 add_action( 'save_post', 'vegama_merch_save_meta' );
+
 function vegama_register_testimonial_cpt() {
     register_post_type( 'vegama_testimonial', array(
         'labels' => array(
@@ -429,14 +447,16 @@ function vegama_register_testimonial_cpt() {
         'show_in_menu'       => true,
         'menu_icon'          => 'dashicons-format-quote',
         'menu_position'      => 7,
-        'supports' => array( 'title', 'thumbnail' ),
+        'supports'           => array( 'title', 'thumbnail' ),
     ) );
 }
 add_action( 'init', 'vegama_register_testimonial_cpt' );
+
 function vegama_testimonial_meta_box() {
     add_meta_box( 'vegama_testimonial_details', 'Testimonial Details', 'vegama_testimonial_meta_box_html', 'vegama_testimonial', 'normal', 'high' );
 }
 add_action( 'add_meta_boxes', 'vegama_testimonial_meta_box' );
+
 function vegama_testimonial_meta_box_html( $post ) {
     wp_nonce_field( 'vegama_testimonial_save', 'vegama_testimonial_nonce' );
     $quote  = get_post_meta( $post->ID, '_testimonial_quote',  true );
@@ -451,6 +471,7 @@ function vegama_testimonial_meta_box_html( $post ) {
     <input type="number" id="testimonial_stars" name="testimonial_stars" value="<?php echo esc_attr( $stars ?: 5 ); ?>" min="1" max="5" style="width:80px"></p>
     <?php
 }
+
 function vegama_testimonial_save_meta( $post_id ) {
     if ( ! isset( $_POST['vegama_testimonial_nonce'] ) ) return;
     if ( ! wp_verify_nonce( $_POST['vegama_testimonial_nonce'], 'vegama_testimonial_save' ) ) return;
@@ -461,6 +482,7 @@ function vegama_testimonial_save_meta( $post_id ) {
     if ( isset( $_POST['testimonial_stars'] ) ) update_post_meta( $post_id, '_testimonial_stars',  absint( $_POST['testimonial_stars'] ) );
 }
 add_action( 'save_post', 'vegama_testimonial_save_meta' );
+
 function vegama_editor_cpt_access() {
     $editor = get_role( 'editor' );
     if ( ! $editor ) return;
@@ -480,29 +502,9 @@ function vegama_editor_cpt_access() {
     }
 }
 add_action( 'init', 'vegama_editor_cpt_access' );
+
 function vegama_remove_comment_url_field($fields) {
     unset($fields['url']);
     return $fields;
 }
 add_filter('comment_form_default_fields', 'vegama_remove_comment_url_field');
-
-function vegama_enqueue_woocommerce_styles() {
-    if ( class_exists( 'WooCommerce' ) ) {
-        wp_enqueue_style(
-            'vegama-woocommerce',
-            get_template_directory_uri() . '/assets/css/woocommerce.css',
-            array( 'main-style' ), // Replace 'main-style' with your main CSS handle if different
-            filemtime( get_template_directory() . '/assets/css/woocommerce.css' ) // Auto-busts cache on file save
-        );
-    }
-}
-add_action( 'wp_enqueue_scripts', 'vegama_enqueue_woocommerce_styles' );
-
-// Declare WooCommerce Support
-function vegama_add_woocommerce_support() {
-    add_theme_support( 'woocommerce' );
-    add_theme_support( 'wc-product-gallery-zoom' );
-    add_theme_support( 'wc-product-gallery-lightbox' );
-    add_theme_support( 'wc-product-gallery-slider' );
-}
-add_action( 'after_setup_theme', 'vegama_add_woocommerce_support' );
