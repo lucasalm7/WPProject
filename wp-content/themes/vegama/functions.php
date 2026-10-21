@@ -33,6 +33,9 @@ function vegama_scripts() {
     if ( class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_shop() || is_product_taxonomy() || is_cart() || is_checkout() || is_account_page() ) ) {
             $css( 'vegama-woocommerce', 'woocommerce.css', [ 'vegama-style' ] );
     }
+    if ( class_exists( 'WooCommerce' ) && ( is_cart() || is_checkout() ) ) {
+        $css( 'vegama-cart-checkout', 'cart-checkout.css', [ 'vegama-woocommerce' ] );
+    }
 
     if ( is_front_page() ) {
         $css( 'vegama-home', 'home.css' );
