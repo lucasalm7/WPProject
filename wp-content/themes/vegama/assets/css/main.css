@@ -144,7 +144,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 
 .btn-nav {
   background: var(--lime);
-  color: var(--sage);
+  color: var(--sage-d);
   font-weight: 800;
   font-size: 13px;
   padding: 9px 22px;
@@ -396,7 +396,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 }
 
 .sec-h em {
-  color: var(--lime-d);
+  color: var(--amber-d);
   font-style: inherit;
 }
 
