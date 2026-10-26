@@ -14,9 +14,9 @@
 .hero-eyebrow {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 4.5px;
+  letter-spacing: 1px;
   color: var(--bg);
-  text-transform: uppercase;
+  text-transform: none;
   margin-bottom: 26px;
 }
 
@@ -426,7 +426,7 @@
 
 .tc-q {
   font-family: var(--fd);
-  font-style: italic;
+  font-style: normal;
   font-weight: 900;
   font-size: 1rem;
   color: var(--parch);

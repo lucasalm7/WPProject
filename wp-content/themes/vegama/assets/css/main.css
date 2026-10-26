@@ -378,9 +378,9 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 .sec-eye {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 1px;
   color: var(--sage);
-  text-transform: uppercase;
+  text-transform: none;
   margin-bottom: 14px;
 }
 
