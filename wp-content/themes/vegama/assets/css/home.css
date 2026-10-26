@@ -199,7 +199,7 @@
   display: inline-block;
   margin-top: 16px;
   background: var(--lime);
-  color: var(--sage);
+  ccolor: var(--sage-d);
   font-size: 13px;
   font-weight: 700;
   border: none;
@@ -271,7 +271,7 @@
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 2.5px;
-  color: var(--amber);
+  color: var(--amber); → color: var(--amber-d);
   text-transform: uppercase;
   margin-bottom: 7px;
 }
@@ -485,7 +485,7 @@
 
 .tc-a {
   font-size: 12.5px;
-  color: rgba(244, 238, 220, .5);
+  color: rgba(244, 238, 220, .85);
   font-weight: 600;
 }
 
@@ -526,12 +526,12 @@
 }
 
 .nl-h em {
-  color: var(--lime-d);
+  color: var(--amber-d);
   font-style: inherit;
 }
 
 .nl-sub {
-  color: rgba(26, 46, 31, .6);
+  color: rgba(26, 46, 31, .8);
   font-size: 14.5px;
   margin-bottom: 30px;
   line-height: 1.7;
@@ -565,7 +565,7 @@
 }
 
 .nl-form button {
-  background: var(--amber);
+  background: var(--amber-d);
   color: #fff;
   font-family: var(--fb);
   font-weight: 800;
