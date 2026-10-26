@@ -23,7 +23,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 
 .btn-primary {
   background: var(--lime);
-  color: var(--sage);
+  color: var(--sage-d);
   font-weight: 800;
   font-size: 14px;
   padding: 15px 34px;
@@ -379,7 +379,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 4px;
-  color: var(--amber);
+  color: var(--sage);
   text-transform: uppercase;
   margin-bottom: 14px;
 }
@@ -402,7 +402,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 
 .sec-dark { background: var(--sage); }
 
-.sec-dark .sec-eye { color: var(--lime); }
+.sec-dark .sec-eye { color: var(--parch); }
 
 .sec-dark .sec-h { color: var(--parch); }
 
