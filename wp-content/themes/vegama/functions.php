@@ -213,17 +213,59 @@ function vegama_handle_about_form() {
 add_action( 'wp_ajax_vegama_about_form', 'vegama_handle_about_form' );
 add_action( 'wp_ajax_nopriv_vegama_about_form', 'vegama_handle_about_form' );
 
+// SEO title: a post can set its own <title> with the custom field "_seo_title".
+function vegama_seo_title( $title ) {
+    if ( is_singular() && ! is_front_page() ) {
+        $custom = get_post_meta( get_queried_object_id(), '_seo_title', true );
+        if ( $custom ) {
+            return $custom;
+        }
+    }
+    return $title;
+}
+add_filter( 'pre_get_document_title', 'vegama_seo_title' );
+
+// Old date-based URLs (e.g. /2026/08/16/hello-world/) → 301 to the new /blog/ URL.
+function vegama_redirect_old_post_urls() {
+    if ( ! is_404() ) {
+        return;
+    }
+    $path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    if ( ! preg_match( '#^\d{4}/\d{2}/\d{2}/([a-z0-9-]+)$#', $path, $m ) ) {
+        return;
+    }
+    $slug  = sanitize_title( $m[1] );
+    $found = get_posts( array( 'post_type' => 'post', 'name' => $slug, 'numberposts' => 1 ) );
+    if ( ! $found ) {
+        // Slug was changed later: WordPress keeps the old one in "_wp_old_slug".
+        $found = get_posts( array( 'post_type' => 'post', 'meta_key' => '_wp_old_slug', 'meta_value' => $slug, 'numberposts' => 1 ) );
+    }
+    if ( $found ) {
+        wp_safe_redirect( get_permalink( $found[0] ), 301 );
+        exit;
+    }
+}
+add_action( 'template_redirect', 'vegama_redirect_old_post_urls' );
+
+// WordPress prints its own canonical on single pages; we print ours below, so remove the duplicate.
+remove_action( 'wp_head', 'rel_canonical' );
+
 function vegama_seo_meta() {
     global $post;
 
-    if ( is_singular() && $post ) {
+    // The front page is a static page with no content, so it must be checked first.
+    if ( is_front_page() ) {
+        $desc = 'Plant-based recipes, e-books and cooking masterclasses in Esbjerg, Denmark.';
+    } elseif ( is_singular() && $post ) {
         $desc = get_post_meta( $post->ID, '_meta_description', true );
         if ( ! $desc ) {
-            $desc = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 25, '…' );
+            // strip_shortcodes: WooCommerce pages (My account, Cart) only contain a shortcode.
+            $desc = has_excerpt() ? get_the_excerpt() : wp_trim_words( strip_shortcodes( get_the_content() ), 25, '…' );
         }
-    } elseif ( is_home() || is_front_page() ) {
-        $desc = 'Plant-based recipes, artisan cookbooks, and vegan cooking masterclasses in Esbjerg, Denmark.';
     } else {
+        $desc = '';
+    }
+    if ( '' === trim( wp_strip_all_tags( $desc ) ) ) {
         $desc = get_bloginfo( 'description' );
     }
     $desc = esc_attr( wp_strip_all_tags( $desc ) );
@@ -237,14 +279,29 @@ function vegama_seo_meta() {
         $og_image = esc_url( get_template_directory_uri() . '/assets/img/og-default.jpg' );
     }
 
-    $url   = esc_url( get_permalink() ?: home_url( '/' ) );
-    $title = esc_attr( get_the_title() ?: get_bloginfo( 'name' ) );
-    $site  = esc_attr( get_bloginfo( 'name' ) );
+    $is_article = is_singular() && ! is_front_page();
+    $site       = esc_attr( get_bloginfo( 'name' ) );
+
+    if ( is_front_page() ) {
+        $url   = esc_url( home_url( '/' ) );
+        $title = esc_attr( get_bloginfo( 'name' ) . ' – ' . get_bloginfo( 'description' ) );
+    } elseif ( is_singular() ) {
+        $url   = esc_url( get_permalink() );
+        $title = esc_attr( get_post_meta( get_queried_object_id(), '_seo_title', true ) ?: get_the_title() );
+    } else {
+        // Archives (e.g. the Shop): no canonical, so we never point to the first product by mistake.
+        $url   = '';
+        $title = esc_attr( wp_get_document_title() );
+    }
 
     echo '<meta name="description" content="' . $desc . '">' . "\n";
-    echo '<link rel="canonical" href="' . $url . '">' . "\n";
-    echo '<meta property="og:type"        content="' . ( is_singular() ? 'article' : 'website' ) . '">' . "\n";
-    echo '<meta property="og:url"         content="' . $url . '">' . "\n";
+    if ( $url ) {
+        echo '<link rel="canonical" href="' . $url . '">' . "\n";
+    }
+    echo '<meta property="og:type"        content="' . ( $is_article ? 'article' : 'website' ) . '">' . "\n";
+    if ( $url ) {
+        echo '<meta property="og:url"         content="' . $url . '">' . "\n";
+    }
     echo '<meta property="og:title"       content="' . $title . '">' . "\n";
     echo '<meta property="og:description" content="' . $desc . '">' . "\n";
     echo '<meta property="og:image"       content="' . $og_image . '">' . "\n";
@@ -281,7 +338,7 @@ function vegama_recipe_schema() {
         '@context'       => 'https://schema.org',
         '@type'          => 'Recipe',
         'name'           => get_the_title( $post->ID ),
-        'description'    => wp_strip_all_tags( wp_trim_words( get_the_content(), 30, '…' ) ),
+        'description'    => wp_strip_all_tags( wp_trim_words( strip_shortcodes( get_the_content() ), 30, '…' ) ),
         'datePublished'  => get_the_date( 'c', $post->ID ),
         'author'         => array( '@type' => 'Person', 'name' => get_the_author_meta( 'display_name', $post->post_author ) ),
         'url'            => get_permalink( $post->ID ),
