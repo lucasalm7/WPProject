@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<main id="main">
     <?php if (have_posts()): ?>
         <?php while (have_posts()): the_post(); ?>
             <?php
@@ -59,4 +60,5 @@
 
         <?php endwhile; ?>
     <?php endif; ?>
+</main>
 <?php get_footer(); ?>
