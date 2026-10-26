@@ -47,7 +47,7 @@
 
 .cat-pill.active {
   background: var(--lime);
-  color: var(--sage);
+  color: var(--sage-d);
   font-weight: 700;
   border-color: var(--lime);
 }
