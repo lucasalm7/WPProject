@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<main id="main">
 
 <section class="sec sec-dark" id="blog-listing">
     <div class="sec-inner">
@@ -59,7 +60,7 @@
                             <?php if ($category_name):  ?>
                                 <div class="pc-tag"><?php echo esc_html($category_name);  ?></div>
                             <?php endif; ?>
-                            <h3 class="pc-title"><?php echo esc_html($title); ?></h3>
+                                                        <h2 class="pc-title"><?php echo esc_html($title); ?></h2>
                             <p class="pc-excerpt"><?php echo esc_html(wp_trim_words($excerpt, 20));  ?></p>
                             <div class="pc-meta"><?php echo esc_html($date); ?></div>
                         </div>
@@ -82,5 +83,6 @@
         <?php wp_reset_postdata();?>
     </div>
 </section>
+</main>
 
 <?php get_footer(); ?>

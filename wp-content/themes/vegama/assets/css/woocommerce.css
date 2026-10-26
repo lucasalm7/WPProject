@@ -40,7 +40,7 @@ body.admin-bar.woocommerce-page .site-header {
 .woocommerce input.button,
 .woocommerce #respond input[type="submit"] {
   background-color: var(--lime) !important;
-  color: var(--sage-d) !important; !important;
+  color: var(--sage-d) !important;
   font-family: var(--fb) !important;
   font-weight: 800 !important;
   font-size: 13.5px !important;

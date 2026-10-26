@@ -7,7 +7,7 @@
   </div>
 </main>
 <?php else : ?>
-  <?php woocommerce_content(); ?>
+  <main id="main"><?php woocommerce_content(); ?></main>
 <?php endif; ?>
 
 <?php get_footer(); ?>
