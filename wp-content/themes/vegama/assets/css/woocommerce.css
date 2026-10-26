@@ -29,7 +29,7 @@ body.admin-bar.woocommerce-page .site-header {
   --card-bg: rgba(255, 255, 255, 0.08);
   --card-border: rgba(255, 255, 255, 0.12);
   --coral: #d9735a;
-  --muted: rgba(245, 240, 225, 0.55);
+  --muted: rgba(245, 240, 225, 0.9);
   background: var(--sage) !important;
 }
 
@@ -40,7 +40,7 @@ body.admin-bar.woocommerce-page .site-header {
 .woocommerce input.button,
 .woocommerce #respond input[type="submit"] {
   background-color: var(--lime) !important;
-  color: var(--sage) !important;
+  color: var(--sage-d) !important; !important;
   font-family: var(--fb) !important;
   font-weight: 800 !important;
   font-size: 13.5px !important;
@@ -277,14 +277,14 @@ body.admin-bar.woocommerce-page .site-header {
 .woocommerce ul.products li.product a.added_to_cart.wc-forward:hover,
 .woocommerce a.added_to_cart:hover {
   background: var(--lime) !important;
-  color: var(--sage) !important;
+  color: var(--sage-d) !important;
   border-color: var(--lime) !important;
 }
 
 /* Sale badge */
 .woocommerce span.onsale {
   background: var(--lime) !important;
-  color: var(--sage) !important;
+  color: var(--sage-d) !important;
   font-family: var(--fb) !important;
   font-weight: 800 !important;
   border-radius: 999px !important;
@@ -350,8 +350,8 @@ body.admin-bar.woocommerce-page .site-header {
   border-radius: 10px;
 }
 
-.product-page .product_meta { font-size: 14px; color: rgba(244, 238, 220, .6); }
-.product-page .product_meta a { color: var(--lime); }
+.product-page .product_meta { font-size: 14px; color: rgba(244, 238, 220, .85); }
+.product-page .product_meta a { color: var(--parch); text-decoration: underline; }
 
 /* Tabs as pills */
 .product-page .woocommerce-tabs,
@@ -369,7 +369,7 @@ body.admin-bar.woocommerce-page .site-header {
 }
 .product-page .woocommerce-tabs ul.tabs li a { color: var(--parch) !important; font-weight: 700; }
 .product-page .woocommerce-tabs ul.tabs li.active { background: var(--lime) !important; border-color: var(--lime) !important; }
-.product-page .woocommerce-tabs ul.tabs li.active a { color: var(--sage) !important; }
+.product-page .woocommerce-tabs ul.tabs li.active a { color: var(--sage-d) !important; }
 .product-page .woocommerce-Tabs-panel,
 .product-page .woocommerce-Tabs-panel h2,
 .product-page .related > h2 { color: var(--parch); font-family: var(--fd); }
@@ -377,3 +377,6 @@ body.admin-bar.woocommerce-page .site-header {
 @media (max-width: 900px) {
   .product-page div.product { grid-template-columns: 1fr; gap: 24px; }
 }
+.woocommerce-account .woocommerce { color: var(--parch); }
+.woocommerce-account .woocommerce a { color: var(--parch); text-decoration: underline; }
+.woocommerce-account .show-password-input { min-width: 24px; min-height: 24px; }

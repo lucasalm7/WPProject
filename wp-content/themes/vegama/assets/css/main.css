@@ -86,7 +86,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 }
 
 .nav-links a {
-  color: rgba(244,238,220,.72);
+  color: rgba(244,238,220,.9);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
