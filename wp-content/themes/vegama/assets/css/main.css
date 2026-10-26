@@ -412,7 +412,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 2.5px;
-  color: var(--amber);
+  color: var(--amber-d);
   text-transform: uppercase;
   margin-bottom: 8px;
 }

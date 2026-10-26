@@ -17,7 +17,7 @@
 
 .single-post-meta {
   font-size: 13px;
-  color: rgba(244, 238, 220, .5);
+  color: rgba(244, 238, 220, .85);
   font-weight: 600;
 }
 
@@ -128,7 +128,7 @@
 
 .comment-notes {
   font-size: 13.5px;
-  color: rgba(26, 46, 31, .5);
+    color: rgba(26, 46, 31, .8);
   margin-bottom: 28px;
 }
 
@@ -189,3 +189,4 @@
 .comment-form input[type="submit"]:hover {
   background: var(--sage-d);
 }
+.single-post-hero .pc-tag { color: var(--parch); }
