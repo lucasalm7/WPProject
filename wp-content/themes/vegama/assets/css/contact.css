@@ -227,6 +227,87 @@ a.conv-btn {
   line-height: 1.55;
 }
 
+.contact-faq {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
+}
+
+.contact-faq__h {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  color: var(--sage);
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  margin-bottom: 24px;
+}
+
+.contact-faq__h em {
+  color: var(--amber-d);
+}
+
+.faq-list {
+  display: grid;
+  gap: 12px;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.46);
+  border: 1px solid rgba(24, 95, 48, 0.12);
+  border-radius: 18px;
+  scroll-margin-top: 110px;
+}
+
+.faq-item summary {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 64px 18px 24px;
+  font-weight: 800;
+  color: var(--txt);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--sage);
+  color: #fff;
+  font-size: 18px;
+}
+
+.faq-item[open] summary::after {
+  content: "\2013";
+}
+
+.faq-item summary:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+  border-radius: 18px;
+}
+
+.faq-a {
+  padding: 0 24px 20px;
+  color: rgba(26, 46, 31, 0.8);
+  line-height: 1.7;
+}
+
+.faq-a p + p {
+  margin-top: 10px;
+}
+
 @media (max-width: 900px) {
   .contact-page .about-form-card {
     position: static;

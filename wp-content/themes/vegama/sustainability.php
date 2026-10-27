@@ -2,19 +2,6 @@
 get_header();
 ?>
 
-<script>
-function vegama_sustainability_page_template( $template ) {
-    if ( is_page( 'sustainability-initiatives' ) || is_page( 'Sustainability Initiatives' ) ) {
-        $custom_template = locate_template( array( 'sustainability-page.php' ) );
-        if ( $custom_template ) {
-            return $custom_template;
-        }
-    }
-    return $template;
-}
-add_filter( 'template_include', 'vegama_sustainability_page_template' );
-</script>
-
 <main id="main" class="sustainability-page">
     <section class="about-hero">
         <div class="about-hero__inner">
@@ -85,7 +72,7 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
             <div class="about-form-card" style="background: #185f30; color: #fff; padding: 40px; border-radius: 16px;">
                 <h3 style="color: #fff; margin-bottom: 15px;">Join the Movement</h3>
                 <p style="opacity: 0.9; margin-bottom: 20px;">Want to learn more about how we integrate sustainable food culture, low-energy cooking practices, and upcoming masterclass schedules into our community? Get in touch with our team.</p>
-                <a href="<?php echo esc_url( home_url('/about#vegama-conversational-form') ); ?>" class="btn-primary" style="display: inline-block; background: #fff; color: #185f30; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Reach out to us</a>
+                <a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>" class="btn-primary" style="display: inline-block; background: #fff; color: #185f30; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Reach out to us</a>
             </div>
         </div>
     </section>

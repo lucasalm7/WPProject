@@ -1,9 +1,8 @@
 /* Override .site-header on shop/product pages only */
 body.woocommerce-shop .site-header,
-body.woocommerce-page .site-header,
+body.woocommerce-page:not(.woocommerce-account) .site-header,
 body.post-type-archive-product .site-header {
-  /* change only what's causing the issue, e.g.: */
-  position: sticky !important;   /* or relative / fixed, depending on what you want */
+  position: sticky !important;
   top: 0 !important;
   background: var(--sage) !important;
   z-index: 100 !important;
@@ -11,15 +10,35 @@ body.post-type-archive-product .site-header {
 
 /* Keep the admin bar from covering it while logged in */
 body.admin-bar.woocommerce-shop .site-header,
-body.admin-bar.woocommerce-page .site-header {
+body.admin-bar.woocommerce-page:not(.woocommerce-account) .site-header {
   top: 32px !important;
 }
 
 @media (max-width: 782px) {
   body.admin-bar.woocommerce-shop .site-header,
-  body.admin-bar.woocommerce-page .site-header {
+  body.admin-bar.woocommerce-page:not(.woocommerce-account) .site-header {
     top: 46px !important;
   }
+}
+
+/* Keep the header readable on the green shop header after scrolling */
+body.woocommerce-page:not(.woocommerce-account) .site-header.solid .nav-links > li > a,
+body.woocommerce-page:not(.woocommerce-account) .site-header.solid .cart-btn {
+  color: rgba(244, 238, 220, .85);
+}
+
+body.woocommerce-page:not(.woocommerce-account) .site-header.solid .nav-links > li > a:hover,
+body.woocommerce-page:not(.woocommerce-account) .site-header.solid .cart-btn:hover {
+  color: var(--lime);
+}
+
+body.woocommerce-page:not(.woocommerce-account) .site-header.solid .btn-nav {
+  background: var(--lime);
+  color: var(--sage-d);
+}
+
+body.woocommerce-page:not(.woocommerce-account) .site-header.solid .nav-burger span {
+  background: var(--parch);
 }
 
 
@@ -377,6 +396,4 @@ body.admin-bar.woocommerce-page .site-header {
 @media (max-width: 900px) {
   .product-page div.product { grid-template-columns: 1fr; gap: 24px; }
 }
-.woocommerce-account .woocommerce { color: var(--parch); }
-.woocommerce-account .woocommerce a { color: var(--parch); text-decoration: underline; }
 .woocommerce-account .show-password-input { min-width: 24px; min-height: 24px; }

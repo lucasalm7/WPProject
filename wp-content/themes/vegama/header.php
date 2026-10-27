@@ -7,12 +7,13 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<a class="skip-link screen-reader-text" href="#main">Skip to content</a>
 
 <div class="mo ml" id="moLogin" onclick="moOut(event,'moLogin')">
-  <div class="mo-box">
-    <button class="mo-x" onclick="closeMo('moLogin')">✕</button>
+  <div class="mo-box" role="dialog" aria-modal="true" aria-labelledby="moLoginTitle">
+    <button type="button" class="mo-x" onclick="closeMo('moLogin')" aria-label="Close">✕</button>
 
-    <h2 class="mp-name" style="margin-bottom:18px">
+    <h2 class="mp-name" id="moLoginTitle" style="margin-bottom:18px">
       <?php echo is_user_logged_in() ? 'Your account' : 'Welcome back'; ?>
     </h2>
 
@@ -21,34 +22,43 @@
       <p style="color:var(--mist);font-size:14px;margin-bottom:20px">
         Signed in as <strong><?php echo esc_html( wp_get_current_user()->display_name ); ?></strong>
       </p>
-      <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" style="display:block">
-        <button type="button" style="width:100%;background:var(--sage);color:#fff;font-weight:800;font-size:14.5px;padding:14px;border-radius:11px;border:none;cursor:pointer">
-          Sign out
-        </button>
-      </a>
+      <?php if ( function_exists( 'wc_get_account_endpoint_url' ) ) : ?>
+        <ul class="mo-account-links">
+          <li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>">Overview</a></li>
+          <li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>">Orders and bookings</a></li>
+          <li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'downloads' ) ); ?>">My e-books</a></li>
+          <li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">Account details</a></li>
+        </ul>
+      <?php endif; ?>
+      <a class="mo-signout" href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>">Sign out</a>
 
     <?php else : ?>
 
       <div class="tab-bar">
-        <button class="tab-b on" onclick="switchTab('in',this)">Sign in</button>
-        <button class="tab-b"    onclick="switchTab('up',this)">Create account</button>
+        <button type="button" class="tab-b on" onclick="switchTab('in',this)">Sign in</button>
+        <button type="button" class="tab-b"    onclick="switchTab('up',this)">Create account</button>
       </div>
 
       <!-- Sign-in form -->
       <form class="auth-form" id="formIn">
         <?php wp_nonce_field( 'vegama_login', 'login_nonce' ); ?>
-        <input type="text"     name="log" placeholder="Username or email" required>
-        <input type="password" name="pwd" placeholder="Password"          required>
-        <p id="loginMsg" style="font-size:13px;color:red;display:none;text-align:center"></p>
+        <label for="loginUser" class="screen-reader-text">Username or email</label>
+        <input type="text"     id="loginUser" name="log" placeholder="Username or email" autocomplete="username" required>
+        <label for="loginPass" class="screen-reader-text">Password</label>
+        <input type="password" id="loginPass" name="pwd" placeholder="Password" autocomplete="current-password" required>
+        <p id="loginMsg" role="alert" style="font-size:13px;color:#a3321f;display:none;text-align:center"></p>
         <button type="submit">Sign in →</button>
       </form>
 
       <form class="auth-form" id="formUp" style="display:none;flex-direction:column">
         <?php wp_nonce_field( 'vegama_register', 'register_nonce' ); ?>
-        <input type="text"     name="user_login" placeholder="Username" required>
-        <input type="email"    name="user_email" placeholder="Email"    required>
-        <input type="password" name="user_pass"  placeholder="Password" required>
-        <p id="registerMsg" style="font-size:13px;color:red;display:none;text-align:center"></p>
+        <label for="regUser" class="screen-reader-text">Username</label>
+        <input type="text"     id="regUser" name="user_login" placeholder="Username" autocomplete="username" required>
+        <label for="regEmail" class="screen-reader-text">Email</label>
+        <input type="email"    id="regEmail" name="user_email" placeholder="Email" autocomplete="email" required>
+        <label for="regPass" class="screen-reader-text">Password</label>
+        <input type="password" id="regPass" name="user_pass" placeholder="Password" autocomplete="new-password" required>
+        <p id="registerMsg" role="alert" style="font-size:13px;color:#a3321f;display:none;text-align:center"></p>
         <button type="submit">Create account →</button>
       </form>
 
@@ -56,8 +66,6 @@
   </div>
 </div>
 
-
-<a class="skip-link screen-reader-text" href="#main">Skip to content</a>
 
 <header class="site-header<?php echo is_page( 'about' ) ? ' about-header' : ''; ?>" id="site-header" role="banner">
   <nav class="site-nav" role="navigation" aria-label="Main navigation">
@@ -72,10 +80,10 @@
 </a>
 
     <!-- Nav links -->
-    <ul class="nav-links">
-      <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>"<?php echo is_page( 'shop' ) ? ' aria-current="page"' : ''; ?>>Shop</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"<?php echo is_home() ? ' aria-current="page"' : ''; ?>>Blog</a></li>
+    <ul class="nav-links" id="primary-menu">
+      <li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"<?php echo is_home() ? ' aria-current="page"' : ''; ?>>Blog</a></li>
       <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>"<?php echo is_page( 'classes' ) ? ' aria-current="page"' : ''; ?>>Masterclasses</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>"<?php echo ( function_exists( 'is_shop' ) && is_shop() ) ? ' aria-current="page"' : ''; ?>>Shop</a></li>
       <li class="nav-item-dropdown">
         <a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo is_page( 'about' ) ? ' aria-current="page"' : ''; ?>>
           About <span class="dropdown-arrow" aria-hidden="true">&#9662;</span>
@@ -84,19 +92,22 @@
           <li><a href="<?php echo esc_url( home_url( '/sustainability' ) ); ?>"<?php echo is_page( 'sustainability' ) ? ' aria-current="page"' : ''; ?>>Sustainability</a></li>
         </ul>
       </li>
-
       <li><a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>"<?php echo is_page( 'contact-us' ) ? ' aria-current="page"' : ''; ?>>Contact us</a></li>
     </ul>
 
     <div class="nav-right">
       <a href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart' ) ); ?>"
          class="cart-btn" aria-label="Cart">
-        🛒<span class="cart-badge" id="cartBadge">0</span>
+        🛒<?php echo vegama_cart_badge(); ?>
       </a>
-      <button class="btn-nav" id="authOpen">
+      <button type="button" class="btn-nav" id="authOpen" aria-haspopup="dialog">
         <?php echo is_user_logged_in() ? esc_html( wp_get_current_user()->display_name ) : 'Sign in'; ?>
       </button>
     </div>
+
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="primary-menu">
+      <span></span><span></span><span></span>
+    </button>
 
   </nav>
 
@@ -123,7 +134,23 @@
 
   document.getElementById('authOpen').addEventListener('click', function () {
     openMo('moLogin');
+    var first = document.querySelector('#moLogin input, #moLogin .mo-account-links a');
+    if (first) { first.focus(); }
   });
+
+  (function () {
+    var burger = document.getElementById('navBurger');
+    var menu = document.getElementById('primary-menu');
+    function setMenu(open) {
+      menu.classList.toggle('open', open);
+      burger.classList.toggle('active', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    burger.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+    menu.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', function () { setMenu(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setMenu(false); } });
+  })();
 
   function switchTab(t, btn) {
     document.querySelectorAll('.tab-b').forEach(function (b) { b.classList.remove('on'); });
