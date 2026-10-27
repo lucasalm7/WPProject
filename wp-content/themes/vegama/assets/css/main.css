@@ -332,7 +332,7 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 .ft-inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  align-items: top;
 }
 
 .ft-logo {
