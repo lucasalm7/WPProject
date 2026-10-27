@@ -205,10 +205,14 @@ body.admin-bar.woocommerce-page .site-header {
 
 .woocommerce ul.products li.product img {
   width: 100% !important;
-  aspect-ratio: 3 / 2 !important;
-  object-fit: cover !important;
+  height: 220px !important;           
+  object-fit: contain !important;    
+  object-position: center !important;
+  background: rgba(0, 0, 0, 0.15) !important;
   border-radius: 0 !important;
   margin: 0 0 22px 0 !important;
+  padding: 12px !important;            
+  box-sizing: border-box !important;
 }
 
 /* Small eyebrow above the title (like "RECIPE") */
