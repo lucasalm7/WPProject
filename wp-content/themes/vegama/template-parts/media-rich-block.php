@@ -1,56 +1,28 @@
-<?php
-/**
- * Reusable Media-Rich Section for Main Pages
- * Campaign: One dinner counts
- */
-?>
-<section class="media-rich-campaign-sec" style="background: var(--sage, #185f30); padding: 80px 20px; color: var(--parch, #f4eedc); margin-top: 60px;">
-  <div style="max-width: 1240px; margin: 0 auto;">
-    
-    <!-- Header Content -->
-    <div style="text-align: center; max-width: 700px; margin: 0 auto 48px auto;">
-      <span style="font-family: var(--fb); font-size: 11px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; opacity: 0.8; display: block; margin-bottom: 12px;">One Dinner Counts</span>
-      <h2 style="font-family: var(--fd); font-style: italic; font-weight: 900; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.1; margin: 0 0 16px 0;">See the kitchen in action.</h2>
-      <p style="font-family: var(--fb); font-size: 16px; opacity: 0.9; line-height: 1.6; margin: 0 0 24px 0;">You don't have to go vegan. Cook one plant-based dinner this week with our community and see how easy it is.</p>
-      
-      <!-- Campaign Button linking to the specific blog post -->
-      <a href="<?php echo esc_url( home_url( '/blog/one-plant-based-dinner/' ) ); ?>" style="display: inline-block; background: var(--lime, #b8d070); color: var(--sage-d, #123e20); font-family: var(--fb); font-weight: 800; font-size: 13.5px; padding: 12px 26px; border-radius: 999px; text-decoration: none; transition: background 0.2s ease;">
-        Read the campaign story →
-      </a>
+<section class="media-rich" aria-labelledby="media-rich-title">
+  <div class="media-rich__inner">
+
+    <div class="media-rich__intro">
+      <p class="sec-eye">One dinner counts</p>
+      <h2 id="media-rich-title" class="media-rich__h">See the kitchen in <em>action.</em></h2>
+      <p>You don't have to go vegan. Cook one plant-based dinner this week and see how easy it is.</p>
+      <a class="btn-primary" href="<?php echo esc_url( home_url( '/blog/one-plant-based-dinner/' ) ); ?>">Read the campaign story →</a>
     </div>
 
-    <!-- Media Grid: Video + 3 Photos -->
-    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center;" class="media-rich-grid">
-      
-      <!-- Local Video Container using HTML5 Video -->
-      <div style="border-radius: 20px; overflow: hidden; background: rgba(0,0,0,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.15); aspect-ratio: 16/9; position: relative;">
-        <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;">
+    <div class="media-rich__grid">
+      <div class="media-rich__video">
+        <video class="vegama-reel" muted loop playsinline controls preload="none" data-autoplay
+          poster="<?php echo esc_url( get_template_directory_uri() . '/assets/images/reel-poster.webp' ); ?>"
+          aria-label="Vegama reel: plant-based dinners cooked in our kitchen, with captions">
           <source src="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/vegama-reel-720.mp4' ); ?>" type="video/mp4">
-          Your browser does not support the video tag.
         </video>
       </div>
 
-      <!-- 3 Photos Grid Stack -->
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
-        <div style="grid-column: span 2; border-radius: 16px; overflow: hidden; aspect-ratio: 16/9; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/vegan-spanish-tortilla-serve.webp' ); ?>" alt="Plant-based cooking preparation" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-        </div>
-        <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/tofu-scramble-avocado.webp' ); ?>" alt="Fresh organic ingredients" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-        </div>
-        <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/avocado-toast-step-3-serve.webp' ); ?>" alt="Community cooking together" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-        </div>
+      <div class="media-rich__photos">
+        <img class="media-rich__wide" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/vegan-spanish-tortilla-serve.webp' ); ?>" alt="Vegan Spanish tortilla on a plate, garnished with parsley" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/tofu-scramble-avocado.webp' ); ?>" alt="Tofu scramble with sliced avocado in a bowl" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/avocado-toast-step-3-serve.webp' ); ?>" alt="Avocado toast topped with micro herbs" loading="lazy" decoding="async">
       </div>
-
     </div>
+
   </div>
 </section>
-
-<style>
-@media (max-width: 900px) {
-  .media-rich-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-</style>

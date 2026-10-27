@@ -13,9 +13,9 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
 
 <main id="main" class="about-page classes-page">
     <section class="about-hero"><div class="about-hero__inner">
-        <p class="sec-eye">Masterclasses</p>
+        <p class="sec-eye">Plant-based cooking classes in Esbjerg</p>
         <h1>Cook it <em>with us.</em></h1>
-        <p>Hands-on plant-based cooking evenings in Esbjerg. Cook three dishes in pairs,
+        <p>Hands-on plant-based cooking evenings in Esbjerg. Cook a seasonal menu in pairs,
             then we sit down and eat together. Up to 10 people per class.</p>
     </div></section>
 
@@ -35,7 +35,7 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
                         <time class="class-date" datetime="<?php echo esc_attr( $date ); ?>">
                             <span class="class-date__day"><?php echo esc_html( wp_date( 'D', $stamp ) ); ?></span>
                             <span class="class-date__num"><?php echo esc_html( wp_date( 'j', $stamp ) ); ?></span>
-                            <span class="class-date__month"><?php echo esc_html( wp_date( 'M', $stamp ) ); ?></span>
+                            <span class="class-date__month"><?php echo esc_html( wp_date( wp_date( 'Y', $stamp ) === current_time( 'Y' ) ? 'M' : 'M Y', $stamp ) ); ?></span>
                         </time>
                         <div class="class-info">
                             <h3><a href="<?php echo esc_url( $class->get_permalink() ); ?>"><?php echo esc_html( $class->get_name() ); ?></a></h3>
@@ -78,7 +78,7 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
             <h2>Before you book</h2>
             <ul>
                 <li>All classes take place in Esbjerg. You get the address in your confirmation email.</li>
-                <li>The price includes all ingredients, aprons and moms. You take the recipes home.</li>
+                <li>The price includes all ingredients, aprons and VAT. You take the recipes home.</li>
                 <li>Everything we cook is plant-based. Tell us about allergies in the order notes at checkout.</li>
                 <li>Free cancellation up to 7 days before the class.</li>
                 <li>Questions? <a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact us</a>.</li>

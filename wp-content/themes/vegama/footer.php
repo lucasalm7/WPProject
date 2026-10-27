@@ -13,7 +13,7 @@
     </div>
 
     <div class="ft-col">
-      <h4 class="ft-heading">Customer service</h4>
+      <h2 class="ft-heading">Customer service</h2>
       <ul class="ft-links">
         <li><a href="<?php echo esc_url( home_url( '/contact-us/#delivery' ) ); ?>">Delivery</a></li>
         <li><a href="<?php echo esc_url( home_url( '/contact-us/#returns' ) ); ?>">Returns</a></li>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="ft-col">
-      <h4 class="ft-heading">Information</h4>
+      <h2 class="ft-heading">Information</h2>
       <ul class="ft-links">
         <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a></li>
         <li><a href="<?php echo esc_url( home_url( '/accessibility-statement/' ) ); ?>">Accessibility</a></li>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="ft-col">
-      <h4 class="ft-heading">Social media</h4>
+      <h2 class="ft-heading">Social media</h2>
       <ul class="ft-social">
         <li><a href="https://instagram.com/vegama" aria-label="Instagram" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener">Facebook</a></li>

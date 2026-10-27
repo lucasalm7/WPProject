@@ -14,6 +14,10 @@
                             <?php wp_nonce_field( 'vegama_about_form', 'vegama_about_nonce' ); ?>
 
                             <input type="hidden" name="action" value="vegama_about_form">
+                            <div class="nl-hp" aria-hidden="true">
+                                <label for="contact-website">Leave this field empty</label>
+                                <input type="text" id="contact-website" name="vegama_website" tabindex="-1" autocomplete="off">
+                            </div>
                             <input type="hidden" name="vegama_main_intent" id="vegama_main_intent" value="">
                             <input type="hidden" name="vegama_sub_category" id="vegama_sub_category" value="">
 
