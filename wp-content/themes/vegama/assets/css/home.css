@@ -8,7 +8,7 @@
   justify-content: center;
   text-align: center;
   padding: 120px clamp(20px, 6vw, 80px) 100px;
-  background: linear-gradient(rgba(14,68,35,.65), rgba(14,68,35,.75)), url('../images/hero-bg.webp') center/cover no-repeat;
+  background: linear-gradient(rgba(14,68,35,.65), rgba(14,68,35,.75)), url('../images/Hero_Onedinner.webp') center/cover no-repeat;
 }
 
 .hero-eyebrow {

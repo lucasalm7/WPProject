@@ -4,8 +4,8 @@
 
  <section id="hero">
   <p class="hero-eyebrow">Vegan Cooking · Esbjerg · Denmark</p>
-  <h1 class="hero-h1">Plant-based<br><em>culture.</em></h1>
-  <p class="hero-sub">Recipes, cookbooks, and immersive cooking experiences for people who believe food can be both ethical and extraordinary.</p>
+  <h1 class="hero-h1">One dinner<br><em>counts.</em></h1>
+  <p class="hero-sub">You don’t have to go vegan. Cook one plant-based dinner this week. We make it easy and good.</p>
   <div class="hero-ctas">
     <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-primary">Explore the kitchen</a>
     <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-ghost">Book a masterclass</a>
