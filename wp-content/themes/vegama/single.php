@@ -23,7 +23,7 @@
 
             <?php if (has_post_thumbnail()):  ?>
                 <div class="single-post-image">
-                    <?php the_post_thumbnail('large', array('alt' => esc_attr( get_the_title() ))); ?>
+                                        <?php the_post_thumbnail( 'large' ); ?>
                 </div>
             <?php endif; ?>
 
@@ -53,7 +53,7 @@
             <div style="background: #185f30; color: #fff; padding: 30px; border-radius: 12px; margin: 40px auto; max-width: 720px; text-align: center;">
                 <h3 style="color: #fff; margin-top: 0; margin-bottom: 10px;">Love Cooking Plant-Based? Take It Further.</h3>
                 <p style="opacity: 0.9; margin-bottom: 20px; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto;">Recipes are just the beginning. Connect with fellow conscious food enthusiasts in Denmark, share surplus market ingredients, and cook side-by-side with us in our local community workshops.</p>
-                <a href="http://wpproject.local/classes" style="display: inline-block; background: #fff; color: #185f30; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Reserve your spot in a class</a>
+                                <a href="<?php echo esc_url( home_url( '/classes/' ) ); ?>" style="display: inline-block; background: #fff; color: #185f30; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Reserve your spot in a class</a>
             </div>
 
             <?php comments_template();  ?>

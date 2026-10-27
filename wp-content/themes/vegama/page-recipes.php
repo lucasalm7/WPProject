@@ -27,6 +27,7 @@
         <?php
         $query_args = [ 
             'post_type'      => 'post',
+            'category_name'  => 'recipe',
             'post_status'    => 'publish',
             'posts_per_page' => 12,
             'paged'          => get_query_var('paged') ? get_query_var('paged') : 1,
