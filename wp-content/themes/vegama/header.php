@@ -78,6 +78,7 @@
       <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>"<?php echo is_page( 'classes' ) ? ' aria-current="page"' : ''; ?>>Classes</a></li>
       <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo is_page( 'about' ) ? ' aria-current="page"' : ''; ?>>About</a></li>
       <li><a href="<?php echo esc_url( home_url( '/sustainability' ) ); ?>"<?php echo is_page( 'sustainability' ) ? ' aria-current="page"' : ''; ?>>Sustainability</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>"<?php echo is_page( 'contact-us' ) ? ' aria-current="page"' : ''; ?>>Contact us</a></li>
     </ul>
 
     <div class="nav-right">
