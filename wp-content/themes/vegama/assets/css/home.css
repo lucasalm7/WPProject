@@ -353,24 +353,23 @@
   position: relative;
 }
 
-.rc-link {
-  color: inherit;
+.rc:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+}
+
+a.prod-img {
+  display: block;
+}
+
+a.prod-name {
+  display: block;
   text-decoration: none;
 }
 
-.rc-link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.rc-link:focus-visible {
-  outline: none;
-}
-
-.rc:focus-within {
-  outline: 2px solid var(--sage);
-  outline-offset: 2px;
+a.prod-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .rc-name {

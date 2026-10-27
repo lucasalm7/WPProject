@@ -38,7 +38,7 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
                             <span class="class-date__month"><?php echo esc_html( wp_date( 'M', $stamp ) ); ?></span>
                         </time>
                         <div class="class-info">
-                            <h3><?php echo esc_html( $class->get_name() ); ?></h3>
+                            <h3><a href="<?php echo esc_url( $class->get_permalink() ); ?>"><?php echo esc_html( $class->get_name() ); ?></a></h3>
                             <?php if ( $class->get_short_description() ) : ?>
                                 <p><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $class->get_short_description() ), 30 ) ); ?></p>
                             <?php endif; ?>
@@ -60,6 +60,8 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
                             <?php else : ?>
                                 <span class="class-soldout">Sold out</span>
                             <?php endif; ?>
+                            <a class="class-details" href="<?php echo esc_url( $class->get_permalink() ); ?>"
+                                aria-label="<?php echo esc_attr( 'See details: ' . $class->get_name() ); ?>">See details</a>
                         </div>
                     </li>
                 <?php endforeach; ?>
@@ -83,7 +85,7 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
             </ul>
         </div>
         <?php if ( $gift_card ) : ?>
-            <div class="about-card class-gift">
+            <div class="about-card class-gift" id="classes-gift">
                 <p class="sec-eye sec-eye--dark">Gift card</p>
                 <h2>Give a masterclass</h2>
                 <p>A seat at the table for someone you like to cook for. They choose the date themselves.</p>

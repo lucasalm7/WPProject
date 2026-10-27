@@ -268,6 +268,77 @@ function vegama_direct_checkout( $url, $product = null ) {
 }
 add_filter( 'woocommerce_add_to_cart_redirect', 'vegama_direct_checkout', 10, 2 );
 
+function vegama_is_class( $product ) {
+    return $product instanceof WC_Product && has_term( 'masterclasses', 'product_cat', $product->get_id() );
+}
+
+function vegama_class_is_past( $product ) {
+    $date = $product->get_meta( '_vegama_class_date' );
+    return $date && $date < current_time( 'Y-m-d' );
+}
+
+function vegama_class_purchasable( $purchasable, $product ) {
+    if ( vegama_is_class( $product ) && vegama_class_is_past( $product ) ) {
+        return false;
+    }
+    return $purchasable;
+}
+add_filter( 'woocommerce_is_purchasable', 'vegama_class_purchasable', 10, 2 );
+
+function vegama_class_button_text( $text, $product = null ) {
+    if ( vegama_is_class( $product ) && $product->is_purchasable() && $product->is_in_stock() ) {
+        return 'Book a seat';
+    }
+    return $text;
+}
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'vegama_class_button_text', 10, 2 );
+add_filter( 'woocommerce_product_add_to_cart_text', 'vegama_class_button_text', 10, 2 );
+
+function vegama_class_facts() {
+    global $product;
+    if ( ! vegama_is_class( $product ) ) {
+        return;
+    }
+    $date  = $product->get_meta( '_vegama_class_date' );
+    $time  = $product->get_meta( '_vegama_class_time' );
+    $seats = $product->managing_stock() ? (int) $product->get_stock_quantity() : null;
+    ?>
+    <ul class="class-facts">
+        <?php if ( $date ) : ?>
+            <li><time datetime="<?php echo esc_attr( $date ); ?>"><?php echo esc_html( wp_date( 'l j F Y', strtotime( $date . ' 12:00' ) ) ); ?></time></li>
+        <?php endif; ?>
+        <?php if ( $time ) : ?>
+            <li><?php echo esc_html( $time ); ?></li>
+        <?php endif; ?>
+        <li>Esbjerg</li>
+        <?php if ( vegama_class_is_past( $product ) ) : ?>
+            <li>This class has taken place</li>
+        <?php elseif ( $product->is_in_stock() && null !== $seats ) : ?>
+            <li><?php echo esc_html( sprintf( _n( '%d seat left', '%d seats left', $seats, 'vegama' ), $seats ) ); ?></li>
+        <?php endif; ?>
+    </ul>
+    <?php
+}
+add_action( 'woocommerce_single_product_summary', 'vegama_class_facts', 6 );
+
+function vegama_class_note() {
+    global $product;
+    if ( ! vegama_is_class( $product ) ) {
+        return;
+    }
+    ?>
+    <div class="class-note">
+        <?php if ( vegama_class_is_past( $product ) ) : ?>
+            <p><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>">See the next masterclass dates</a></p>
+        <?php else : ?>
+            <p>Price includes all ingredients, aprons and moms. Free cancellation up to 7 days before the class.</p>
+            <p>Giving it as a present? <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>#classes-gift">Buy a gift card</a> · Questions? <a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact us</a></p>
+        <?php endif; ?>
+    </div>
+    <?php
+}
+add_action( 'woocommerce_single_product_summary', 'vegama_class_note', 35 );
+
 function vegama_handle_newsletter() {
     if (
         ! isset( $_POST['vegama_newsletter_nonce'] ) ||
