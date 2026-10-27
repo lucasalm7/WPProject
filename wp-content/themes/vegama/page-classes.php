@@ -94,6 +94,7 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
             </div>
         <?php endif; ?>
     </section>
+    <?php get_template_part( 'template-parts/media-rich-block' ); ?>
 </main>
 
 <?php get_footer();
