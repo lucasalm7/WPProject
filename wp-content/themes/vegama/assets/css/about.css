@@ -112,3 +112,151 @@
   color: var(--sage);
   font-weight: 700;
 }
+
+/* About: photo and text rows */
+.about-rows {
+  display: grid;
+  gap: 32px;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 64px 20px 100px;
+}
+
+.about-row,
+.about-cta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.about-row__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-photo,
+.about-cta__media {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+}
+
+.about-photo {
+  border-radius: 22px;
+  box-shadow: 0 14px 30px rgba(20, 40, 25, 0.08);
+}
+
+.about-photo img,
+.about-cta__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, 50% 50%);
+  display: block;
+}
+
+.about-row__media {
+  min-height: 420px;
+}
+
+.about-cta {
+  gap: 0;
+  background: linear-gradient(135deg, rgba(14, 68, 35, 0.96), rgba(24, 95, 48, 0.9));
+  color: var(--parch);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 14px 30px rgba(20, 40, 25, 0.1);
+}
+
+.about-cta__media {
+  min-height: 380px;
+}
+
+.about-cta__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(28px, 5vw, 56px);
+}
+
+.about-cta .sec-eye {
+  color: var(--lime);
+}
+
+.about-cta h2 {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  color: var(--parch);
+  margin-bottom: 12px;
+}
+
+.about-cta p:not(.sec-eye) {
+  color: rgba(244, 238, 220, 0.85);
+  line-height: 1.7;
+}
+
+.about-cta .btn-primary {
+  margin-top: 22px;
+}
+
+/* Contact: the photo fills the left column down to the end of the form */
+.contact-page .contact-layout {
+  align-items: stretch;
+}
+
+.contact-layout .about-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-photo {
+  flex: 1 1 auto;
+  min-height: 300px;
+}
+
+.contact-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.contact-faq__media {
+  position: sticky;
+  top: 110px;
+  aspect-ratio: 4 / 5;
+}
+
+@media (max-width: 900px) {
+  .about-row,
+  .about-cta,
+  .contact-faq {
+    grid-template-columns: 1fr;
+  }
+
+  .about-row {
+    gap: 20px;
+  }
+
+  .about-row__media,
+  .about-cta__media,
+  .contact-photo,
+  .contact-faq__media {
+    position: relative;
+    top: auto;
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .about-row--flip .about-row__media {
+    order: -1;
+  }
+}

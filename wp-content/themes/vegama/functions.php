@@ -26,8 +26,10 @@ function vegama_scripts() {
         }
     };
 
+    wp_enqueue_style( 'vegama-fonts', 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Nunito:wght@400;500;600;700;800&display=swap', [], null );
+
     // Main base stylesheet
-    $css( 'vegama-style', 'main.css', [] );
+    $css( 'vegama-style', 'main.css', [ 'vegama-fonts' ] );
 
     // WooCommerce Styles (Loads on all WC pages or single product pages)
     if ( class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_shop() || is_product_taxonomy() || is_cart() || is_checkout() || is_account_page() ) ) {
@@ -52,10 +54,10 @@ function vegama_scripts() {
     if ( is_page( 'classes' ) ) {
         $css( 'vegama-classes', 'classes.css', [ 'vegama-about' ] );
     }
-    if ( is_home() || is_archive() || is_search() || is_page( 'recipes' ) ) {
+    if ( is_home() || is_archive() || is_search() ) {
         $css( 'vegama-blog', 'blog.css' );
     }
-        if ( is_page( 'recipes' ) || is_home() ) {
+    if ( is_home() ) {
         $css( 'vegama-recipes', 'recipes.css' );
     }
     if ( is_singular( 'post' ) ) {
@@ -69,6 +71,15 @@ function vegama_scripts() {
     wp_enqueue_script( 'vegama-js', $uri . '/assets/js/main.js', [], filemtime( $dir . '/assets/js/main.js' ), true );
 }
 add_action( 'wp_enqueue_scripts', 'vegama_scripts' );
+
+function vegama_font_hints( $urls, $relation ) {
+    if ( 'preconnect' === $relation ) {
+        $urls[] = 'https://fonts.googleapis.com';
+        $urls[] = array( 'href' => 'https://fonts.gstatic.com', 'crossorigin' );
+    }
+    return $urls;
+}
+add_filter( 'wp_resource_hints', 'vegama_font_hints', 10, 2 );
 
 function vegama_about_page_template( $template ) {
     if ( is_page( 'about' ) ) {
@@ -331,7 +342,7 @@ function vegama_class_note() {
         <?php if ( vegama_class_is_past( $product ) ) : ?>
             <p><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>">See the next masterclass dates</a></p>
         <?php else : ?>
-            <p>Price includes all ingredients, aprons and moms. Free cancellation up to 7 days before the class.</p>
+            <p>Price includes all ingredients, aprons and VAT. Free cancellation up to 7 days before the class.</p>
             <p>Giving it as a present? <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>#classes-gift">Buy a gift card</a> · Questions? <a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact us</a></p>
         <?php endif; ?>
     </div>
@@ -352,6 +363,8 @@ function vegama_handle_newsletter() {
             403
         );
     }
+
+    $pdf = get_template_directory_uri() . '/assets/downloads/vegama-5-weeknight-dinners.pdf';
 
     if ( ! empty( $_POST['vegama_website'] ) ) {
         wp_send_json_success( array( 'message' => 'Almost done! Check your inbox and confirm your email address.' ) );
@@ -383,12 +396,12 @@ function vegama_handle_newsletter() {
         $mailpoet->addSubscriber( array( 'email' => $email ), $list_ids );
     } catch ( \Exception $e ) {
         if ( 12 === $e->getCode() ) {
-            wp_send_json_success( array( 'message' => 'You are already on the list. See you on Thursday!' ) );
+            wp_send_json_success( array( 'message' => 'You are already on the list. Here are your free recipes again.', 'download' => $pdf ) );
         }
         wp_send_json_error( array( 'message' => 'Something went wrong. Please try again later.' ), 500 );
     }
 
-    wp_send_json_success( array( 'message' => 'Almost done! Check your inbox and confirm your email address.' ) );
+    wp_send_json_success( array( 'message' => 'Here are your free recipes. Check your inbox to confirm your subscription.', 'download' => $pdf ) );
 }
 add_action( 'wp_ajax_vegama_newsletter', 'vegama_handle_newsletter' );
 add_action( 'wp_ajax_nopriv_vegama_newsletter', 'vegama_handle_newsletter' );
@@ -411,6 +424,10 @@ function vegama_handle_about_form() {
             ),
             403
         );
+    }
+
+    if ( ! empty( $_POST['vegama_website'] ) ) {
+        wp_send_json_success( array( 'message' => 'Thanks! We reply within 24 hours.' ) );
     }
 
     $main_intent = sanitize_text_field(
@@ -525,14 +542,41 @@ add_action( 'wp_ajax_vegama_about_form', 'vegama_handle_about_form' );
 add_action( 'wp_ajax_nopriv_vegama_about_form', 'vegama_handle_about_form' );
 
 // SEO title: a post can set its own <title> with the custom field "_seo_title".
+function vegama_page_seo() {
+    $pages = array(
+        'classes'        => array( 'Plant-based cooking classes in Esbjerg | Vegama', 'Hands-on plant-based cooking evenings in Esbjerg for up to 10 people. Cook a seasonal menu, eat together and take the recipes home. From 395 kr.' ),
+        'contact-us'     => array( 'Contact Vegama | Classes, e-books and orders', 'Questions about a masterclass, an e-book or an order? Pick a topic and we reply within 24 hours. Delivery, returns and gift cards in our FAQ.' ),
+        'about'          => array( 'About Vegama | Plant-based cooking from Esbjerg', 'Vegama is a small plant-based kitchen in Esbjerg. We make easy recipes, e-books and cooking classes for people who want to eat more plants.' ),
+        'sustainability' => array( 'Sustainability at Vegama | Seasonal, low-waste cooking', 'How we cook with the Danish seasons, waste less food and put plants first in our recipes, e-books and cooking classes in Esbjerg.' ),
+    );
+
+    if ( is_front_page() ) {
+        return array( 'Vegama | Easy plant-based dinners & classes in Esbjerg', "You don't have to go vegan. Easy plant-based dinner recipes, e-books and hands-on cooking classes in Esbjerg. Get 5 weeknight dinners free." );
+    }
+    if ( function_exists( 'is_shop' ) && is_shop() ) {
+        return array( 'Plant-based e-books, cooking classes and merch | Vegama', 'Plant-based e-books with easy dinners, cooking class seats in Esbjerg, gift cards, aprons, spices and tote bags. Prices in DKK.' );
+    }
+    if ( is_home() ) {
+        return array( 'Easy plant-based recipes and guides | Vegama blog', 'Easy plant-based dinner recipes in grams and °C with allergens, and guides to cooking with plants in Denmark.' );
+    }
+    if ( is_page() ) {
+        $slug = get_post_field( 'post_name', get_queried_object_id() );
+        if ( isset( $pages[ $slug ] ) ) {
+            return $pages[ $slug ];
+        }
+    }
+    return array( '', '' );
+}
+
 function vegama_seo_title( $title ) {
     if ( is_singular() && ! is_front_page() ) {
-               $custom = get_post_meta( get_queried_object_id(), 'seo_title', true );
+        $custom = get_post_meta( get_queried_object_id(), 'seo_title', true );
         if ( $custom ) {
             return $custom;
         }
     }
-    return $title;
+    $seo = vegama_page_seo();
+    return $seo[0] ? $seo[0] : $title;
 }
 add_filter( 'pre_get_document_title', 'vegama_seo_title' );
 
@@ -564,9 +608,10 @@ remove_action( 'wp_head', 'rel_canonical' );
 function vegama_seo_meta() {
     global $post;
 
-    // The front page is a static page with no content, so it must be checked first.
-    if ( is_front_page() ) {
-        $desc = 'Plant-based recipes, e-books and cooking masterclasses in Esbjerg, Denmark.';
+    $seo = vegama_page_seo();
+
+    if ( $seo[1] ) {
+        $desc = $seo[1];
     } elseif ( is_singular() && $post ) {
         $desc = get_post_meta( $post->ID, '_meta_description', true );
         if ( ! $desc ) {
@@ -590,15 +635,15 @@ function vegama_seo_meta() {
         $og_image = esc_url( get_template_directory_uri() . '/assets/img/og-default.jpg' );
     }
 
-    $is_article = is_singular() && ! is_front_page();
+    $is_article = is_singular( 'post' );
     $site       = esc_attr( get_bloginfo( 'name' ) );
 
     if ( is_front_page() ) {
         $url   = esc_url( home_url( '/' ) );
-        $title = esc_attr( get_bloginfo( 'name' ) . ' – ' . get_bloginfo( 'description' ) );
+        $title = esc_attr( $seo[0] );
     } elseif ( is_singular() ) {
         $url   = esc_url( get_permalink() );
-               $title = esc_attr( get_post_meta( get_queried_object_id(), 'seo_title', true ) ?: get_the_title() );
+        $title = esc_attr( get_post_meta( get_queried_object_id(), 'seo_title', true ) ?: ( $seo[0] ? $seo[0] : get_the_title() ) );
     } else {
         // Archives (e.g. the Shop): no canonical, so we never point to the first product by mistake.
         $url   = '';
@@ -663,6 +708,172 @@ function vegama_recipe_schema() {
     echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'vegama_recipe_schema', 10 );
+
+function vegama_print_schema( $schema ) {
+    echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}
+
+function vegama_class_event( $product ) {
+    $date = $product->get_meta( '_vegama_class_date' );
+    if ( ! $date ) {
+        return null;
+    }
+    $tz    = wp_timezone();
+    $start = new DateTime( $date . ' 17:30', $tz );
+    $end   = new DateTime( $date . ' 20:30', $tz );
+    if ( preg_match( '/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/u', (string) $product->get_meta( '_vegama_class_time' ), $m ) ) {
+        $start = new DateTime( $date . ' ' . $m[1], $tz );
+        $end   = new DateTime( $date . ' ' . $m[2], $tz );
+    }
+    $image = wp_get_attachment_image_url( $product->get_image_id(), 'large' );
+
+    return array(
+        '@context'            => 'https://schema.org',
+        '@type'               => 'Event',
+        'name'                => $product->get_name(),
+        'description'         => wp_strip_all_tags( $product->get_short_description() ),
+        'startDate'           => $start->format( 'c' ),
+        'endDate'             => $end->format( 'c' ),
+        'eventStatus'         => 'https://schema.org/EventScheduled',
+        'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+        'location'            => array(
+            '@type'   => 'Place',
+            'name'    => 'Vegama kitchen',
+            'address' => array( '@type' => 'PostalAddress', 'addressLocality' => 'Esbjerg', 'addressCountry' => 'DK' ),
+        ),
+        'image'               => $image ? array( $image ) : array(),
+        'organizer'           => array( '@type' => 'Organization', 'name' => 'Vegama', 'url' => home_url( '/' ) ),
+        'offers'              => array(
+            '@type'         => 'Offer',
+            'price'         => $product->get_price(),
+            'priceCurrency' => get_woocommerce_currency(),
+            'availability'  => $product->is_in_stock() ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+            'url'           => $product->get_permalink(),
+        ),
+    );
+}
+
+function vegama_structured_data() {
+    if ( is_front_page() ) {
+        vegama_print_schema( array(
+            '@context' => 'https://schema.org',
+            '@type'    => 'Organization',
+            'name'     => 'Vegama',
+            'url'      => home_url( '/' ),
+            'logo'     => get_template_directory_uri() . '/assets/img/og-default.jpg',
+            'address'  => array( '@type' => 'PostalAddress', 'addressLocality' => 'Esbjerg', 'addressCountry' => 'DK' ),
+            'sameAs'   => array( 'https://instagram.com/vegama' ),
+        ) );
+    }
+
+    if ( function_exists( 'is_product' ) && is_product() ) {
+        $product = wc_get_product( get_queried_object_id() );
+        if ( vegama_is_class( $product ) && ! vegama_class_is_past( $product ) ) {
+            $event = vegama_class_event( $product );
+            if ( $event ) {
+                vegama_print_schema( $event );
+            }
+        }
+    }
+
+    if ( is_page( 'classes' ) && function_exists( 'vegama_get_upcoming_classes' ) ) {
+        foreach ( vegama_get_upcoming_classes() as $class ) {
+            $event = vegama_class_event( $class );
+            if ( $event ) {
+                vegama_print_schema( $event );
+            }
+        }
+    }
+
+    if ( is_page( 'contact-us' ) ) {
+        $questions = array();
+        foreach ( vegama_faqs() as $faq ) {
+            $questions[] = array(
+                '@type'          => 'Question',
+                'name'           => $faq['q'],
+                'acceptedAnswer' => array( '@type' => 'Answer', 'text' => implode( ' ', $faq['a'] ) ),
+            );
+        }
+        vegama_print_schema( array(
+            '@context'   => 'https://schema.org',
+            '@type'      => 'FAQPage',
+            'mainEntity' => $questions,
+        ) );
+    }
+}
+add_action( 'wp_head', 'vegama_structured_data', 11 );
+
+/**
+ * Prints a theme photo from assets/images with its real width and height.
+ *
+ * @param string $file File name in assets/images.
+ * @param string $alt  Alt text.
+ */
+function vegama_photo( $file, $alt ) {
+	$size = wp_getimagesize( get_template_directory() . '/assets/images/' . $file );
+	printf(
+		'<img src="%s" alt="%s"%s loading="lazy" decoding="async">',
+		esc_url( get_template_directory_uri() . '/assets/images/' . $file ),
+		esc_attr( $alt ),
+		$size ? sprintf( ' width="%d" height="%d"', $size[0], $size[1] ) : ''
+	);
+}
+
+function vegama_faqs() {
+    return array(
+        array( 'id' => 'delivery', 'q' => 'How long does delivery take, and what does it cost?', 'a' => array(
+            'We send merch and spices within Denmark. Your order leaves our kitchen within 2 working days, and the shipping price is shown at checkout before you pay.',
+            'E-books arrive straight away by email and under My account. Masterclasses need no delivery: you get the address in your confirmation email.',
+        ) ),
+        array( 'id' => 'returns', 'q' => 'Can I return something?', 'a' => array(
+            'Yes. For merch and spices you have 14 days from delivery to change your mind. Write to us through the form above, then send the item back unused. We refund the full price, including the standard shipping, within 14 days. The return shipping is paid by you.',
+            'E-books cannot be returned once the download has started, because you get the file straight away. If a file does not work, write to us and we fix it.',
+        ) ),
+        array( 'id' => 'cancellation', 'q' => 'Can I cancel a masterclass booking?', 'a' => array(
+            'Yes, free of charge up to 7 days before the class. Write to us and we refund you or move you to another date.',
+            'Classes on a fixed date are not covered by the 14-day right of withdrawal, so after that we cannot refund the seat.',
+        ) ),
+        array( 'id' => 'gift-card', 'q' => 'How does the gift card work?', 'a' => array(
+            'After you pay, we email you a personal code within 24 hours. The person you give it to picks any masterclass date and enters the code at checkout. The code is valid for 12 months.',
+        ) ),
+        array( 'id' => 'allergies', 'q' => 'I have an allergy. Can I still join a class?', 'a' => array(
+            'Yes. Everything we cook is plant-based. Write your allergies in the order notes at checkout, and we adapt the dishes or tell you before the class if we cannot.',
+        ) ),
+        array( 'id' => 'ebooks', 'q' => 'Where do I find my e-book?', 'a' => array(
+            'In your order email, and under My account → My e-books whenever you are signed in.',
+        ) ),
+    );
+}
+
+remove_action( 'wp_head', 'wp_generator' );
+add_filter( 'the_generator', '__return_empty_string' );
+
+function vegama_security_headers() {
+    if ( is_admin() ) {
+        return;
+    }
+    header( 'X-Content-Type-Options: nosniff' );
+    header( 'X-Frame-Options: SAMEORIGIN' );
+    header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    header( 'Permissions-Policy: camera=(), microphone=(), geolocation=()' );
+}
+add_action( 'send_headers', 'vegama_security_headers' );
+
+function vegama_block_author_scans() {
+    if ( ! is_user_logged_in() && isset( $_GET['author'] ) ) {
+        wp_safe_redirect( home_url( '/' ), 301 );
+        exit;
+    }
+}
+add_action( 'template_redirect', 'vegama_block_author_scans', 1 );
+
+function vegama_hide_user_endpoints( $endpoints ) {
+    if ( ! is_user_logged_in() ) {
+        unset( $endpoints['/wp/v2/users'], $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+    }
+    return $endpoints;
+}
+add_filter( 'rest_endpoints', 'vegama_hide_user_endpoints' );
 
 // Article + FAQ schema for blog posts that are NOT recipes (e.g. the campaign post).
 // FAQ: every <h3> that ends with "?" becomes a question, the paragraph after it is the answer.
@@ -807,20 +1018,6 @@ function vegama_testimonial_save_meta( $post_id ) {
 }
 add_action( 'save_post', 'vegama_testimonial_save_meta' );
 
-function vegama_editor_cpt_access() {
-    $editor = get_role( 'editor' );
-    if ( ! $editor ) return;
-    $caps = array(
-        'edit_vegama_testimonials',   'edit_others_vegama_testimonials',
-        'publish_vegama_testimonials','read_private_vegama_testimonials',
-        'delete_vegama_testimonials',
-    );
-    foreach ( $caps as $cap ) {
-        $editor->add_cap( $cap );
-    }
-}
-add_action( 'init', 'vegama_editor_cpt_access' );
-
 function vegama_remove_comment_url_field($fields) {
     unset($fields['url']);
     return $fields;
@@ -834,4 +1031,4 @@ function vegama_redirect_recipes_to_blog() {
         exit;
     }
 }
-add_action( 'template_redirect', 'vegama_redirect_recipes_to_blog' );
+add_action( 'template_redirect', 'vegama_redirect_recipes_to_blog' );

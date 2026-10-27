@@ -4,9 +4,6 @@
   <meta charset="<?php bloginfo( 'charset' ); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php wp_head(); ?>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Nunito:wght@400&display=swap" rel="stylesheet">
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
@@ -45,22 +42,22 @@
       <!-- Sign-in form -->
       <form class="auth-form" id="formIn">
         <?php wp_nonce_field( 'vegama_login', 'login_nonce' ); ?>
-        <label for="loginUser" class="screen-reader-text">Username or email</label>
-        <input type="text"     id="loginUser" name="log" placeholder="Username or email" autocomplete="username" required>
-        <label for="loginPass" class="screen-reader-text">Password</label>
-        <input type="password" id="loginPass" name="pwd" placeholder="Password" autocomplete="current-password" required>
+        <label for="loginUser">Username or email</label>
+        <input type="text"     id="loginUser" name="log" autocomplete="username" required>
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" name="pwd" autocomplete="current-password" required>
         <p id="loginMsg" role="alert" style="font-size:13px;color:#a3321f;display:none;text-align:center"></p>
         <button type="submit">Sign in →</button>
       </form>
 
       <form class="auth-form" id="formUp" style="display:none;flex-direction:column">
         <?php wp_nonce_field( 'vegama_register', 'register_nonce' ); ?>
-        <label for="regUser" class="screen-reader-text">Username</label>
-        <input type="text"     id="regUser" name="user_login" placeholder="Username" autocomplete="username" required>
-        <label for="regEmail" class="screen-reader-text">Email</label>
-        <input type="email"    id="regEmail" name="user_email" placeholder="Email" autocomplete="email" required>
-        <label for="regPass" class="screen-reader-text">Password</label>
-        <input type="password" id="regPass" name="user_pass" placeholder="Password" autocomplete="new-password" required>
+        <label for="regUser">Username</label>
+        <input type="text"     id="regUser" name="user_login" autocomplete="username" required>
+        <label for="regEmail">Email</label>
+        <input type="email"    id="regEmail" name="user_email" autocomplete="email" required>
+        <label for="regPass">Password</label>
+        <input type="password" id="regPass" name="user_pass" autocomplete="new-password" required>
         <p id="registerMsg" role="alert" style="font-size:13px;color:#a3321f;display:none;text-align:center"></p>
         <button type="submit">Create account →</button>
       </form>
@@ -70,7 +67,7 @@
 </div>
 
 
-<header class="site-header<?php echo is_page( 'about' ) ? ' about-header' : ''; ?>" id="site-header" role="banner">
+<header class="site-header" id="site-header" role="banner">
   <nav class="site-nav" role="navigation" aria-label="Main navigation">
 
     <!-- Logo -->
@@ -100,8 +97,8 @@
 
     <div class="nav-right">
       <a href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart' ) ); ?>"
-         class="cart-btn" aria-label="Cart">
-        🛒<?php echo vegama_cart_badge(); ?>
+         class="cart-btn">
+        <span aria-hidden="true">🛒</span><span class="screen-reader-text">Cart</span><?php echo vegama_cart_badge(); ?>
       </a>
       <button type="button" class="btn-nav" id="authOpen" aria-haspopup="dialog">
         <?php echo is_user_logged_in() ? esc_html( wp_get_current_user()->display_name ) : 'Sign in'; ?>

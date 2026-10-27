@@ -7,7 +7,7 @@
   <h1 class="hero-h1">One dinner<br><em>counts.</em></h1>
   <p class="hero-sub">You don’t have to go vegan. Cook one plant-based dinner this week. We make it easy and good.</p>
   <div class="hero-ctas">
-    <a href="<?php echo esc_url( home_url( '/blog/one-plant-based-dinner/' ) ); ?>" class="btn-primary">Get the free recipes</a>
+    <a href="#newsletter" class="btn-primary">Get the free recipes</a>
     <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-ghost">Book a masterclass</a>
   </div>
 </section>
@@ -51,7 +51,8 @@
 
       foreach ( array_merge( $classes, $gift_card ) as $product ) :
           $is_class = in_array( $product, $classes, true );
-          $badge    = $is_class ? wp_date( 'D j M', strtotime( $product->get_meta( '_vegama_class_date' ) . ' 12:00' ) ) : 'Gift card';
+          $stamp    = $is_class ? strtotime( $product->get_meta( '_vegama_class_date' ) . ' 12:00' ) : 0;
+          $badge    = $is_class ? wp_date( wp_date( 'Y', $stamp ) === current_time( 'Y' ) ? 'D j M' : 'D j M Y', $stamp ) : 'Gift card';
           $action   = $is_class ? 'Book a seat' : 'Buy a gift card';
       ?>
 
@@ -92,13 +93,12 @@
         <p class="sec-eye">Recipes & Stories</p>
         <h2 class="sec-h">From the <em>kitchen.</em></h2>
       </div>
-      <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-sm">View all →</a>
+      <a href="<?php echo esc_url( home_url( '/blog/?type=recipe' ) ); ?>" class="btn-sm">View all →</a>
     </div>
     <div class="rail-wrap">
       <button type="button" class="rail-btn rail-btn--prev" data-rail="recipe-rail" data-dir="-1" aria-label="Previous recipes" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg></button>
     <div class="rec-rail" id="recipe-rail">
       <?php
-      // Find the recipe category regardless of whether slug is 'recipe' or 'recipes'
       $recipe_cat = get_category_by_slug( 'recipes' ) ?: get_category_by_slug( 'recipe' );
       $args = array(
         'post_type'      => 'post',
@@ -250,8 +250,8 @@ wp_reset_postdata();
 
 <section id="newsletter" aria-labelledby="nl-title">
   <div class="nl-inner">
-    <h2 id="nl-title" class="nl-h">Plant-based recipes<br>in your <em>inbox.</em></h2>
-    <p class="nl-sub">One seasonal recipe, one story from the kitchen and early access to new masterclass dates, every Thursday.</p>
+    <h2 id="nl-title" class="nl-h">5 weeknight dinners,<br><em>free.</em></h2>
+    <p class="nl-sub">All plant-based, in grams and °C, with allergens. Get the PDF right away, then one seasonal recipe and the new class dates every Thursday.</p>
     <form class="nl-form" id="nlForm">
       <?php wp_nonce_field( 'vegama_newsletter', 'vegama_newsletter_nonce' ); ?>
       <input type="hidden" name="action" value="vegama_newsletter">
@@ -262,11 +262,11 @@ wp_reset_postdata();
       <div class="nl-row">
         <label for="nl-email" class="screen-reader-text">Email address</label>
         <input type="email" id="nl-email" name="vegama_email" placeholder="your@email.com" autocomplete="email" required>
-        <button type="submit">Subscribe</button>
+        <button type="submit">Send me the recipes</button>
       </div>
       <label class="nl-consent">
         <input type="checkbox" name="vegama_consent" value="1" required>
-        <span>I agree to receive the Vegama newsletter by email. I can unsubscribe at any time.
+        <span>Send me the free recipes and the Vegama newsletter every Thursday. I can unsubscribe at any time.
           <?php if ( get_privacy_policy_url() ) : ?>
             <a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">Privacy policy</a>
           <?php endif; ?>
@@ -282,7 +282,7 @@ wp_reset_postdata();
     const message = document.getElementById("nlMsg");
     const button = form.querySelector('button[type="submit"]');
     button.disabled = true;
-    button.textContent = "Subscribing...";
+    button.textContent = "Sending...";
 
     try {
       const response = await fetch("<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>", {
@@ -295,13 +295,21 @@ wp_reset_postdata();
       message.classList.toggle("is-error", !result.success);
       if (result.success) {
         form.hidden = true;
+        if (result.data.download) {
+          const link = document.createElement("a");
+          link.href = result.data.download;
+          link.className = "btn-primary nl-download";
+          link.textContent = "Download the free recipes (PDF)";
+          link.setAttribute("download", "");
+          message.after(link);
+        }
       }
     } catch (error) {
       message.textContent = "Something went wrong. Please try again later.";
       message.classList.add("is-error");
     } finally {
       button.disabled = false;
-      button.textContent = "Subscribe";
+      button.textContent = "Send me the recipes";
     }
   });
   </script>

@@ -8,7 +8,7 @@
   justify-content: center;
   text-align: center;
   padding: 120px clamp(20px, 6vw, 80px) 100px;
-  background: linear-gradient(rgba(14,68,35,.65), rgba(14,68,35,.75)), url('../images/Hero_Onedinner.webp') center/cover no-repeat;
+  background: linear-gradient(rgba(12,22,14,.6), rgba(12,22,14,.72)), url('../images/hero-tortilla.webp') center 40%/cover no-repeat;
 }
 
 .hero-eyebrow {
@@ -36,7 +36,7 @@
 .hero-sub {
   margin-top: 30px;
   font-size: clamp(14px, 2vw, 18px);
-  color: rgba(244,238,220,.65);
+  color: rgba(244,238,220,.9);
   max-width: 440px;
   line-height: 1.7;
 }
@@ -109,6 +109,10 @@
 }
 
 .marquee-dot { color: #fff; opacity: .55; }
+
+.marquee-band:hover .marquee-track {
+  animation-play-state: paused;
+}
 
 @keyframes marq { to { transform: translateX(-50%); } }
 
@@ -667,14 +671,6 @@ a.prod-name:hover {
   background: var(--amber-d);
 }
 
-.nl-hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
 .nl-consent {
   display: flex;
   align-items: flex-start;
@@ -715,4 +711,9 @@ a.prod-name:hover {
   .nl-row {
     flex-direction: column;
   }
+}
+
+.nl-download {
+  display: inline-block;
+  margin-top: 18px;
 }

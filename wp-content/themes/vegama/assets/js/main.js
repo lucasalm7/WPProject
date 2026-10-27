@@ -26,3 +26,18 @@ document.querySelectorAll(".rail-btn").forEach(button => {
   window.addEventListener("resize", updateButtons);
   updateButtons();
 });
+
+const reels = document.querySelectorAll("video[data-autoplay]");
+if (reels.length && "IntersectionObserver" in window) {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reelObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !reduceMotion) {
+        entry.target.play().catch(() => {});
+      } else {
+        entry.target.pause();
+      }
+    });
+  }, { threshold: 0.25 });
+  reels.forEach(reel => reelObserver.observe(reel));
+}
