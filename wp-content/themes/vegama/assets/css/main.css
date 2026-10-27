@@ -534,3 +534,56 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
   font-size: 12.5px;
   color: rgba(244,238,220,0.85);
 }
+
+.nav-item-dropdown {
+  position: relative;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  margin-left: 4px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--parch);
+  min-width: 160px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 8px 0;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.nav-item-dropdown:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-item-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu li a {
+  color: var(--txt) !important;
+  padding: 10px 16px;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s !important;
+}
+
+.nav-dropdown-menu li a:hover {
+  background: rgba(24,95,48,0.08);
+  color: var(--amber) !important;
+}
