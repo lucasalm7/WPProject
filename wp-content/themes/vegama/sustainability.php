@@ -89,6 +89,7 @@ add_filter( 'template_include', 'vegama_sustainability_page_template' );
             </div>
         </div>
     </section>
+    <?php get_template_part( 'template-parts/media-rich-block' ); ?>
 </main>
 
 <?php

@@ -106,5 +106,6 @@
         <?php wp_reset_postdata(); ?>
     </div>
 </section>
+<?php get_template_part( 'template-parts/media-rich-block' ); ?>
 </main>
 <?php get_footer(); ?>
