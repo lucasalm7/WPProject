@@ -30,25 +30,29 @@
   <div class="sec-inner">
     <div class="rec-header">
       <div>
-        <p class="sec-eye">The Kitchen</p>
+        <p class="sec-eye">Masterclasses</p>
         <h2 class="sec-h">Everything you need to cook <em>tastefully.</em></h2>
       </div>
-      <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-sm">Shop all →</a>
+      <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-sm">All dates →</a>
     </div>
     <div class="prod-grid">
 
       <?php
-      $products = function_exists( 'wc_get_products' ) ? wc_get_products( array(
+      $classes   = function_exists( 'vegama_get_upcoming_classes' ) ? vegama_get_upcoming_classes( 3 ) : array();
+      $gift_card = function_exists( 'wc_get_products' ) ? wc_get_products( array(
           'status'   => 'publish',
-          'category' => array( 'masterclasses', 'ebooks' ),
-          'limit'    => 4,
-          'orderby'  => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
+          'category' => array( 'gift-cards' ),
+          'limit'    => 1,
       ) ) : array();
 
-      if ( $products ) :
-          foreach ( $products as $product ) :
-              $terms = get_the_terms( $product->get_id(), 'product_cat' );
-              $badge = $terms && ! is_wp_error( $terms ) ? $terms[0]->name : '';
+      if ( ! $classes ) : ?>
+        <p style="color:var(--mist)">New masterclass dates are coming soon.</p>
+      <?php endif;
+
+      foreach ( array_merge( $classes, $gift_card ) as $product ) :
+          $is_class = in_array( $product, $classes, true );
+          $badge    = $is_class ? wp_date( 'D j M', strtotime( $product->get_meta( '_vegama_class_date' ) . ' 12:00' ) ) : 'Gift card';
+          $action   = $is_class ? 'Book a seat' : 'Buy a gift card';
       ?>
 
         <div class="prod-card">
@@ -61,22 +65,21 @@
             <?php endif; ?>
           </div>
 
-          <?php if ( $badge ) : ?>
-            <span class="prod-badge"><?php echo esc_html( $badge ); ?></span>
-          <?php endif; ?>
+          <span class="prod-badge"><?php echo esc_html( $badge ); ?></span>
 
           <div class="prod-name"><?php echo esc_html( $product->get_name() ); ?></div>
           <div class="prod-desc"><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $product->get_short_description() ), 22 ) ); ?></div>
           <div class="prod-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
-          <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="btn-sm">View details →</a>
+          <?php if ( $product->is_in_stock() ) : ?>
+            <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="btn-sm"
+              aria-label="<?php echo esc_attr( $action . ': ' . $product->get_name() ); ?>"><?php echo esc_html( $action ); ?> →</a>
+          <?php else : ?>
+            <p class="prod-desc">Sold out</p>
+          <?php endif; ?>
 
         </div>
 
-      <?php
-          endforeach;
-      else : ?>
-        <p style="color:var(--mist)">No products yet — check back soon.</p>
-      <?php endif; ?>
+      <?php endforeach; ?>
 
     </div>
   </div>
@@ -152,11 +155,11 @@
           'fields'     => 'slugs',
           'hide_empty' => true,
       ) );
-      $merch_cats = is_wp_error( $merch_cats ) ? array() : array_diff( $merch_cats, array( 'ebooks', 'masterclasses', 'gift-cards', 'uncategorized' ) );
+      $merch_cats = is_wp_error( $merch_cats ) ? array() : array_diff( $merch_cats, array( 'masterclasses', 'gift-cards', 'uncategorized' ) );
       $merch = ( $merch_cats && function_exists( 'wc_get_products' ) ) ? wc_get_products( array(
           'status'   => 'publish',
           'category' => array_values( $merch_cats ),
-          'limit'    => 5,
+          'limit'    => 10,
           'orderby'  => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
       ) ) : array();
 

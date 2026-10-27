@@ -1,34 +1,7 @@
 <?php
 get_header();
 
-$classes = array();
-if ( function_exists( 'wc_get_product' ) ) {
-    $class_query = new WP_Query( array(
-        'post_type'      => 'product',
-        'post_status'    => 'publish',
-        'posts_per_page' => 12,
-        'fields'         => 'ids',
-        'tax_query'      => array(
-            array(
-                'taxonomy' => 'product_cat',
-                'field'    => 'slug',
-                'terms'    => 'masterclasses',
-            ),
-        ),
-        'meta_key'       => '_vegama_class_date',
-        'orderby'        => 'meta_value',
-        'order'          => 'ASC',
-        'meta_query'     => array(
-            array(
-                'key'     => '_vegama_class_date',
-                'value'   => current_time( 'Y-m-d' ),
-                'compare' => '>=',
-                'type'    => 'DATE',
-            ),
-        ),
-    ) );
-    $classes = array_filter( array_map( 'wc_get_product', $class_query->posts ) );
-}
+$classes = vegama_get_upcoming_classes();
 
 $gift_cards = function_exists( 'wc_get_products' ) ? wc_get_products( array(
     'status'   => 'publish',
