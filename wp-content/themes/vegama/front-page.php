@@ -57,17 +57,17 @@
 
         <div class="prod-card">
 
-          <div class="prod-img">
+          <a class="prod-img" href="<?php echo esc_url( $product->get_permalink() ); ?>" tabindex="-1" aria-hidden="true">
             <?php if ( $product->get_image_id() ) : ?>
               <?php echo $product->get_image( 'medium' ); ?>
             <?php else : ?>
-              <div class="prod-img-placeholder">🌿</div>
+              <span class="prod-img-placeholder">🌿</span>
             <?php endif; ?>
-          </div>
+          </a>
 
           <span class="prod-badge"><?php echo esc_html( $badge ); ?></span>
 
-          <div class="prod-name"><?php echo esc_html( $product->get_name() ); ?></div>
+          <a class="prod-name" href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $product->get_name() ); ?></a>
           <div class="prod-desc"><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $product->get_short_description() ), 22 ) ); ?></div>
           <div class="prod-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
           <?php if ( $product->is_in_stock() ) : ?>

@@ -72,6 +72,22 @@
   margin-bottom: 6px;
 }
 
+.class-info h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.class-info h3 a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.class-details {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sage);
+}
+
 .class-info p {
   color: rgba(26, 46, 31, 0.8);
   line-height: 1.6;
