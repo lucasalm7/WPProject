@@ -11,7 +11,12 @@
     <div style="text-align: center; max-width: 700px; margin: 0 auto 48px auto;">
       <span style="font-family: var(--fb); font-size: 11px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; opacity: 0.8; display: block; margin-bottom: 12px;">One Dinner Counts</span>
       <h2 style="font-family: var(--fd); font-style: italic; font-weight: 900; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.1; margin: 0 0 16px 0;">See the kitchen in action.</h2>
-      <p style="font-family: var(--fb); font-size: 16px; opacity: 0.9; line-height: 1.6; margin: 0;">You don't have to go vegan. Cook one plant-based dinner this week with our community and see how easy it is.</p>
+      <p style="font-family: var(--fb); font-size: 16px; opacity: 0.9; line-height: 1.6; margin: 0 0 24px 0;">You don't have to go vegan. Cook one plant-based dinner this week with our community and see how easy it is.</p>
+      
+      <!-- Campaign Button linking to the specific blog post -->
+      <a href="<?php echo esc_url( home_url( '/blog/one-plant-based-dinner/' ) ); ?>" style="display: inline-block; background: var(--lime, #b8d070); color: var(--sage-d, #123e20); font-family: var(--fb); font-weight: 800; font-size: 13.5px; padding: 12px 26px; border-radius: 999px; text-decoration: none; transition: background 0.2s ease;">
+        Read the campaign story →
+      </a>
     </div>
 
     <!-- Media Grid: Video + 3 Photos -->
@@ -25,7 +30,7 @@
         </video>
       </div>
 
-      <!-- 3 Photos Grid Stack (Removed incorrect '../') -->
+      <!-- 3 Photos Grid Stack -->
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
         <div style="grid-column: span 2; border-radius: 16px; overflow: hidden; aspect-ratio: 16/9; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
           <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/vegan-spanish-tortilla-serve.webp' ); ?>" alt="Plant-based cooking preparation" style="width: 100%; height: 100%; object-fit: cover; display: block;">
