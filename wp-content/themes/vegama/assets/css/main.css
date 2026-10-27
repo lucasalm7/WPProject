@@ -472,3 +472,65 @@ body { background: var(--bg); color: var(--txt); font-family: var(--fb); font-si
 .page-content p { margin-bottom: 14px; }
 .page-content ul { list-style: disc; padding-left: 22px; margin-bottom: 14px; }
 .page-content a { color: var(--parch); text-decoration: underline; }
+
+.site-footer {
+  background: var(--sage);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 60px clamp(20px, 5vw, 72px) 40px;
+  color: var(--parch);
+}
+
+.ft-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.ft-brand-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ft-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.ft-logo .nav-wrd { font-size: 22px; }
+
+.ft-heading {
+  font-family: var(--fd);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--parch);
+}
+
+.ft-links, .ft-social {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ft-links a, .ft-social a {
+  color: rgba(244,238,220,0.8);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color .2s;
+}
+
+.ft-links a:hover, .ft-social a:hover {
+  color: var(--lime);
+}
+
+.ft-copy {
+  font-size: 12.5px;
+  color: rgba(244,238,220,0.85);
+}
