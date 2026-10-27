@@ -259,7 +259,7 @@ add_action( 'wp_ajax_nopriv_vegama_about_form', 'vegama_handle_about_form' );
 // SEO title: a post can set its own <title> with the custom field "_seo_title".
 function vegama_seo_title( $title ) {
     if ( is_singular() && ! is_front_page() ) {
-        $custom = get_post_meta( get_queried_object_id(), '_seo_title', true );
+               $custom = get_post_meta( get_queried_object_id(), 'seo_title', true );
         if ( $custom ) {
             return $custom;
         }
@@ -330,7 +330,7 @@ function vegama_seo_meta() {
         $title = esc_attr( get_bloginfo( 'name' ) . ' – ' . get_bloginfo( 'description' ) );
     } elseif ( is_singular() ) {
         $url   = esc_url( get_permalink() );
-        $title = esc_attr( get_post_meta( get_queried_object_id(), '_seo_title', true ) ?: get_the_title() );
+               $title = esc_attr( get_post_meta( get_queried_object_id(), 'seo_title', true ) ?: get_the_title() );
     } else {
         // Archives (e.g. the Shop): no canonical, so we never point to the first product by mistake.
         $url   = '';
@@ -395,6 +395,61 @@ function vegama_recipe_schema() {
     echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'vegama_recipe_schema', 10 );
+
+// Article + FAQ schema for blog posts that are NOT recipes (e.g. the campaign post).
+// FAQ: every <h3> that ends with "?" becomes a question, the paragraph after it is the answer.
+function vegama_article_schema() {
+    if ( ! is_singular( 'post' ) ) return;
+
+    global $post;
+
+    $recipe_cat = get_category_by_slug( 'recipes' ) ?: get_category_by_slug( 'recipe' );
+    if ( $recipe_cat && in_category( $recipe_cat->term_id, $post ) ) return; // recipes get Recipe schema instead
+
+    $image_url = '';
+    if ( has_post_thumbnail( $post->ID ) ) {
+        $img       = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+        $image_url = $img ? $img[0] : '';
+    }
+
+    $article = array(
+        '@context'         => 'https://schema.org',
+        '@type'            => 'Article',
+        'headline'         => get_the_title( $post->ID ),
+        'description'      => wp_strip_all_tags( has_excerpt( $post->ID ) ? get_the_excerpt( $post ) : wp_trim_words( strip_shortcodes( $post->post_content ), 30, '…' ) ),
+        'datePublished'    => get_the_date( 'c', $post->ID ),
+        'dateModified'     => get_the_modified_date( 'c', $post->ID ),
+        'author'           => array( '@type' => 'Organization', 'name' => get_the_author_meta( 'display_name', $post->post_author ) ),
+        'publisher'        => array( '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ),
+        'mainEntityOfPage' => get_permalink( $post->ID ),
+    );
+    if ( $image_url ) $article['image'] = array( $image_url );
+
+    $schemas = array( $article );
+
+    // FAQ from the post content
+    $faq  = array();
+    $html = apply_filters( 'the_content', $post->post_content );
+    if ( preg_match_all( '#<h3[^>]*>(.*?)</h3>\s*<p[^>]*>(.*?)</p>#si', $html, $m, PREG_SET_ORDER ) ) {
+        foreach ( $m as $pair ) {
+            $q = trim( wp_strip_all_tags( $pair[1] ) );
+            if ( substr( $q, -1 ) !== '?' ) continue;
+            $faq[] = array(
+                '@type'          => 'Question',
+                'name'           => $q,
+                'acceptedAnswer' => array( '@type' => 'Answer', 'text' => trim( wp_strip_all_tags( $pair[2] ) ) ),
+            );
+        }
+    }
+    if ( $faq ) {
+        $schemas[] = array( '@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faq );
+    }
+
+    foreach ( $schemas as $schema ) {
+        echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+    }
+}
+add_action( 'wp_head', 'vegama_article_schema', 10 );
 
 add_action( 'wp_ajax_nopriv_vegama_login', 'vegama_handle_login' );
 function vegama_handle_login() {
