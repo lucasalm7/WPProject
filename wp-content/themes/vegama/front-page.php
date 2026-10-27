@@ -114,7 +114,8 @@
           $cats = get_the_category();
           $cat_name = ! empty( $cats ) ? strtoupper( $cats[0]->name ) : 'RECIPE';
       ?>
-        <div class="rc">
+        <!-- Turned the whole card into a clickable link wrapper -->
+        <a href="<?php the_permalink(); ?>" class="rc" style="text-decoration: none; color: inherit; display: block;">
           <div class="rc-thumb">
             <?php if ( has_post_thumbnail() ) : ?>
               <?php the_post_thumbnail( 'medium', array( 'style' => 'width:100%;height:178px;object-fit:cover;' ) ); ?>
@@ -125,16 +126,14 @@
           <div class="rc-body">
             <div class="rc-tag"><?php echo esc_html( $cat_name ); ?></div>
             <div class="rc-name">
-              <a href="<?php the_permalink(); ?>" style="text-decoration:none;color:inherit">
-                <?php the_title(); ?>
-              </a>
+              <?php the_title(); ?>
             </div>
             <div class="rc-meta">
               <span><?php echo get_the_date( 'M Y' ); ?></span>
               <span><?php echo esc_html( get_the_author() ); ?></span>
             </div>
           </div>
-        </div>
+        </a>
       <?php
         endwhile;
         wp_reset_postdata();
