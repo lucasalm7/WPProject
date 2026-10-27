@@ -40,11 +40,14 @@ function vegama_scripts() {
     if ( is_front_page() ) {
         $css( 'vegama-home', 'home.css' );
     }
-    if ( is_page( [ 'about', 'sustainability', 'contact-us' ] ) ) {
+    if ( is_page( [ 'about', 'sustainability', 'contact-us', 'classes' ] ) ) {
         $css( 'vegama-about', 'about.css' );
     }
     if ( is_page( 'contact-us' ) ) {
         $css( 'vegama-contact', 'contact.css', [ 'vegama-about' ] );
+    }
+    if ( is_page( 'classes' ) ) {
+        $css( 'vegama-classes', 'classes.css', [ 'vegama-about' ] );
     }
     if ( is_home() || is_archive() || is_search() || is_page( 'recipes' ) ) {
         $css( 'vegama-blog', 'blog.css' );
@@ -84,6 +87,43 @@ function vegama_sustainability_page_template( $template ) {
 
 add_filter( 'template_include', 'vegama_sustainability_page_template' );
 add_filter( 'template_include', 'vegama_about_page_template' );
+
+function vegama_class_fields() {
+    woocommerce_wp_text_input( array(
+        'id'          => '_vegama_class_date',
+        'label'       => 'Class date',
+        'type'        => 'date',
+        'desc_tip'    => true,
+        'description' => 'Masterclasses only. The class is listed on the Masterclasses page until this date has passed.',
+    ) );
+    woocommerce_wp_text_input( array(
+        'id'          => '_vegama_class_time',
+        'label'       => 'Class time',
+        'placeholder' => '17:30–20:30',
+        'desc_tip'    => true,
+        'description' => 'Masterclasses only. Shown next to the date.',
+    ) );
+}
+add_action( 'woocommerce_product_options_general_product_data', 'vegama_class_fields' );
+
+function vegama_save_class_fields( $product ) {
+    if ( isset( $_POST['_vegama_class_date'] ) ) {
+        $date = sanitize_text_field( wp_unslash( $_POST['_vegama_class_date'] ) );
+        $product->update_meta_data( '_vegama_class_date', preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ? $date : '' );
+    }
+    if ( isset( $_POST['_vegama_class_time'] ) ) {
+        $product->update_meta_data( '_vegama_class_time', sanitize_text_field( wp_unslash( $_POST['_vegama_class_time'] ) ) );
+    }
+}
+add_action( 'woocommerce_admin_process_product_object', 'vegama_save_class_fields' );
+
+function vegama_direct_checkout( $url, $product = null ) {
+    if ( $product instanceof WC_Product && has_term( array( 'masterclasses', 'gift-cards' ), 'product_cat', $product->get_id() ) ) {
+        return wc_get_checkout_url();
+    }
+    return $url;
+}
+add_filter( 'woocommerce_add_to_cart_redirect', 'vegama_direct_checkout', 10, 2 );
 
 function vegama_handle_about_form() {
     if ( ! isset( $_POST['action'] ) || 'vegama_about_form' !== $_POST['action'] ) {
