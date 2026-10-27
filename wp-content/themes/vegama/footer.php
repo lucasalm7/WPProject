@@ -17,7 +17,7 @@
       <ul class="ft-links">
         <li><a href="<?php echo esc_url( home_url( '/delivery' ) ); ?>">Delivery</a></li>
         <li><a href="<?php echo esc_url( home_url( '/returns' ) ); ?>">Returns</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact</a></li>
       </ul>
     </div>
 
@@ -25,7 +25,7 @@
       <h4 class="ft-heading">Information</h4>
       <ul class="ft-links">
         <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact</a></li>
       </ul>
     </div>
 
