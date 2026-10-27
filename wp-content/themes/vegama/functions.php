@@ -52,7 +52,7 @@ function vegama_scripts() {
     if ( is_home() || is_archive() || is_search() || is_page( 'recipes' ) ) {
         $css( 'vegama-blog', 'blog.css' );
     }
-    if ( is_page( 'recipes' ) ) {
+        if ( is_page( 'recipes' ) || is_home() ) {
         $css( 'vegama-recipes', 'recipes.css' );
     }
     if ( is_singular( 'post' ) ) {
@@ -643,3 +643,12 @@ function vegama_remove_comment_url_field($fields) {
     return $fields;
 }
 add_filter('comment_form_default_fields', 'vegama_remove_comment_url_field');
+
+// The Recipes page is now a filter on the Blog page: /recipes/ → /blog/?type=recipe (301).
+function vegama_redirect_recipes_to_blog() {
+    if ( is_page( 'recipes' ) && get_option( 'page_for_posts' ) ) {
+        wp_safe_redirect( add_query_arg( 'type', 'recipe', get_permalink( get_option( 'page_for_posts' ) ) ), 301 );
+        exit;
+    }
+}
+add_action( 'template_redirect', 'vegama_redirect_recipes_to_blog' );

@@ -75,7 +75,6 @@
     <ul class="nav-links">
       <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>"<?php echo is_page( 'shop' ) ? ' aria-current="page"' : ''; ?>>Shop</a></li>
             <li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"<?php echo is_home() ? ' aria-current="page"' : ''; ?>>Blog</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>"<?php echo is_page( 'recipes' ) ? ' aria-current="page"' : ''; ?>>Recipes</a></li>
       <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>"<?php echo is_page( 'classes' ) ? ' aria-current="page"' : ''; ?>>Masterclasses</a></li>
       <li class="nav-item-dropdown">
         <a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo is_page( 'about' ) ? ' aria-current="page"' : ''; ?>>
