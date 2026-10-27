@@ -15,8 +15,8 @@
     <div class="ft-col">
       <h4 class="ft-heading">Customer service</h4>
       <ul class="ft-links">
-        <li><a href="<?php echo esc_url( home_url( '/delivery' ) ); ?>">Delivery</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/returns' ) ); ?>">Returns</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact-us/#delivery' ) ); ?>">Delivery</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact-us/#returns' ) ); ?>">Returns</a></li>
         <li><a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact</a></li>
       </ul>
     </div>
@@ -25,7 +25,10 @@
       <h4 class="ft-heading">Information</h4>
       <ul class="ft-links">
         <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a></li>
-                  <li><a href="<?php echo esc_url( home_url( '/accessibility-statement/' ) ); ?>">Accessibility</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/accessibility-statement/' ) ); ?>">Accessibility</a></li>
+        <?php if ( get_privacy_policy_url() ) : ?>
+          <li><a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">Privacy policy</a></li>
+        <?php endif; ?>
       </ul>
     </div>
 

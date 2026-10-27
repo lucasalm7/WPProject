@@ -15,8 +15,8 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
     <section class="about-hero"><div class="about-hero__inner">
         <p class="sec-eye">Masterclasses</p>
         <h1>Cook it <em>with us.</em></h1>
-        <p>Hands-on plant-based cooking evenings in Esbjerg, in small groups of up to 10.
-            Pick a date, book your seat and pay online.</p>
+        <p>Hands-on plant-based cooking evenings in Esbjerg. Cook three dishes in pairs,
+            then we sit down and eat together. Up to 10 people per class.</p>
     </div></section>
 
     <section class="classes-wrap" aria-labelledby="classes-title">
@@ -76,8 +76,9 @@ $gift_card = $gift_cards ? $gift_cards[0] : null;
             <h2>Before you book</h2>
             <ul>
                 <li>All classes take place in Esbjerg. You get the address in your confirmation email.</li>
+                <li>The price includes all ingredients, aprons and moms. You take the recipes home.</li>
                 <li>Everything we cook is plant-based. Tell us about allergies in the order notes at checkout.</li>
-                <li>Each class has room for 10 people, so book early.</li>
+                <li>Free cancellation up to 7 days before the class.</li>
                 <li>Questions? <a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>">Contact us</a>.</li>
             </ul>
         </div>

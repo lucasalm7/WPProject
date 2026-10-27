@@ -40,8 +40,11 @@ function vegama_scripts() {
     if ( is_front_page() ) {
         $css( 'vegama-home', 'home.css' );
     }
-    if ( is_page( [ 'about', 'sustainability', 'contact-us', 'classes' ] ) ) {
+    if ( is_page( [ 'about', 'sustainability', 'contact-us', 'classes' ] ) || is_404() || ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
         $css( 'vegama-about', 'about.css' );
+    }
+    if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+        $css( 'vegama-account', 'account.css', [ 'vegama-about', 'vegama-woocommerce' ] );
     }
     if ( is_page( 'contact-us' ) ) {
         $css( 'vegama-contact', 'contact.css', [ 'vegama-about' ] );
@@ -57,6 +60,10 @@ function vegama_scripts() {
     }
     if ( is_singular( 'post' ) ) {
         $css( 'vegama-single', 'single.css' );
+    }
+
+    if ( class_exists( 'WooCommerce' ) ) {
+        wp_enqueue_script( 'wc-cart-fragments' );
     }
 
     wp_enqueue_script( 'vegama-js', $uri . '/assets/js/main.js', [], filemtime( $dir . '/assets/js/main.js' ), true );
@@ -147,6 +154,111 @@ function vegama_get_upcoming_classes( $limit = 12 ) {
     ) );
     return array_filter( array_map( 'wc_get_product', $query->posts ) );
 }
+
+function vegama_cart_badge() {
+    $count = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
+    return '<span class="cart-badge' . ( $count ? ' on' : '' ) . '" id="cartBadge">' . esc_html( $count ) . '</span>';
+}
+
+function vegama_cart_badge_fragment( $fragments ) {
+    $fragments['#cartBadge'] = vegama_cart_badge();
+    return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'vegama_cart_badge_fragment' );
+
+function vegama_account_menu( $items ) {
+    $labels = array(
+        'dashboard'       => 'Overview',
+        'orders'          => 'Orders and bookings',
+        'downloads'       => 'My e-books',
+        'edit-address'    => 'Addresses',
+        'edit-account'    => 'Account details',
+        'customer-logout' => 'Sign out',
+    );
+    foreach ( $labels as $key => $label ) {
+        if ( isset( $items[ $key ] ) ) {
+            $items[ $key ] = $label;
+        }
+    }
+    return $items;
+}
+add_filter( 'woocommerce_account_menu_items', 'vegama_account_menu' );
+
+function vegama_account_classes() {
+    $orders = wc_get_orders( array(
+        'customer_id' => get_current_user_id(),
+        'status'      => array( 'processing', 'completed', 'on-hold' ),
+        'limit'       => 50,
+    ) );
+
+    $classes = array();
+    foreach ( $orders as $order ) {
+        foreach ( $order->get_items() as $item ) {
+            $product = $item->get_product();
+            if ( ! $product || ! has_term( 'masterclasses', 'product_cat', $product->get_id() ) ) {
+                continue;
+            }
+            $date = $product->get_meta( '_vegama_class_date' );
+            if ( ! $date || $date < current_time( 'Y-m-d' ) ) {
+                continue;
+            }
+            $classes[] = array(
+                'name'  => $product->get_name(),
+                'date'  => $date,
+                'time'  => $product->get_meta( '_vegama_class_time' ),
+                'seats' => $item->get_quantity(),
+            );
+        }
+    }
+    usort( $classes, function ( $a, $b ) {
+        return strcmp( $a['date'], $b['date'] );
+    } );
+    ?>
+    <div class="account-classes">
+        <h2>Your upcoming masterclasses</h2>
+        <?php if ( $classes ) : ?>
+            <ul>
+                <?php foreach ( $classes as $class ) :
+                    $stamp = strtotime( $class['date'] . ' 12:00' );
+                    $meta  = array_filter( array(
+                        $class['time'],
+                        'Esbjerg',
+                        sprintf( _n( '%d seat', '%d seats', $class['seats'], 'vegama' ), $class['seats'] ),
+                    ) );
+                ?>
+                    <li>
+                        <time class="account-classes__date" datetime="<?php echo esc_attr( $class['date'] ); ?>">
+                            <span><?php echo esc_html( wp_date( 'D', $stamp ) ); ?></span>
+                            <b><?php echo esc_html( wp_date( 'j', $stamp ) ); ?></b>
+                            <span><?php echo esc_html( wp_date( 'M', $stamp ) ); ?></span>
+                        </time>
+                        <div class="account-classes__info">
+                            <strong><?php echo esc_html( $class['name'] ); ?></strong>
+                            <span><?php echo esc_html( implode( ' · ', $meta ) ); ?></span>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <p>The address is in your confirmation email. Can't make it? <a href="<?php echo esc_url( home_url( '/contact-us/#cancellation' ) ); ?>">Cancel for free</a> up to 7 days before.</p>
+        <?php else : ?>
+            <p class="account-classes__empty">No masterclasses booked yet. <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>">See the next dates in Esbjerg</a>.</p>
+        <?php endif; ?>
+    </div>
+    <?php
+}
+add_action( 'woocommerce_account_dashboard', 'vegama_account_classes' );
+
+function vegama_account_signup_link() {
+    if ( is_user_logged_in() || ! get_option( 'users_can_register' ) ) {
+        return;
+    }
+    ?>
+    <p class="account-signup">New to Vegama?
+        <button type="button" onclick="openMo('moLogin'); switchTab('up', document.querySelectorAll('#moLogin .tab-b')[1]);">Create an account</button>
+    </p>
+    <?php
+}
+add_action( 'woocommerce_after_customer_login_form', 'vegama_account_signup_link' );
 
 function vegama_direct_checkout( $url, $product = null ) {
     if ( $product instanceof WC_Product && has_term( array( 'masterclasses', 'gift-cards' ), 'product_cat', $product->get_id() ) ) {

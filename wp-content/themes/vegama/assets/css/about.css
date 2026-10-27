@@ -97,3 +97,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+.error-page .about-hero h1 em {
+  color: var(--lime);
+  font-style: inherit;
+}
+
+.error-layout {
+  grid-template-columns: minmax(0, 640px);
+  justify-content: center;
+}
+
+.error-page .about-card a:not(.btn-primary) {
+  color: var(--sage);
+  font-weight: 700;
+}

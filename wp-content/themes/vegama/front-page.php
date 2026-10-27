@@ -3,27 +3,27 @@
 <main id="main" class="site-main">
 
  <section id="hero">
-  <p class="hero-eyebrow">Vegan Cooking · Esbjerg · Denmark</p>
+  <p class="hero-eyebrow">Plant-based cooking · Esbjerg · Denmark</p>
   <h1 class="hero-h1">One dinner<br><em>counts.</em></h1>
   <p class="hero-sub">You don’t have to go vegan. Cook one plant-based dinner this week. We make it easy and good.</p>
   <div class="hero-ctas">
-    <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-primary">Explore the kitchen</a>
+    <a href="<?php echo esc_url( home_url( '/blog/one-plant-based-dinner/' ) ); ?>" class="btn-primary">Get the free recipes</a>
     <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-ghost">Book a masterclass</a>
   </div>
 </section>
 
   <div class="marquee-band" aria-hidden="true">
     <div class="marquee-track">
-      <span>Plant-Based Cooking</span><span class="marquee-dot">✿</span>
-      <span>Vegan Masterclasses</span><span class="marquee-dot">✿</span>
-      <span>Artisan Cookbooks</span><span class="marquee-dot">✿</span>
-      <span>Community Recipes</span><span class="marquee-dot">✿</span>
-      <span>Esbjerg Kitchen</span><span class="marquee-dot">✿</span>
-      <span>Plant-Based Cooking</span><span class="marquee-dot">✿</span>
-      <span>Vegan Masterclasses</span><span class="marquee-dot">✿</span>
-      <span>Artisan Cookbooks</span><span class="marquee-dot">✿</span>
-      <span>Community Recipes</span><span class="marquee-dot">✿</span>
-      <span>Esbjerg Kitchen</span><span class="marquee-dot">✿</span>
+      <span>One dinner counts</span><span class="marquee-dot">✿</span>
+      <span>Plant-based masterclasses</span><span class="marquee-dot">✿</span>
+      <span>Weeknight recipes</span><span class="marquee-dot">✿</span>
+      <span>E-books</span><span class="marquee-dot">✿</span>
+      <span>Esbjerg kitchen</span><span class="marquee-dot">✿</span>
+      <span>One dinner counts</span><span class="marquee-dot">✿</span>
+      <span>Plant-based masterclasses</span><span class="marquee-dot">✿</span>
+      <span>Weeknight recipes</span><span class="marquee-dot">✿</span>
+      <span>E-books</span><span class="marquee-dot">✿</span>
+      <span>Esbjerg kitchen</span><span class="marquee-dot">✿</span>
     </div>
   </div>
   <section id="products" class="sec sec-dark">
@@ -125,7 +125,7 @@
           <div class="rc-body">
             <div class="rc-tag"><?php echo esc_html( $cat_name ); ?></div>
             <div class="rc-name">
-              <a href="<?php the_permalink(); ?>" style="text-decoration:none;color:inherit">
+              <a href="<?php the_permalink(); ?>" class="rc-link">
                 <?php the_title(); ?>
               </a>
             </div>
@@ -201,7 +201,16 @@
   </div>
 </section>
   
-<!-- Testimonials -->
+<?php
+$testimonials = new WP_Query( array(
+    'post_type'      => 'vegama_testimonial',
+    'posts_per_page' => 6,
+    'post_status'    => 'publish',
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+) );
+
+if ( $testimonials->have_posts() ) : ?>
 <section id="testimonials" class="sec sec-dark">
   <div class="sec-inner">
     <p class="sec-eye">Community</p>
@@ -209,47 +218,36 @@
     <div class="testi-grid">
 
       <?php
-      $testimonials = new WP_Query( array(
-          'post_type'      => 'vegama_testimonial',
-          'posts_per_page' => 6,
-          'post_status'    => 'publish',
-          'orderby'        => 'menu_order',
-          'order'          => 'ASC',
-      ) );
-
-      if ( $testimonials->have_posts() ) :
-          while ( $testimonials->have_posts() ) : $testimonials->the_post();
-              $quote  = get_post_meta( get_the_ID(), '_testimonial_quote',  true );
-              $author = get_post_meta( get_the_ID(), '_testimonial_author', true );
-              $stars  = get_post_meta( get_the_ID(), '_testimonial_stars',  true ) ?: 5;
+      while ( $testimonials->have_posts() ) : $testimonials->the_post();
+          $quote  = get_post_meta( get_the_ID(), '_testimonial_quote',  true );
+          $author = get_post_meta( get_the_ID(), '_testimonial_author', true );
+          $stars  = min( 5, max( 1, intval( get_post_meta( get_the_ID(), '_testimonial_stars', true ) ?: 5 ) ) );
       ?>
 
         <div class="tc">
-        <div class="tc-stars"><?php echo str_repeat( '★', intval( $stars ) ); ?></div>
-           <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
-           <div class="tc-author">
+          <div class="tc-stars" role="img" aria-label="<?php echo esc_attr( $stars . ' out of 5 stars' ); ?>"><?php echo str_repeat( '★', $stars ); ?></div>
+          <p class="tc-q">"<?php echo esc_html( $quote ); ?>"</p>
+          <div class="tc-author">
             <?php if ( has_post_thumbnail() ) : ?>
               <div class="tc-avatar-wrap">
-            <?php the_post_thumbnail( 'thumbnail' ); ?>
-          </div>
-          <?php else : ?>
-          <?php $initial = strtoupper( substr( $author, 0, 1 ) ); ?>
-          <span class="tc-avatar"><?php echo esc_html( $initial ); ?></span>
+                <?php the_post_thumbnail( 'thumbnail', array( 'alt' => '' ) ); ?>
+              </div>
+            <?php else : ?>
+              <span class="tc-avatar" aria-hidden="true"><?php echo esc_html( mb_strtoupper( mb_substr( $author, 0, 1 ) ) ); ?></span>
             <?php endif; ?>
             <p class="tc-a"><?php echo esc_html( $author ); ?></p>
-        </div>
+          </div>
         </div>
 
-      <?php
-          endwhile;
-          wp_reset_postdata();
-      else : ?>
-        <p style="color:var(--mist)">No testimonials yet.</p>
-      <?php endif; ?>
+      <?php endwhile; ?>
 
     </div>
   </div>
 </section>
+<?php
+endif;
+wp_reset_postdata();
+?>
 
 <section id="newsletter" aria-labelledby="nl-title">
   <div class="nl-inner">
