@@ -156,6 +156,60 @@ function vegama_direct_checkout( $url, $product = null ) {
 }
 add_filter( 'woocommerce_add_to_cart_redirect', 'vegama_direct_checkout', 10, 2 );
 
+function vegama_handle_newsletter() {
+    if (
+        ! isset( $_POST['vegama_newsletter_nonce'] ) ||
+        ! wp_verify_nonce(
+            sanitize_text_field( wp_unslash( $_POST['vegama_newsletter_nonce'] ) ),
+            'vegama_newsletter'
+        )
+    ) {
+        wp_send_json_error(
+            array( 'message' => 'Security check failed. Please refresh the page and try again.' ),
+            403
+        );
+    }
+
+    if ( ! empty( $_POST['vegama_website'] ) ) {
+        wp_send_json_success( array( 'message' => 'Almost done! Check your inbox and confirm your email address.' ) );
+    }
+
+    $email = sanitize_email( wp_unslash( $_POST['vegama_email'] ?? '' ) );
+
+    if ( empty( $email ) || ! is_email( $email ) ) {
+        wp_send_json_error( array( 'message' => 'Please enter a valid email address.' ), 422 );
+    }
+
+    if ( empty( $_POST['vegama_consent'] ) ) {
+        wp_send_json_error( array( 'message' => 'Please tick the box to agree to receive the newsletter.' ), 422 );
+    }
+
+    if ( ! class_exists( '\MailPoet\API\API' ) ) {
+        wp_send_json_error( array( 'message' => 'The newsletter is not available right now. Please try again later.' ), 503 );
+    }
+
+    try {
+        $mailpoet = \MailPoet\API\API::MP( 'v1' );
+        $list_ids = array();
+        foreach ( $mailpoet->getLists() as $list ) {
+            if ( 'default' === $list['type'] ) {
+                $list_ids[] = $list['id'];
+                break;
+            }
+        }
+        $mailpoet->addSubscriber( array( 'email' => $email ), $list_ids );
+    } catch ( \Exception $e ) {
+        if ( 12 === $e->getCode() ) {
+            wp_send_json_success( array( 'message' => 'You are already on the list. See you on Thursday!' ) );
+        }
+        wp_send_json_error( array( 'message' => 'Something went wrong. Please try again later.' ), 500 );
+    }
+
+    wp_send_json_success( array( 'message' => 'Almost done! Check your inbox and confirm your email address.' ) );
+}
+add_action( 'wp_ajax_vegama_newsletter', 'vegama_handle_newsletter' );
+add_action( 'wp_ajax_nopriv_vegama_newsletter', 'vegama_handle_newsletter' );
+
 function vegama_handle_about_form() {
     if ( ! isset( $_POST['action'] ) || 'vegama_about_form' !== $_POST['action'] ) {
         return;
