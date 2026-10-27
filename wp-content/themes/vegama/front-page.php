@@ -31,7 +31,7 @@
     <div class="rec-header">
       <div>
         <p class="sec-eye">Masterclasses</p>
-        <h2 class="sec-h">Everything you need to cook <em>tastefully.</em></h2>
+        <h2 class="sec-h">Learn to cook <em>tastefully.</em></h2>
       </div>
       <a href="<?php echo esc_url( home_url( '/classes' ) ); ?>" class="btn-sm">All dates →</a>
     </div>
@@ -94,7 +94,9 @@
       </div>
       <a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>" class="btn-sm">View all →</a>
     </div>
-    <div class="rec-rail">
+    <div class="rail-wrap">
+      <button type="button" class="rail-btn rail-btn--prev" data-rail="recipe-rail" data-dir="-1" aria-label="Previous recipes" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="rec-rail" id="recipe-rail">
       <?php
       // Find the recipe category regardless of whether slug is 'recipe' or 'recipes'
       $recipe_cat = get_category_by_slug( 'recipes' ) ?: get_category_by_slug( 'recipe' );
@@ -140,14 +142,23 @@
         <p style="color:var(--mist)">No recipes yet — check back soon.</p>
       <?php endif; ?>
     </div>
+      <button type="button" class="rail-btn rail-btn--next" data-rail="recipe-rail" data-dir="1" aria-label="Next recipes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
   </div>
 </section>
 
     <section id="merch" class="sec">
   <div class="sec-inner">
-    <p class="sec-eye">The Shop</p>
-    <h2 class="sec-h">Bring the kitchen <em>home.</em></h2>
-    <div class="merch-grid">
+    <div class="rec-header">
+      <div>
+        <p class="sec-eye">The Shop</p>
+        <h2 class="sec-h">Bring the kitchen <em>home.</em></h2>
+      </div>
+      <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-sm">Shop all →</a>
+    </div>
+    <div class="rail-wrap">
+      <button type="button" class="rail-btn rail-btn--prev" data-rail="shop-rail" data-dir="-1" aria-label="Previous products" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="rec-rail shop-rail" id="shop-rail">
 
       <?php
       $merch_cats = get_terms( array(
@@ -184,6 +195,8 @@
         <p style="color:var(--mist)">No merch yet — check back soon.</p>
       <?php endif; ?>
 
+    </div>
+      <button type="button" class="rail-btn rail-btn--next" data-rail="shop-rail" data-dir="1" aria-label="Next products"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
   </div>
 </section>
@@ -238,35 +251,61 @@
   </div>
 </section>
 
-      <!-- Newsletter -->
-    <section id="newsletter">
+<section id="newsletter" aria-labelledby="nl-title">
   <div class="nl-inner">
-    <h2 class="nl-h">Plant-based recipes<br>in your <em>inbox.</em></h2>
-    <p class="nl-sub">Join 2,400+ plant-based cooks across Scandinavia. One seasonal recipe, one story, and early access to new class dates, every Wednesday.</p>
+    <h2 id="nl-title" class="nl-h">Plant-based recipes<br>in your <em>inbox.</em></h2>
+    <p class="nl-sub">One seasonal recipe, one story from the kitchen and early access to new masterclass dates, every Thursday.</p>
     <form class="nl-form" id="nlForm">
-          <label for="nl-email" class="screen-reader-text">Email address</label>
-      <input type="email" id="nl-email" name="email" placeholder="your@email.com" required>
-      <button type="submit">Subscribe</button>
+      <?php wp_nonce_field( 'vegama_newsletter', 'vegama_newsletter_nonce' ); ?>
+      <input type="hidden" name="action" value="vegama_newsletter">
+      <div class="nl-hp" aria-hidden="true">
+        <label for="nl-website">Leave this field empty</label>
+        <input type="text" id="nl-website" name="vegama_website" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="nl-row">
+        <label for="nl-email" class="screen-reader-text">Email address</label>
+        <input type="email" id="nl-email" name="vegama_email" placeholder="your@email.com" autocomplete="email" required>
+        <button type="submit">Subscribe</button>
+      </div>
+      <label class="nl-consent">
+        <input type="checkbox" name="vegama_consent" value="1" required>
+        <span>I agree to receive the Vegama newsletter by email. I can unsubscribe at any time.
+          <?php if ( get_privacy_policy_url() ) : ?>
+            <a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">Privacy policy</a>
+          <?php endif; ?>
+        </span>
+      </label>
     </form>
-    <p id="nlMsg" style="display:none;margin-top:16px;color:var(--sage);font-weight:700;font-size:14px;">
-      You're in! Check your inbox every Wednesday.
-    </p>
+    <p id="nlMsg" class="nl-msg" role="status" aria-live="polite"></p>
   </div>
   <script>
-  document.getElementById('nlForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var data = new FormData(this);
-    fetch('https://api.simplyforms.app/v1/forms/0DsXtVUU08iTF4IFtyv6KQ', {
-      method: 'POST',
-      body: data
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(res) {
-      if (res.success) {
-        document.getElementById('nlForm').style.display = 'none';
-        document.getElementById('nlMsg').style.display = 'block';
+  document.getElementById("nlForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const form = this;
+    const message = document.getElementById("nlMsg");
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.textContent = "Subscribing...";
+
+    try {
+      const response = await fetch("<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>", {
+        method: "POST",
+        body: new FormData(form),
+        credentials: "same-origin"
+      });
+      const result = await response.json();
+      message.textContent = result.data && result.data.message ? result.data.message : "Something went wrong. Please try again later.";
+      message.classList.toggle("is-error", !result.success);
+      if (result.success) {
+        form.hidden = true;
       }
-    });
+    } catch (error) {
+      message.textContent = "Something went wrong. Please try again later.";
+      message.classList.add("is-error");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Subscribe";
+    }
   });
   </script>
 </section>
