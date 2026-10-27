@@ -1,0 +1,156 @@
+.classes-page .about-hero h1 em {
+  color: var(--lime);
+  font-style: inherit;
+}
+
+.classes-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 64px 20px 0;
+}
+
+.classes-h {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  color: var(--sage);
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  margin-bottom: 28px;
+}
+
+.classes-h em {
+  color: var(--amber-d);
+}
+
+.class-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.class-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 28px;
+  background: rgba(255, 255, 255, 0.46);
+  border: 1px solid rgba(24, 95, 48, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 14px 30px rgba(20, 40, 25, 0.06);
+  padding: 22px 28px;
+}
+
+.class-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 84px;
+  padding: 12px 10px;
+  border-radius: 16px;
+  background: var(--sage);
+  color: var(--parch);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.class-date__num {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 2.2rem;
+  line-height: 1.05;
+}
+
+.class-info h3 {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--sage);
+  margin-bottom: 6px;
+}
+
+.class-info p {
+  color: rgba(26, 46, 31, 0.8);
+  line-height: 1.6;
+}
+
+.class-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.class-meta span {
+  color: var(--sage);
+}
+
+.class-buy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.class-price {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--sage-d);
+}
+
+.class-soldout {
+  font-weight: 800;
+  font-size: 14px;
+  color: rgba(26, 46, 31, 0.75);
+  padding: 15px 0;
+}
+
+.classes-empty {
+  color: rgba(26, 46, 31, 0.8);
+}
+
+.classes-page .about-card a:not(.btn-primary),
+.classes-empty a {
+  color: var(--sage);
+  font-weight: 700;
+}
+
+.classes-layout {
+  padding-top: 40px;
+}
+
+.class-gift .class-price {
+  display: block;
+  margin-top: 14px;
+  font-size: 1.5rem;
+  color: var(--sage-d);
+}
+
+.classes-page .about-card .sec-eye {
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--sage);
+}
+
+@media (max-width: 700px) {
+  .class-card {
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .class-buy {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
