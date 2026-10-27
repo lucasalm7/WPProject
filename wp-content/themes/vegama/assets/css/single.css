@@ -190,3 +190,7 @@
   background: var(--sage-d);
 }
 .single-post-hero .pc-tag { color: var(--parch); }
+
+.single-post-body .wp-block-video { max-width: 360px; margin: 32px auto; }
+.single-post-body .wp-block-video video { width: 100%; height: auto; border-radius: 12px; }
+.single-post-body .wp-block-video figcaption { text-align: center; }
