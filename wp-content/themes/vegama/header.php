@@ -76,8 +76,12 @@
       <li><a href="<?php echo esc_url( home_url( '/shop' ) ); ?>"<?php echo is_page( 'shop' ) ? ' aria-current="page"' : ''; ?>>Shop</a></li>
       <li><a href="<?php echo esc_url( home_url( '/recipes' ) ); ?>"<?php echo is_page( 'recipes' ) ? ' aria-current="page"' : ''; ?>>Recipes</a></li>
       <li><a href="<?php echo esc_url( home_url( '/classes' ) ); ?>"<?php echo is_page( 'classes' ) ? ' aria-current="page"' : ''; ?>>Masterclasses</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo is_page( 'about' ) ? ' aria-current="page"' : ''; ?>>About</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/sustainability' ) ); ?>"<?php echo is_page( 'sustainability' ) ? ' aria-current="page"' : ''; ?>>Sustainability</a></li>
+      <li class="nav-item-has-child">
+        <a href="<?php echo esc_url( home_url( '/about' ) ); ?>"<?php echo is_page( 'about' ) ? ' aria-current="page"' : ''; ?>>About</a>
+        <ul class="nav-sub-menu">
+          <li><a href="<?php echo esc_url( home_url( '/sustainability' ) ); ?>"<?php echo is_page( 'sustainability' ) ? ' aria-current="page"' : ''; ?>>Sustainability</a></li>
+        </ul>
+      </li>
       <li><a href="<?php echo esc_url( home_url( '/contact-us' ) ); ?>"<?php echo is_page( 'contact-us' ) ? ' aria-current="page"' : ''; ?>>Contact us</a></li>
     </ul>
 
