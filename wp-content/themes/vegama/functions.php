@@ -40,8 +40,11 @@ function vegama_scripts() {
     if ( is_front_page() ) {
         $css( 'vegama-home', 'home.css' );
     }
-    if ( is_page( [ 'about', 'sustainability' ] ) ) {
+    if ( is_page( [ 'about', 'sustainability', 'contact-us' ] ) ) {
         $css( 'vegama-about', 'about.css' );
+    }
+    if ( is_page( 'contact-us' ) ) {
+        $css( 'vegama-contact', 'contact.css', [ 'vegama-about' ] );
     }
     if ( is_home() || is_archive() || is_search() || is_page( 'recipes' ) ) {
         $css( 'vegama-blog', 'blog.css' );
