@@ -540,12 +540,15 @@ add_action( 'wp_ajax_nopriv_vegama_login', 'vegama_handle_login' );
 function vegama_handle_login() {
     check_ajax_referer( 'vegama_login', 'login_nonce' );
     $creds = [
-        'user_login'    => sanitize_text_field( $_POST['log'] ),
-        'user_password' => $_POST['pwd'],
+        'user_login'    => sanitize_text_field( wp_unslash( $_POST['log'] ?? '' ) ),
+        'user_password' => wp_unslash( $_POST['pwd'] ?? '' ),
         'remember'      => true,
     ];
     $user = wp_signon( $creds, false );
     if ( is_wp_error( $user ) ) {
+        if ( 0 === strpos( (string) $user->get_error_code(), 'wfls_' ) ) {
+            wp_send_json_error( 'This account uses two-factor authentication. Please sign in on the My account page.' );
+        }
         wp_send_json_error( 'Wrong username or password.' );
     }
     wp_send_json_success();
@@ -557,9 +560,9 @@ function vegama_handle_register() {
     if ( ! get_option( 'users_can_register' ) ) {
         wp_send_json_error( 'Registration is currently closed.' );
     }
-    $username = sanitize_user( $_POST['user_login'] );
-    $email    = sanitize_email( $_POST['user_email'] );
-    $password = $_POST['user_pass'];
+    $username = sanitize_user( wp_unslash( $_POST['user_login'] ?? '' ) );
+    $email    = sanitize_email( wp_unslash( $_POST['user_email'] ?? '' ) );
+    $password = wp_unslash( $_POST['user_pass'] ?? '' );
     $id = wp_create_user( $username, $password, $email );
     if ( is_wp_error( $id ) ) {
         wp_send_json_error( $id->get_error_message() );

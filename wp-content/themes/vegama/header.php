@@ -134,6 +134,13 @@
     if (fu) { fu.style.display = t === 'up' ? 'flex' : 'none'; fu.style.flexDirection = 'column'; }
   }
 
+  var afterAuthUrl = '<?php echo esc_js( ( function_exists( 'wc_get_page_permalink' ) && ! is_cart() && ! is_checkout() ) ? wc_get_page_permalink( 'myaccount' ) : '' ); ?>';
+
+  function afterAuth() {
+    if (afterAuthUrl) { window.location.href = afterAuthUrl; }
+    else { location.reload(); }
+  }
+
   var formIn = document.getElementById('formIn');
   if (formIn) {
     formIn.addEventListener('submit', function (e) {
@@ -143,7 +150,7 @@
       fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', { method: 'POST', body: data })
         .then(function (r) { return r.json(); })
         .then(function (res) {
-          if (res.success) { location.reload(); }
+          if (res.success) { afterAuth(); }
           else { var m = document.getElementById('loginMsg'); m.textContent = res.data; m.style.display = 'block'; }
         });
     });
@@ -158,7 +165,7 @@
       fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', { method: 'POST', body: data })
         .then(function (r) { return r.json(); })
         .then(function (res) {
-          if (res.success) { location.reload(); }
+          if (res.success) { afterAuth(); }
           else { var m = document.getElementById('registerMsg'); m.textContent = res.data; m.style.display = 'block'; }
         });
     });
