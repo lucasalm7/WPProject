@@ -388,111 +388,6 @@ function vegama_handle_register() {
     wp_send_json_success();
 }
 
-function vegama_register_product_cpt() {
-    register_post_type( 'vegama_product', array(
-        'labels' => array(
-            'name'               => 'Products',
-            'singular_name'      => 'Product',
-            'add_new'            => 'Add New',
-            'add_new_item'       => 'Add New Product',
-            'edit_item'          => 'Edit Product',
-            'new_item'           => 'New Product',
-            'view_item'          => 'View Product',
-            'search_items'       => 'Search Products',
-            'not_found'          => 'No products found',
-            'not_found_in_trash' => 'No products found in Trash',
-        ),
-        'public'             => true,
-        'publicly_queryable' => false,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'menu_icon'          => 'dashicons-cart',
-        'menu_position'      => 5,
-        'supports'           => array( 'title', 'editor', 'custom-fields', 'thumbnail' ),
-    ) );
-}
-add_action( 'init', 'vegama_register_product_cpt' );
-
-function vegama_product_meta_box() {
-    add_meta_box( 'vegama_product_details', 'Product Details', 'vegama_product_meta_box_html', 'vegama_product', 'normal', 'high' );
-}
-add_action( 'add_meta_boxes', 'vegama_product_meta_box' );
-
-function vegama_product_meta_box_html( $post ) {
-    wp_nonce_field( 'vegama_product_save', 'vegama_product_nonce' );
-    $badge = get_post_meta( $post->ID, '_product_badge', true );
-    $price = get_post_meta( $post->ID, '_product_price', true );
-    $link  = get_post_meta( $post->ID, '_product_link',  true );
-    ?>
-    <p><label for="product_badge"><strong>Badge</strong> (e.g. Bestseller, New)</label><br>
-    <input type="text" id="product_badge" name="product_badge" value="<?php echo esc_attr( $badge ); ?>" style="width:100%"></p>
-    <p><label for="product_price"><strong>Price</strong> (e.g. DKK 299)</label><br>
-    <input type="text" id="product_price" name="product_price" value="<?php echo esc_attr( $price ); ?>" style="width:100%"></p>
-    <p><label for="product_link"><strong>Link</strong> (e.g. /shop/cookbook)</label><br>
-    <input type="text" id="product_link" name="product_link" value="<?php echo esc_attr( $link ); ?>" style="width:100%"></p>
-    <?php
-}
-
-function vegama_product_save_meta( $post_id ) {
-    if ( ! isset( $_POST['vegama_product_nonce'] ) ) return;
-    if ( ! wp_verify_nonce( $_POST['vegama_product_nonce'], 'vegama_product_save' ) ) return;
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
-    if ( isset( $_POST['product_badge'] ) ) update_post_meta( $post_id, '_product_badge', sanitize_text_field( $_POST['product_badge'] ) );
-    if ( isset( $_POST['product_price'] ) ) update_post_meta( $post_id, '_product_price', sanitize_text_field( $_POST['product_price'] ) );
-    if ( isset( $_POST['product_link'] ) ) update_post_meta( $post_id, '_product_link',  sanitize_text_field( $_POST['product_link'] ) );
-}
-add_action( 'save_post', 'vegama_product_save_meta' );
-
-function vegama_register_merch_cpt() {
-    register_post_type( 'vegama_merch', array(
-        'labels' => array(
-            'name'               => 'Merch',
-            'singular_name'      => 'Merch Item',
-            'add_new'            => 'Add New',
-            'add_new_item'       => 'Add New Merch Item',
-            'edit_item'          => 'Edit Merch Item',
-            'not_found'          => 'No merch items found',
-            'not_found_in_trash' => 'No merch items found in Trash',
-        ),
-        'public'             => true,
-        'publicly_queryable' => false,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'menu_icon'          => 'dashicons-tag',
-        'menu_position'      => 6,
-        'supports'           => array( 'title', 'thumbnail' ),
-    ) );
-}
-add_action( 'init', 'vegama_register_merch_cpt' );
-
-function vegama_merch_meta_box() {
-    add_meta_box( 'vegama_merch_details', 'Merch Details', 'vegama_merch_meta_box_html', 'vegama_merch', 'normal', 'high' );
-}
-add_action( 'add_meta_boxes', 'vegama_merch_meta_box' );
-
-function vegama_merch_meta_box_html( $post ) {
-    wp_nonce_field( 'vegama_merch_save', 'vegama_merch_nonce' );
-    $price = get_post_meta( $post->ID, '_merch_price', true );
-    $link  = get_post_meta( $post->ID, '_merch_link',  true );
-    ?>
-    <p><label for="merch_price"><strong>Price</strong> (e.g. €35)</label><br>
-    <input type="text" id="merch_price" name="merch_price" value="<?php echo esc_attr( $price ); ?>" style="width:100%"></p>
-    <p><label for="merch_link"><strong>Link</strong> (e.g. /shop)</label><br>
-    <input type="text" id="merch_link" name="merch_link" value="<?php echo esc_attr( $link ); ?>" style="width:100%"></p>
-    <?php
-}
-
-function vegama_merch_save_meta( $post_id ) {
-    if ( ! isset( $_POST['vegama_merch_nonce'] ) ) return;
-    if ( ! wp_verify_nonce( $_POST['vegama_merch_nonce'], 'vegama_merch_save' ) ) return;
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
-    if ( isset( $_POST['merch_price'] ) ) update_post_meta( $post_id, '_merch_price', sanitize_text_field( $_POST['merch_price'] ) );
-    if ( isset( $_POST['merch_link'] ) ) update_post_meta( $post_id, '_merch_link',  sanitize_text_field( $_POST['merch_link'] ) );
-}
-add_action( 'save_post', 'vegama_merch_save_meta' );
-
 function vegama_register_testimonial_cpt() {
     register_post_type( 'vegama_testimonial', array(
         'labels' => array(
@@ -550,12 +445,6 @@ function vegama_editor_cpt_access() {
     $editor = get_role( 'editor' );
     if ( ! $editor ) return;
     $caps = array(
-        'edit_vegama_products',       'edit_others_vegama_products',
-        'publish_vegama_products',    'read_private_vegama_products',
-        'delete_vegama_products',
-        'edit_vegama_merchs',         'edit_others_vegama_merchs',
-        'publish_vegama_merchs',      'read_private_vegama_merchs',
-        'delete_vegama_merchs',
         'edit_vegama_testimonials',   'edit_others_vegama_testimonials',
         'publish_vegama_testimonials','read_private_vegama_testimonials',
         'delete_vegama_testimonials',
