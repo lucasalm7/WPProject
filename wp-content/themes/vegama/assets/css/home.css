@@ -221,6 +221,8 @@
   margin-bottom: 44px;
 }
 
+#products .rec-header { margin-bottom: 0; }
+
 .rec-rail {
   display: flex;
   gap: 18px;

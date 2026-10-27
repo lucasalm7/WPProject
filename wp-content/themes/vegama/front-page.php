@@ -27,35 +27,35 @@
     </div>
   </div>
   <section id="products" class="sec sec-dark">
-
   <div class="sec-inner">
-    <p class="sec-eye">The Kitchen</p>
-    <h2 class="sec-h">Everything you need to cook <em>tastefully.</em></h2>
+    <div class="rec-header">
+      <div>
+        <p class="sec-eye">The Kitchen</p>
+        <h2 class="sec-h">Everything you need to cook <em>tastefully.</em></h2>
+      </div>
+      <a href="<?php echo esc_url( home_url( '/shop' ) ); ?>" class="btn-sm">Shop all →</a>
+    </div>
     <div class="prod-grid">
 
       <?php
-      $products = new WP_Query( array(
-          'post_type'      => 'vegama_product',
-          'posts_per_page' => -1,
-          'post_status'    => 'publish',
-          'orderby'        => 'menu_order',
-          'order'          => 'ASC',
-      ) );
+      $products = function_exists( 'wc_get_products' ) ? wc_get_products( array(
+          'status'   => 'publish',
+          'category' => array( 'masterclasses', 'ebooks' ),
+          'limit'    => 4,
+          'orderby'  => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
+      ) ) : array();
 
-      if ( $products->have_posts() ) :
-          while ( $products->have_posts() ) : $products->the_post();
-              $badge = get_post_meta( get_the_ID(), '_product_badge', true );
-              $price = get_post_meta( get_the_ID(), '_product_price', true );
-              $link  = get_post_meta( get_the_ID(), '_product_link',  true );
+      if ( $products ) :
+          foreach ( $products as $product ) :
+              $terms = get_the_terms( $product->get_id(), 'product_cat' );
+              $badge = $terms && ! is_wp_error( $terms ) ? $terms[0]->name : '';
       ?>
 
         <div class="prod-card">
 
           <div class="prod-img">
-            <?php if ( has_post_thumbnail() ) : ?>
-              <?php the_post_thumbnail( 'medium', array(
-                  'style' => 'width:100%;height:100%;object-fit:cover;'
-              ) ); ?>
+            <?php if ( $product->get_image_id() ) : ?>
+              <?php echo $product->get_image( 'medium' ); ?>
             <?php else : ?>
               <div class="prod-img-placeholder">🌿</div>
             <?php endif; ?>
@@ -65,16 +65,15 @@
             <span class="prod-badge"><?php echo esc_html( $badge ); ?></span>
           <?php endif; ?>
 
-          <div class="prod-name"><?php the_title(); ?></div>
-          <div class="prod-desc"><?php echo wp_kses_post( get_the_content() ); ?></div>
-          <div class="prod-price"><?php echo esc_html( $price ); ?></div>
-          <a href="<?php echo esc_url( home_url( $link ) ); ?>" class="btn-sm">View details →</a>
+          <div class="prod-name"><?php echo esc_html( $product->get_name() ); ?></div>
+          <div class="prod-desc"><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $product->get_short_description() ), 22 ) ); ?></div>
+          <div class="prod-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+          <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="btn-sm">View details →</a>
 
         </div>
 
       <?php
-          endwhile;
-          wp_reset_postdata();
+          endforeach;
       else : ?>
         <p style="color:var(--mist)">No products yet — check back soon.</p>
       <?php endif; ?>
@@ -148,34 +147,36 @@
     <div class="merch-grid">
 
       <?php
-      $merch = new WP_Query( array(
-          'post_type'      => 'vegama_merch',
-          'posts_per_page' => 5,
-          'post_status'    => 'publish',
-          'orderby'        => 'menu_order',
-          'order'          => 'ASC',
+      $merch_cats = get_terms( array(
+          'taxonomy'   => 'product_cat',
+          'fields'     => 'slugs',
+          'hide_empty' => true,
       ) );
+      $merch_cats = is_wp_error( $merch_cats ) ? array() : array_diff( $merch_cats, array( 'ebooks', 'masterclasses', 'gift-cards', 'uncategorized' ) );
+      $merch = ( $merch_cats && function_exists( 'wc_get_products' ) ) ? wc_get_products( array(
+          'status'   => 'publish',
+          'category' => array_values( $merch_cats ),
+          'limit'    => 5,
+          'orderby'  => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
+      ) ) : array();
 
-      if ( $merch->have_posts() ) :
-          while ( $merch->have_posts() ) : $merch->the_post();
-              $price = get_post_meta( get_the_ID(), '_merch_price', true );
-              $link  = get_post_meta( get_the_ID(), '_merch_link',  true );
+      if ( $merch ) :
+          foreach ( $merch as $product ) :
       ?>
 
         <div class="mc">
-          <?php if ( has_post_thumbnail() ) : ?>
+          <?php if ( $product->get_image_id() ) : ?>
             <div class="mc-img">
-            <?php the_post_thumbnail( 'medium' ); ?>
+            <?php echo $product->get_image( 'medium' ); ?>
           </div>
           <?php endif; ?>
-          <div class="mc-name"><?php the_title(); ?></div>
-          <div class="mc-price"><?php echo esc_html( $price ); ?></div>
-          <a href="<?php echo esc_url( home_url( $link ) ); ?>" class="mc-add">Add to cart</a>
+          <div class="mc-name"><?php echo esc_html( $product->get_name() ); ?></div>
+          <div class="mc-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+          <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="mc-add">View product</a>
         </div>
 
       <?php
-          endwhile;
-          wp_reset_postdata();
+          endforeach;
       else : ?>
         <p style="color:var(--mist)">No merch yet — check back soon.</p>
       <?php endif; ?>
