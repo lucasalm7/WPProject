@@ -117,6 +117,37 @@ function vegama_save_class_fields( $product ) {
 }
 add_action( 'woocommerce_admin_process_product_object', 'vegama_save_class_fields' );
 
+function vegama_get_upcoming_classes( $limit = 12 ) {
+    if ( ! function_exists( 'wc_get_product' ) ) {
+        return array();
+    }
+    $query = new WP_Query( array(
+        'post_type'      => 'product',
+        'post_status'    => 'publish',
+        'posts_per_page' => $limit,
+        'fields'         => 'ids',
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => 'masterclasses',
+            ),
+        ),
+        'meta_key'       => '_vegama_class_date',
+        'orderby'        => 'meta_value',
+        'order'          => 'ASC',
+        'meta_query'     => array(
+            array(
+                'key'     => '_vegama_class_date',
+                'value'   => current_time( 'Y-m-d' ),
+                'compare' => '>=',
+                'type'    => 'DATE',
+            ),
+        ),
+    ) );
+    return array_filter( array_map( 'wc_get_product', $query->posts ) );
+}
+
 function vegama_direct_checkout( $url, $product = null ) {
     if ( $product instanceof WC_Product && has_term( array( 'masterclasses', 'gift-cards' ), 'product_cat', $product->get_id() ) ) {
         return wc_get_checkout_url();
