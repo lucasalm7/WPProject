@@ -305,6 +305,15 @@ function vegama_class_button_text( $text, $product = null ) {
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'vegama_class_button_text', 10, 2 );
 add_filter( 'woocommerce_product_add_to_cart_text', 'vegama_class_button_text', 10, 2 );
 
+// Accessibility (WCAG 2.5.3 Label in Name): the hidden button name must contain the visible text "Book a seat".
+function vegama_class_button_description( $description, $product = null ) {
+    if ( vegama_is_class( $product ) && $product->is_purchasable() && $product->is_in_stock() ) {
+        return sprintf( 'Book a seat: %s', $product->get_name() );
+    }
+    return $description;
+}
+add_filter( 'woocommerce_product_add_to_cart_description', 'vegama_class_button_description', 10, 2 );
+
 function vegama_class_facts() {
     global $product;
     if ( ! vegama_is_class( $product ) ) {
@@ -1031,4 +1040,4 @@ function vegama_redirect_recipes_to_blog() {
         exit;
     }
 }
-add_action( 'template_redirect', 'vegama_redirect_recipes_to_blog' );
+add_action( 'template_redirect', 'vegama_redirect_recipes_to_blog' );
