@@ -1041,3 +1041,9 @@ function vegama_redirect_recipes_to_blog() {
     }
 }
 add_action( 'template_redirect', 'vegama_redirect_recipes_to_blog' );
+
+
+
+// Accessibility (best practice "content missing after heading"): our product descriptions start with their own H2,
+// so remove WooCommerce's extra "Description" H2 inside the tab.
+add_filter( 'woocommerce_product_description_heading', '__return_null' );
