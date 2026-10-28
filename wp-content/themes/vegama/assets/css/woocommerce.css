@@ -434,3 +434,8 @@ body.woocommerce-page:not(.woocommerce-account) .site-header.solid .nav-burger s
   color: var(--lime);
   font-weight: 700;
 }
+
+/* Accessibility: AA contrast on masterclass product page */
+.product-page .class-facts li { color: var(--parch); }
+.product-page .stock { color: var(--parch) !important; }
+.product-page .entry-summary p a { color: var(--parch); text-decoration: underline; }

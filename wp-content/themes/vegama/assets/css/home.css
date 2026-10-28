@@ -717,3 +717,7 @@ a.prod-name:hover {
   display: inline-block;
   margin-top: 18px;
 }
+
+/* Accessibility: AA contrast on masterclass cards */
+.prod-badge { color: var(--parch); }
+.prod-desc { color: rgba(244,238,220,.9); }
