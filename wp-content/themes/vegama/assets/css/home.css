@@ -63,29 +63,6 @@
 
 .btn-ghost:hover { border-color: var(--lime); color: var(--lime); }
 
-.hero-stats {
-  display: flex;
-  gap: clamp(24px, 5vw, 60px);
-  margin-top: 70px;
-}
-
-.stat-n {
-  font-family: var(--fd);
-  font-style: italic;
-  font-weight: 900;
-  font-size: clamp(26px, 4vw, 44px);
-  color: var(--lime);
-  line-height: 1;
-}
-
-.stat-l {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  color: rgba(244,238,220,.45);
-  margin-top: 5px;
-}
-
 .marquee-band {
   overflow: hidden;
   background: var(--amber-d);
@@ -412,12 +389,6 @@ a.prod-name:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0,0,0,.15);
   }
-}
-
-.mc-emo {
-  font-size: 44px;
-  margin-bottom: 12px;
-  display: block;
 }
 
 .mc-img {
